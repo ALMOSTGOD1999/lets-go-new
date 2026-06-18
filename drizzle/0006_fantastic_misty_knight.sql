@@ -1,0 +1,21 @@
+CREATE TABLE "reminders" (
+	"id" integer PRIMARY KEY GENERATED ALWAYS AS IDENTITY (sequence name "reminders_id_seq" INCREMENT BY 1 MINVALUE 1 MAXVALUE 2147483647 START WITH 1 CACHE 1),
+	"title" text NOT NULL,
+	"message" text NOT NULL,
+	"notes" text,
+	"scheduled_at" timestamp NOT NULL,
+	"timezone" text DEFAULT 'Asia/Kolkata' NOT NULL,
+	"type" text DEFAULT 'general' NOT NULL,
+	"related_entity_type" text,
+	"related_entity_id" integer,
+	"related_label" text,
+	"target_path" text DEFAULT '/reminders' NOT NULL,
+	"status" text DEFAULT 'upcoming' NOT NULL,
+	"sent_at" timestamp,
+	"failed_at" timestamp,
+	"cancelled_at" timestamp,
+	"created_at" timestamp DEFAULT now() NOT NULL,
+	"updated_at" timestamp DEFAULT now() NOT NULL,
+	CONSTRAINT "reminders_status_check" CHECK ("reminders"."status" in ('upcoming', 'sent', 'failed', 'cancelled')),
+	CONSTRAINT "reminders_type_check" CHECK ("reminders"."type" in ('receipt', 'voucher', 'attendee', 'general'))
+);
