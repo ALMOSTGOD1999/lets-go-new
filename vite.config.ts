@@ -19,7 +19,7 @@ const config = defineConfig({
     devtools(),
     tailwindcss(),
     tanstackStart({
-      spa: { enabled: true },
+      // spa: { enabled: true },
       prerender: { enabled: false }, // 👈 moved inside tanstackStart's options
     }),
     nitro(),
