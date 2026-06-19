@@ -6,9 +6,7 @@
     "#/*": "./src/*"
   },
   "scripts": {
-    "dev": "concurrently -n frontend,backend -c cyan,yellow \"vite dev --port 3000\" \"npm --prefix backend run dev\"",
-    "dev:frontend": "vite dev --port 3000",
-    "dev:backend": "npm --prefix backend run dev",
+    "dev": "vite dev --port 3000",
     "build": "vite build",
     "preview": "vite preview",
     "test": "vitest run",
@@ -74,7 +72,6 @@
     "@types/react-dom": "^19.2.0",
     "@vitejs/plugin-react": "^6.0.1",
     "babel-plugin-react-compiler": "^1.0.0",
-    "concurrently": "^10.0.3",
     "dotenv": "^17.3.1",
     "jsdom": "^28.1.0",
     "tsx": "^4.21.0",
