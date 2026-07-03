@@ -1,56 +1,54 @@
-const CACHE_VERSION = 'letsgo';
+const CACHE_VERSION = "letsgo";
 const APP_SHELL_CACHE = `${CACHE_VERSION}-app-shell`;
 const STATIC_CACHE = `${CACHE_VERSION}-static`;
 
 const APP_SHELL_ASSETS = [
-  '/',
-  '/manifest.json',
-  '/logo.svg',
-  '/favicon.ico',
-  '/favicon-16x16.png',
-  '/favicon-32x32.png',
-  '/apple-touch-icon.png',
-  '/apple-touch-icon-152x152.png',
-  '/logo192.png',
-  '/logo512.png',
-  '/og-image.png',
+  "/",
+  "/manifest.json",
+  "/logo.svg",
+  "/favicon.ico",
+  "/favicon-16x16.png",
+  "/favicon-32x32.png",
+  "/apple-touch-icon.png",
+  "/apple-touch-icon-152x152.png",
+  "/logo192.png",
+  "/logo512.png",
+  "/og-image.png",
 ];
 
-self.addEventListener('install', (event) => {
+self.addEventListener("install", (event) => {
   event.waitUntil(cacheAppShell());
 });
 
-self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    Promise.all([deleteOldCaches(), self.clients.claim()]),
-  );
+self.addEventListener("activate", (event) => {
+  event.waitUntil(Promise.all([deleteOldCaches(), self.clients.claim()]));
 });
 
-self.addEventListener('message', (event) => {
-  if (event.data?.type === 'SKIP_WAITING') {
+self.addEventListener("message", (event) => {
+  if (event.data?.type === "SKIP_WAITING") {
     self.skipWaiting();
   }
 });
 
-self.addEventListener('push', (event) => {
+self.addEventListener("push", (event) => {
   event.waitUntil(showReminderPushNotifications(parsePushPayload(event.data)));
 });
 
-self.addEventListener('notificationclick', (event) => {
+self.addEventListener("notificationclick", (event) => {
   event.notification.close();
-  if (event.action === 'dismiss') {
+  if (event.action === "dismiss") {
     return;
   }
 
-  const url = event.notification.data?.url || '/reminders';
+  const url = event.notification.data?.url || "/reminders";
   event.waitUntil(openClientUrl(url));
 });
 
-self.addEventListener('fetch', (event) => {
+self.addEventListener("fetch", (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
-  if (request.method !== 'GET' || url.origin !== self.location.origin) {
+  if (request.method !== "GET" || url.origin !== self.location.origin) {
     return;
   }
 
@@ -58,7 +56,7 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  if (request.mode === 'navigate') {
+  if (request.mode === "navigate") {
     event.respondWith(networkFirstNavigation(request));
     return;
   }
@@ -73,7 +71,7 @@ async function cacheAppShell() {
 
   await Promise.allSettled(
     APP_SHELL_ASSETS.map(async (asset) => {
-      const response = await fetch(asset, { cache: 'reload' });
+      const response = await fetch(asset, { cache: "reload" });
 
       if (response.ok) {
         await cache.put(asset, response);
@@ -110,11 +108,14 @@ async function networkFirstNavigation(request) {
   } catch {
     return (
       (await caches.match(request)) ||
-      (await caches.match('/')) ||
-      new Response('No internet connection. Some features may be unavailable.', {
-        headers: { 'Content-Type': 'text/plain; charset=utf-8' },
-        status: 503,
-      })
+      (await caches.match("/")) ||
+      new Response(
+        "No internet connection. Some features may be unavailable.",
+        {
+          headers: { "Content-Type": "text/plain; charset=utf-8" },
+          status: 503,
+        },
+      )
     );
   }
 }
@@ -124,12 +125,15 @@ async function openClientUrl(url) {
   const targetUrl =
     target.origin === self.location.origin
       ? target.href
-      : new URL('/reminders', self.location.origin).href;
-  const windows = await clients.matchAll({ type: 'window', includeUncontrolled: true });
+      : new URL("/reminders", self.location.origin).href;
+  const windows = await clients.matchAll({
+    type: "window",
+    includeUncontrolled: true,
+  });
   for (const client of windows) {
-    if ('focus' in client) {
+    if ("focus" in client) {
       await client.focus();
-      if ('navigate' in client) {
+      if ("navigate" in client) {
         return client.navigate(targetUrl);
       }
       return undefined;
@@ -143,23 +147,30 @@ async function showReminderPushNotifications(payload) {
 
   await Promise.all(
     reminders.map((reminder) => {
-      const body = [reminder.message, reminder.relatedLabel]
-        .filter(Boolean)
-        .join('\n');
+      const title = reminder.title || "Reminder";
+      const body =
+        [reminder.message, reminder.relatedLabel].filter(Boolean).join("\n") ||
+        "You have a new reminder";
 
-      return self.registration.showNotification(reminder.title, {
+      return self.registration.showNotification(title, {
         body,
-        icon: '/logo192.png',
-        badge: '/favicon-32x32.png',
+        icon: "/logo192.png",
+        badge: "/favicon-32x32.png",
+        image: "/og-image.png",
         timestamp: Date.parse(reminder.scheduledAt) || Date.now(),
         tag: `reminder-${reminder.id}`,
         renotify: true,
         requireInteraction: true,
+        vibrate: [200, 100, 200],
+        silent: false,
         actions: [
-          { action: 'open', title: 'Open' },
-          { action: 'dismiss', title: 'Dismiss' },
+          { action: "open", title: "Open" },
+          { action: "dismiss", title: "Dismiss" },
         ],
-        data: { url: reminder.targetPath || '/reminders', reminderId: reminder.id },
+        data: {
+          url: reminder.targetPath || "/reminders",
+          reminderId: reminder.id,
+        },
       });
     }),
   );
@@ -196,16 +207,16 @@ async function cacheFirst(request) {
 
 function isApiRequest(url) {
   return (
-    url.pathname.startsWith('/api/') ||
-    url.pathname.startsWith('/_server/') ||
-    url.pathname.startsWith('/_serverFn/') ||
-    url.pathname.includes('/_server/') ||
-    url.pathname.includes('/_serverFn/')
+    url.pathname.startsWith("/api/") ||
+    url.pathname.startsWith("/_server/") ||
+    url.pathname.startsWith("/_serverFn/") ||
+    url.pathname.includes("/_server/") ||
+    url.pathname.includes("/_serverFn/")
   );
 }
 
 function isStaticAsset(request) {
-  return ['font', 'image', 'manifest', 'script', 'style', 'worker'].includes(
+  return ["font", "image", "manifest", "script", "style", "worker"].includes(
     request.destination,
   );
 }
