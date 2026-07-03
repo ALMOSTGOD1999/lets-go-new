@@ -39,8 +39,12 @@ export function useCreateVoucher() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: (input: VoucherFormValues) => createVoucher({ data: input }),
-    onSuccess: async () => {
-      await qc.invalidateQueries({ queryKey: ["vouchers"] });
+    onSuccess: async (_data, variables) => {
+      await qc.invalidateQueries({
+        queryKey: vouchersQueryKey(variables.attendeeId),
+      });
+      await qc.invalidateQueries({ queryKey: ["tour-attendees"] });
+      await qc.invalidateQueries({ queryKey: ["client-bookings"] });
       toast.success("Voucher saved");
     },
     onError: (error) =>
@@ -52,8 +56,12 @@ export function useUpdateVoucher() {
   return useMutation({
     mutationFn: (input: VoucherFormValues & { id: number }) =>
       updateVoucher({ data: input }),
-    onSuccess: async () => {
-      await qc.invalidateQueries({ queryKey: ["vouchers"] });
+    onSuccess: async (_data, variables) => {
+      await qc.invalidateQueries({
+        queryKey: vouchersQueryKey(variables.attendeeId),
+      });
+      await qc.invalidateQueries({ queryKey: ["tour-attendees"] });
+      await qc.invalidateQueries({ queryKey: ["client-bookings"] });
       toast.success("Voucher updated");
     },
     onError: (error) =>
@@ -66,6 +74,8 @@ export function useDeleteVoucher() {
     mutationFn: (id: number) => deleteVoucher({ data: { id } }),
     onSuccess: async () => {
       await qc.invalidateQueries({ queryKey: ["vouchers"] });
+      await qc.invalidateQueries({ queryKey: ["tour-attendees"] });
+      await qc.invalidateQueries({ queryKey: ["client-bookings"] });
       toast.success("Voucher deleted");
     },
     onError: (error) =>

@@ -1,16 +1,16 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { toast } from 'sonner';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
-import type { ReceiptFormValues } from '#/features/bookings/data/schema';
+import type { ReceiptFormValues } from "#/features/bookings/data/schema";
 import {
   createReceipt,
   deleteReceipt,
   listReceipts,
   updateReceipt,
-} from '#/features/bookings/server/functions';
+} from "#/features/bookings/server/functions";
 
 export const receiptsQueryKey = (attendeeId: number) => [
-  'receipts',
+  "receipts",
   attendeeId,
 ];
 
@@ -24,12 +24,16 @@ export function useCreateReceipt() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: (input: ReceiptFormValues) => createReceipt({ data: input }),
-    onSuccess: async () => {
-      await invalidateReceiptDependents(qc);
-      toast.success('Receipt saved');
+    onSuccess: async (_data, variables) => {
+      await qc.invalidateQueries({
+        queryKey: receiptsQueryKey(variables.attendeeId),
+      });
+      await qc.invalidateQueries({ queryKey: ["tour-attendees"] });
+      await qc.invalidateQueries({ queryKey: ["client-bookings"] });
+      toast.success("Receipt saved");
     },
     onError: (error) =>
-      toast.error('Unable to save receipt', { description: error.message }),
+      toast.error("Unable to save receipt", { description: error.message }),
   });
 }
 
@@ -38,12 +42,16 @@ export function useUpdateReceipt() {
   return useMutation({
     mutationFn: (input: ReceiptFormValues & { id: number }) =>
       updateReceipt({ data: input }),
-    onSuccess: async () => {
-      await invalidateReceiptDependents(qc);
-      toast.success('Receipt updated');
+    onSuccess: async (_data, variables) => {
+      await qc.invalidateQueries({
+        queryKey: receiptsQueryKey(variables.attendeeId),
+      });
+      await qc.invalidateQueries({ queryKey: ["tour-attendees"] });
+      await qc.invalidateQueries({ queryKey: ["client-bookings"] });
+      toast.success("Receipt updated");
     },
     onError: (error) =>
-      toast.error('Unable to update receipt', { description: error.message }),
+      toast.error("Unable to update receipt", { description: error.message }),
   });
 }
 
@@ -52,20 +60,12 @@ export function useDeleteReceipt() {
   return useMutation({
     mutationFn: (id: number) => deleteReceipt({ data: { id } }),
     onSuccess: async () => {
-      await invalidateReceiptDependents(qc);
-      toast.success('Receipt deleted');
+      await qc.invalidateQueries({ queryKey: ["receipts"] });
+      await qc.invalidateQueries({ queryKey: ["tour-attendees"] });
+      await qc.invalidateQueries({ queryKey: ["client-bookings"] });
+      toast.success("Receipt deleted");
     },
     onError: (error) =>
-      toast.error('Unable to delete receipt', { description: error.message }),
+      toast.error("Unable to delete receipt", { description: error.message }),
   });
-}
-
-async function invalidateReceiptDependents(
-  qc: ReturnType<typeof useQueryClient>,
-) {
-  await Promise.all([
-    qc.invalidateQueries({ queryKey: ['receipts'] }),
-    qc.invalidateQueries({ queryKey: ['tour-attendees'] }),
-    qc.invalidateQueries({ queryKey: ['client-bookings'] }),
-  ]);
 }
