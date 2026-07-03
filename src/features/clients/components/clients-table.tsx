@@ -70,6 +70,7 @@ export function ClientsTable({
   sorting,
   columnVisibility,
   onColumnVisibilityChange,
+  onDelete,
   onEdit,
   onPageChange,
   onPageSizeChange,

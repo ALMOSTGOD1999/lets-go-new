@@ -70,6 +70,7 @@ export function ToursTable({
   sorting,
   columnVisibility,
   onColumnVisibilityChange,
+  onDelete,
   onEdit,
   onPageChange,
   onPageSizeChange,
