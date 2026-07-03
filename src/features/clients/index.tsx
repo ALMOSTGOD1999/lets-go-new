@@ -147,7 +147,7 @@ export function ClientsPage() {
         <MasterkeyDialog
           open={deleteDialogOpen}
           title="Delete Client"
-          description={`Are you sure you want to delete "${deleteTarget?.name ?? ""}"? This action cannot be undone. Type "reallydelete" to confirm.`}
+          description={`Are you sure you want to delete "${deleteTarget?.name ?? ""}"? This action cannot be undone.`}
           onConfirm={handleDeleteConfirm}
           onOpenChange={setDeleteDialogOpen}
         />

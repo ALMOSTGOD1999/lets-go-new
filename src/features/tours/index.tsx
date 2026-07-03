@@ -139,7 +139,7 @@ export function ToursPage() {
         <MasterkeyDialog
           open={deleteDialogOpen}
           title="Delete Tour"
-          description={`Are you sure you want to delete "${deleteTarget?.name ?? ""}"? This action cannot be undone. Type "reallydelete" to confirm.`}
+          description={`Are you sure you want to delete "${deleteTarget?.name ?? ""}"? This action cannot be undone.`}
           onConfirm={handleDeleteConfirm}
           onOpenChange={setDeleteDialogOpen}
         />

@@ -1,5 +1,5 @@
-import { TriangleAlertIcon } from 'lucide-react';
-import { useState } from 'react';
+import { TriangleAlertIcon } from "lucide-react";
+import { useState } from "react";
 
 import {
   AlertDialog,
@@ -11,8 +11,8 @@ import {
   AlertDialogHeader,
   AlertDialogMedia,
   AlertDialogTitle,
-} from '#/components/ui/alert-dialog';
-import { Input } from '#/components/ui/input';
+} from "#/components/ui/alert-dialog";
+import { Input } from "#/components/ui/input";
 
 type MasterkeyDialogProps = {
   open: boolean;
@@ -22,7 +22,7 @@ type MasterkeyDialogProps = {
   onOpenChange: (open: boolean) => void;
 };
 
-const MASTER_KEY = 'reallydelete';
+const MASTER_KEY = "reallydelete";
 
 export function MasterkeyDialog({
   open,
@@ -31,18 +31,18 @@ export function MasterkeyDialog({
   onConfirm,
   onOpenChange,
 }: MasterkeyDialogProps) {
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState("");
   const isMatch = value === MASTER_KEY;
 
   const handleConfirm = () => {
     if (!isMatch) return;
     onConfirm();
-    setValue('');
+    setValue("");
     onOpenChange(false);
   };
 
   const handleOpenChange = (newOpen: boolean) => {
-    if (!newOpen) setValue('');
+    if (!newOpen) setValue("");
     onOpenChange(newOpen);
   };
 
@@ -58,11 +58,11 @@ export function MasterkeyDialog({
         </AlertDialogHeader>
         <div className="px-2">
           <Input
-            placeholder={`Type "${MASTER_KEY}" to confirm`}
+            placeholder="Enter the master key"
             value={value}
             onChange={(e) => setValue(e.target.value)}
             onKeyDown={(e) => {
-              if (e.key === 'Enter' && isMatch) handleConfirm();
+              if (e.key === "Enter" && isMatch) handleConfirm();
             }}
           />
         </div>
