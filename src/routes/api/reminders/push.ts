@@ -2,7 +2,6 @@ import { createFileRoute } from "@tanstack/react-router";
 
 import {
   listCurrentReminderPushes,
-  markReminderPushesFailed,
   markReminderPushesSent,
   pruneOldSentReminders,
 } from "#/features/reminders/server/functions";
@@ -36,16 +35,6 @@ export const Route = createFileRoute("/api/reminders/push")({
           return new Response("Unauthorized", { status: 401 });
         }
 
-        const missingWebPushEnvVars = getMissingWebPushEnvVars();
-        if (missingWebPushEnvVars.length) {
-          return Response.json(
-            {
-              error: `Missing web push env vars: ${missingWebPushEnvVars.join(", ")}`,
-            },
-            { status: 500 },
-          );
-        }
-
         await pruneOldSentReminders();
         const reminders = await listCurrentReminderPushes();
 
@@ -53,18 +42,22 @@ export const Route = createFileRoute("/api/reminders/push")({
           return new Response(null, { status: 204 });
         }
 
-        const {
-          deliveredSubscriptions,
-          expiredSubscriptions,
-          failedSubscriptions,
-        } = await sendReminderWebPushes(reminders);
         const reminderIds = reminders.map((reminder) => reminder.id);
 
-        if (deliveredSubscriptions > 0) {
-          await markReminderPushesSent(reminderIds);
-        } else {
-          await markReminderPushesFailed(reminderIds);
+        // Always mark reminders as sent when due — web push is optional
+        const missingWebPushEnvVars = getMissingWebPushEnvVars();
+        let deliveredSubscriptions = 0;
+        let expiredSubscriptions = 0;
+        let failedSubscriptions = 0;
+
+        if (!missingWebPushEnvVars.length) {
+          const result = await sendReminderWebPushes(reminders);
+          deliveredSubscriptions = result.deliveredSubscriptions;
+          expiredSubscriptions = result.expiredSubscriptions;
+          failedSubscriptions = result.failedSubscriptions;
         }
+
+        await markReminderPushesSent(reminderIds);
 
         return Response.json(
           {

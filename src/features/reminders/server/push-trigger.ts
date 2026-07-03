@@ -1,13 +1,12 @@
 import {
   listCurrentReminderPushes,
-  markReminderPushesFailed,
   markReminderPushesSent,
   pruneOldSentReminders,
-} from '#/features/reminders/server/functions';
+} from "#/features/reminders/server/functions";
 import {
   getMissingWebPushEnvVars,
   sendReminderWebPushes,
-} from '#/features/reminders/server/web-push';
+} from "#/features/reminders/server/web-push";
 
 const CHECK_INTERVAL_MS = 60_000; // 1 minute
 
@@ -15,37 +14,40 @@ let intervalHandle: ReturnType<typeof setInterval> | null = null;
 
 async function checkAndSendDueReminders() {
   try {
-    const missingEnvVars = getMissingWebPushEnvVars();
-    if (missingEnvVars.length) {
-      // VAPID keys not configured, skip
-      return;
-    }
-
     await pruneOldSentReminders();
     const dueReminders = await listCurrentReminderPushes();
 
     if (!dueReminders.length) return;
 
-    const { deliveredSubscriptions, expiredSubscriptions, failedSubscriptions } =
-      await sendReminderWebPushes(dueReminders);
+    // Always mark reminders as sent when they're due, regardless of push status
+    // Web push is just a notification channel, not the reminder itself
+    const missingEnvVars = getMissingWebPushEnvVars();
+    let deliveredSubscriptions = 0;
+    let expiredSubscriptions = 0;
+    let failedSubscriptions = 0;
 
-    if (deliveredSubscriptions > 0) {
-      await markReminderPushesSent(
-        dueReminders.map((r) => r.id),
-      );
-    } else {
-      await markReminderPushesFailed(
-        dueReminders.map((r) => r.id),
-      );
+    if (!missingEnvVars.length) {
+      // Only attempt web push if VAPID is configured
+      const result = await sendReminderWebPushes(dueReminders);
+      deliveredSubscriptions = result.deliveredSubscriptions;
+      expiredSubscriptions = result.expiredSubscriptions;
+      failedSubscriptions = result.failedSubscriptions;
     }
 
-    if (deliveredSubscriptions > 0 || expiredSubscriptions > 0) {
+    // Mark reminders as sent (they're now "fired")
+    await markReminderPushesSent(dueReminders.map((r) => r.id));
+
+    if (missingEnvVars.length) {
+      console.log(
+        `[reminder-push] Processed ${dueReminders.length} due reminders (web push not configured)`,
+      );
+    } else if (deliveredSubscriptions > 0 || expiredSubscriptions > 0) {
       console.log(
         `[reminder-push] Sent ${deliveredSubscriptions}/${dueReminders.length} reminders, ${expiredSubscriptions} expired, ${failedSubscriptions} failed`,
       );
     }
   } catch (error) {
-    console.error('[reminder-push] Error checking due reminders:', error);
+    console.error("[reminder-push] Error checking due reminders:", error);
   }
 }
 
@@ -59,15 +61,14 @@ export function startReminderPushInterval() {
 
   const missingEnvVars = getMissingWebPushEnvVars();
   if (missingEnvVars.length) {
-    console.warn(
-      `[reminder-push] Skipping push interval — missing env vars: ${missingEnvVars.join(', ')}`,
+    console.log(
+      `[reminder-push] Starting reminder check interval (web push not configured — missing: ${missingEnvVars.join(", ")})`,
     );
-    return;
+  } else {
+    console.log(
+      `[reminder-push] Starting push interval (every ${CHECK_INTERVAL_MS / 1000}s)`,
+    );
   }
-
-  console.log(
-    `[reminder-push] Starting push interval (every ${CHECK_INTERVAL_MS / 1000}s)`,
-  );
 
   // Run immediately on startup
   checkAndSendDueReminders();
