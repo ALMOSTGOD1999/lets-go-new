@@ -1,23 +1,23 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 export const tourFormSchema = z
   .object({
-    name: z.string().trim().min(1, 'Name is required'),
+    name: z.string().trim().min(1, "Name is required"),
     description: z.string().trim().optional(),
-    startDate: z.iso.date('Start date is required'),
-    endDate: z.iso.date('End date is required'),
+    startDate: z.string().min(1, "Start date is required"),
+    endDate: z.string().min(1, "End date is required"),
   })
   .refine((value) => value.endDate >= value.startDate, {
-    message: 'End date must be on or after start date',
-    path: ['endDate'],
+    message: "End date must be on or after start date",
+    path: ["endDate"],
   });
 
 export const listToursInputSchema = z.object({
   page: z.number().int().min(1).default(1),
   pageSize: z.number().int().min(1).max(100).default(10),
-  search: z.string().default(''),
-  sortBy: z.enum(['name', 'startDate', 'endDate']).default('startDate'),
-  sortDirection: z.enum(['asc', 'desc']).default('asc'),
+  search: z.string().default(""),
+  sortBy: z.enum(["name", "startDate", "endDate"]).default("startDate"),
+  sortDirection: z.enum(["asc", "desc"]).default("asc"),
 });
 
 export const createTourInputSchema = tourFormSchema;
@@ -63,7 +63,7 @@ export type TourAttendeeBilling = {
   finalTotal: number;
   receivedAmount: number;
   balanceAmount: number;
-  paymentStatus: 'unpaid' | 'partial' | 'paid' | 'overpaid';
+  paymentStatus: "unpaid" | "partial" | "paid" | "overpaid";
 };
 
 export type TourFormValues = z.input<typeof tourFormSchema>;

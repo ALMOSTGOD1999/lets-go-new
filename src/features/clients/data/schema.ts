@@ -1,18 +1,18 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 export const clientFormSchema = z.object({
-  name: z.string().trim().min(1, 'Name is required'),
-  email: z.email('Enter a valid email address'),
-  phone: z.string().trim().min(1, 'Phone is required'),
+  name: z.string().trim().min(1, "Name is required"),
+  email: z.string().email("Enter a valid email address"),
+  phone: z.string().trim().min(1, "Phone is required"),
   address: z.string().trim().nullable().default(null),
 });
 
 export const listClientsInputSchema = z.object({
   page: z.number().int().min(1).default(1),
   pageSize: z.number().int().min(1).max(100).default(10),
-  search: z.string().default(''),
-  sortBy: z.enum(['name', 'email', 'phone']).default('name'),
-  sortDirection: z.enum(['asc', 'desc']).default('asc'),
+  search: z.string().default(""),
+  sortBy: z.enum(["name", "email", "phone"]).default("name"),
+  sortDirection: z.enum(["asc", "desc"]).default("asc"),
 });
 
 export const createClientInputSchema = clientFormSchema;

@@ -99,9 +99,7 @@ export const createReceipt = createServerFn({ method: "POST" })
   });
 
 export const updateReceipt = createServerFn({ method: "POST" })
-  .inputValidator(
-    receiptFormSchema.safeExtend({ id: z.number().int().positive() }),
-  )
+  .inputValidator(receiptFormSchema.extend({ id: z.number().int().positive() }))
   .handler(async ({ data }) => {
     const db = await getServerDb();
     const [row] = await db
@@ -160,9 +158,7 @@ export const createVoucher = createServerFn({ method: "POST" })
   });
 
 export const updateVoucher = createServerFn({ method: "POST" })
-  .inputValidator(
-    voucherFormSchema.safeExtend({ id: z.number().int().positive() }),
-  )
+  .inputValidator(voucherFormSchema.extend({ id: z.number().int().positive() }))
   .handler(async ({ data }) => {
     const db = await getServerDb();
     const [row] = await db
