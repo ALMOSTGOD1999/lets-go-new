@@ -1,5 +1,5 @@
-import { Link } from '@tanstack/react-router';
-import type { Column, ColumnDef } from '@tanstack/react-table';
+import { Link } from "@tanstack/react-router";
+import type { Column, ColumnDef } from "@tanstack/react-table";
 import {
   ArrowDownIcon,
   ArrowUpDownIcon,
@@ -7,28 +7,30 @@ import {
   EyeOffIcon,
   MoreHorizontalIcon,
   UsersIcon,
-} from 'lucide-react';
+} from "lucide-react";
 
-import { Button } from '#/components/ui/button';
+import { Button } from "#/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '#/components/ui/dropdown-menu';
-import type { Tour } from '#/features/tours/data/schema';
+} from "#/components/ui/dropdown-menu";
+import type { Tour } from "#/features/tours/data/schema";
 
 type ToursColumnsOptions = {
+  onDelete: (tour: Tour) => void;
   onEdit: (tour: Tour) => void;
 };
 
 export function getToursColumns({
+  onDelete,
   onEdit,
 }: ToursColumnsOptions): ColumnDef<Tour>[] {
   return [
     {
-      accessorKey: 'name',
+      accessorKey: "name",
       header: ({ column }) => <SortableHeader column={column} title="Name" />,
       cell: ({ row }) => (
         <div className="flex flex-col gap-1">
@@ -48,21 +50,21 @@ export function getToursColumns({
       ),
     },
     {
-      accessorKey: 'startDate',
+      accessorKey: "startDate",
       header: ({ column }) => (
         <SortableHeader column={column} title="Start date" />
       ),
       cell: ({ row }) => formatDate(row.original.startDate),
     },
     {
-      accessorKey: 'endDate',
+      accessorKey: "endDate",
       header: ({ column }) => (
         <SortableHeader column={column} title="End date" />
       ),
       cell: ({ row }) => formatDate(row.original.endDate),
     },
     {
-      accessorKey: 'attendeeCount',
+      accessorKey: "attendeeCount",
       header: ({ column }) => (
         <SortableHeader column={column} title="Clients" />
       ),
@@ -74,7 +76,7 @@ export function getToursColumns({
       ),
     },
     {
-      id: 'actions',
+      id: "actions",
       enableHiding: false,
       cell: ({ row }) => (
         <div className="flex justify-end">
@@ -98,6 +100,13 @@ export function getToursColumns({
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => onEdit(row.original)}>
                 Edit
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                className="text-destructive"
+                onClick={() => onDelete(row.original)}
+              >
+                Delete
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -129,9 +138,9 @@ function SortableHeader({
           }
         >
           <span>{title}</span>
-          {sorted === 'desc' ? (
+          {sorted === "desc" ? (
             <ArrowDownIcon data-icon="inline-end" />
-          ) : sorted === 'asc' ? (
+          ) : sorted === "asc" ? (
             <ArrowUpIcon data-icon="inline-end" />
           ) : (
             <ArrowUpDownIcon data-icon="inline-end" />
@@ -171,7 +180,7 @@ function formatDate(date: Date | string | null | undefined) {
     return <span className="text-muted-foreground italic">Invalid date</span>;
   }
 
-  return new Intl.DateTimeFormat('en', {
-    dateStyle: 'medium',
+  return new Intl.DateTimeFormat("en", {
+    dateStyle: "medium",
   }).format(d);
 }

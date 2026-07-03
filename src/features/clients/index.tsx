@@ -1,25 +1,27 @@
-import type { SortingState, VisibilityState } from '@tanstack/react-table';
-import { PlusIcon } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import type { SortingState, VisibilityState } from "@tanstack/react-table";
+import { PlusIcon } from "lucide-react";
+import { useEffect, useState } from "react";
 
-import { Main } from '#/components/layout/main';
-import { Button } from '#/components/ui/button';
-import { ClientSheet } from '#/features/clients/components/client-sheet';
-import { ClientsTable } from '#/features/clients/components/clients-table';
-import type { Client, ClientFormValues } from '#/features/clients/data/schema';
+import { MasterkeyDialog } from "#/components/masterkey-dialog";
+import { Main } from "#/components/layout/main";
+import { Button } from "#/components/ui/button";
+import { ClientSheet } from "#/features/clients/components/client-sheet";
+import { ClientsTable } from "#/features/clients/components/clients-table";
+import type { Client, ClientFormValues } from "#/features/clients/data/schema";
 import {
   useClients,
   useCreateClient,
+  useDeleteClient,
   useUpdateClient,
-} from '#/features/clients/hooks/use-clients';
+} from "#/features/clients/hooks/use-clients";
 
 export function ClientsPage() {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-  const [searchInput, setSearchInput] = useState('');
-  const [search, setSearch] = useState('');
+  const [searchInput, setSearchInput] = useState("");
+  const [search, setSearch] = useState("");
   const [sorting, setSorting] = useState<SortingState>([
-    { id: 'name', desc: false },
+    { id: "name", desc: false },
   ]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [sheetOpen, setSheetOpen] = useState(false);
@@ -40,10 +42,13 @@ export function ClientsPage() {
     pageSize,
     search,
     sortBy: sort.id,
-    sortDirection: sort.desc ? 'desc' : 'asc',
+    sortDirection: sort.desc ? "desc" : "asc",
   });
   const createClientMutation = useCreateClient();
   const updateClientMutation = useUpdateClient();
+  const deleteClientMutation = useDeleteClient();
+  const [deleteTarget, setDeleteTarget] = useState<Client | null>(null);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   useEffect(() => {
     const pageCount = clientsQuery.data?.pageCount;
@@ -77,6 +82,18 @@ export function ClientsPage() {
     setSelectedClient(null);
   };
 
+  const handleDeleteClick = (client: Client) => {
+    setDeleteTarget(client);
+    setDeleteDialogOpen(true);
+  };
+
+  const handleDeleteConfirm = () => {
+    if (deleteTarget) {
+      deleteClientMutation.mutate({ id: deleteTarget.id });
+    }
+    setDeleteTarget(null);
+  };
+
   return (
     <Main>
       <div className="flex flex-col gap-6">
@@ -101,6 +118,7 @@ export function ClientsPage() {
           search={searchInput}
           sorting={sorting}
           onColumnVisibilityChange={setColumnVisibility}
+          onDelete={handleDeleteClick}
           onEdit={openEditSheet}
           onPageChange={setPage}
           onPageSizeChange={(value) => {
@@ -110,7 +128,7 @@ export function ClientsPage() {
           onSearchChange={setSearchInput}
           onSortingChange={(updater) => {
             setSorting((current) =>
-              typeof updater === 'function' ? updater(current) : updater,
+              typeof updater === "function" ? updater(current) : updater,
             );
             setPage(1);
           }}
@@ -126,20 +144,27 @@ export function ClientsPage() {
           }}
           onSubmit={submitClient}
         />
+        <MasterkeyDialog
+          open={deleteDialogOpen}
+          title="Delete Client"
+          description={`Are you sure you want to delete "${deleteTarget?.name ?? ""}"? This action cannot be undone. Type "reallydelete" to confirm.`}
+          onConfirm={handleDeleteConfirm}
+          onOpenChange={setDeleteDialogOpen}
+        />
       </div>
     </Main>
   );
 }
 
 function getClientSort(sorting: SortingState): {
-  id: 'name' | 'email' | 'phone';
+  id: "name" | "email" | "phone";
   desc: boolean;
 } {
   const sort = sorting[0];
 
-  if (sort?.id === 'email' || sort?.id === 'phone') {
+  if (sort?.id === "email" || sort?.id === "phone") {
     return { id: sort.id, desc: sort.desc };
   }
 
-  return { id: 'name', desc: sort?.desc ?? false };
+  return { id: "name", desc: sort?.desc ?? false };
 }

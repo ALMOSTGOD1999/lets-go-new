@@ -1,25 +1,27 @@
-import type { SortingState, VisibilityState } from '@tanstack/react-table';
-import { PlusIcon } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import type { SortingState, VisibilityState } from "@tanstack/react-table";
+import { PlusIcon } from "lucide-react";
+import { useEffect, useState } from "react";
 
-import { Main } from '#/components/layout/main';
-import { Button } from '#/components/ui/button';
-import { TourSheet } from '#/features/tours/components/tour-sheet';
-import { ToursTable } from '#/features/tours/components/tours-table';
-import type { Tour, TourFormValues } from '#/features/tours/data/schema';
+import { MasterkeyDialog } from "#/components/masterkey-dialog";
+import { Main } from "#/components/layout/main";
+import { Button } from "#/components/ui/button";
+import { TourSheet } from "#/features/tours/components/tour-sheet";
+import { ToursTable } from "#/features/tours/components/tours-table";
+import type { Tour, TourFormValues } from "#/features/tours/data/schema";
 import {
   useCreateTour,
+  useDeleteTour,
   useTours,
   useUpdateTour,
-} from '#/features/tours/hooks/use-tours';
+} from "#/features/tours/hooks/use-tours";
 
 export function ToursPage() {
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-  const [searchInput, setSearchInput] = useState('');
-  const [search, setSearch] = useState('');
+  const [searchInput, setSearchInput] = useState("");
+  const [search, setSearch] = useState("");
   const [sorting, setSorting] = useState<SortingState>([
-    { id: 'startDate', desc: false },
+    { id: "startDate", desc: false },
   ]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [sheetOpen, setSheetOpen] = useState(false);
@@ -40,10 +42,13 @@ export function ToursPage() {
     pageSize,
     search,
     sortBy: sort.id,
-    sortDirection: sort.desc ? 'desc' : 'asc',
+    sortDirection: sort.desc ? "desc" : "asc",
   });
   const createTourMutation = useCreateTour();
   const updateTourMutation = useUpdateTour();
+  const deleteTourMutation = useDeleteTour();
+  const [deleteTarget, setDeleteTarget] = useState<Tour | null>(null);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   const openCreateSheet = () => {
     setSelectedTour(null);
@@ -67,6 +72,18 @@ export function ToursPage() {
 
     setSheetOpen(false);
     setSelectedTour(null);
+  };
+
+  const handleDeleteClick = (tour: Tour) => {
+    setDeleteTarget(tour);
+    setDeleteDialogOpen(true);
+  };
+
+  const handleDeleteConfirm = () => {
+    if (deleteTarget) {
+      deleteTourMutation.mutate({ id: deleteTarget.id });
+    }
+    setDeleteTarget(null);
   };
 
   return (
@@ -93,6 +110,7 @@ export function ToursPage() {
           search={searchInput}
           sorting={sorting}
           onColumnVisibilityChange={setColumnVisibility}
+          onDelete={handleDeleteClick}
           onEdit={openEditSheet}
           onPageChange={setPage}
           onPageSizeChange={(value) => {
@@ -102,7 +120,7 @@ export function ToursPage() {
           onSearchChange={setSearchInput}
           onSortingChange={(updater) => {
             setSorting((current) =>
-              typeof updater === 'function' ? updater(current) : updater,
+              typeof updater === "function" ? updater(current) : updater,
             );
             setPage(1);
           }}
@@ -118,20 +136,27 @@ export function ToursPage() {
           }}
           onSubmit={submitTour}
         />
+        <MasterkeyDialog
+          open={deleteDialogOpen}
+          title="Delete Tour"
+          description={`Are you sure you want to delete "${deleteTarget?.name ?? ""}"? This action cannot be undone. Type "reallydelete" to confirm.`}
+          onConfirm={handleDeleteConfirm}
+          onOpenChange={setDeleteDialogOpen}
+        />
       </div>
     </Main>
   );
 }
 
 function getTourSort(sorting: SortingState): {
-  id: 'name' | 'startDate' | 'endDate';
+  id: "name" | "startDate" | "endDate";
   desc: boolean;
 } {
   const sort = sorting[0];
 
-  if (sort?.id === 'name' || sort?.id === 'endDate') {
+  if (sort?.id === "name" || sort?.id === "endDate") {
     return { id: sort.id, desc: sort.desc };
   }
 
-  return { id: 'startDate', desc: sort?.desc ?? false };
+  return { id: "startDate", desc: sort?.desc ?? false };
 }

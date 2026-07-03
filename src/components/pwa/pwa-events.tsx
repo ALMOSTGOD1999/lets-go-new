@@ -1,5 +1,5 @@
-import { useEffect, useState } from 'react';
-import { toast } from 'sonner';
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 import {
   AlertDialog,
@@ -7,16 +7,16 @@ import {
   AlertDialogDescription,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '#/components/ui/alert-dialog';
+} from "#/components/ui/alert-dialog";
 
-const OFFLINE_TOAST_ID = 'offline-status';
-const UPDATE_TOAST_ID = 'service-worker-update';
-const INSTALL_TOAST_ID = 'pwa-install';
-const INSTALL_PROMPT_KEY = 'letsgo-pwa-install-prompt-dismissed';
+const OFFLINE_TOAST_ID = "offline-status";
+const UPDATE_TOAST_ID = "service-worker-update";
+const INSTALL_TOAST_ID = "pwa-install";
+const INSTALL_PROMPT_KEY = "letsgo-pwa-install-prompt-dismissed";
 
 type BeforeInstallPromptEvent = Event & {
   prompt: () => Promise<void>;
-  userChoice: Promise<{ outcome: 'accepted' | 'dismissed'; platform: string }>;
+  userChoice: Promise<{ outcome: "accepted" | "dismissed"; platform: string }>;
 };
 
 export function PwaEvents() {
@@ -43,14 +43,14 @@ function useOfflineIndicator() {
   const [offline, setOffline] = useState(false);
 
   useEffect(() => {
-    if (typeof navigator === 'undefined') {
+    if (typeof navigator === "undefined") {
       return;
     }
 
     const showOfflineToast = () => {
       setOffline(true);
       toast.warning(
-        'No internet connection. Some features may be unavailable.',
+        "No internet connection. Some features may be unavailable.",
         {
           id: OFFLINE_TOAST_ID,
           duration: Number.POSITIVE_INFINITY,
@@ -61,19 +61,19 @@ function useOfflineIndicator() {
     const showOnlineToast = () => {
       setOffline(false);
       toast.dismiss(OFFLINE_TOAST_ID);
-      toast.success('Back online', { duration: 3000 });
+      toast.success("Back online", { duration: 3000 });
     };
 
     if (!navigator.onLine) {
       showOfflineToast();
     }
 
-    window.addEventListener('offline', showOfflineToast);
-    window.addEventListener('online', showOnlineToast);
+    window.addEventListener("offline", showOfflineToast);
+    window.addEventListener("online", showOnlineToast);
 
     return () => {
-      window.removeEventListener('offline', showOfflineToast);
-      window.removeEventListener('online', showOnlineToast);
+      window.removeEventListener("offline", showOfflineToast);
+      window.removeEventListener("online", showOnlineToast);
     };
   }, []);
 
@@ -82,20 +82,20 @@ function useOfflineIndicator() {
 
 function usePwaInstallPrompt() {
   useEffect(() => {
-    if (typeof window === 'undefined') return;
+    if (typeof window === "undefined") return;
     if (isStandalonePwa()) return;
     if (localStorage.getItem(INSTALL_PROMPT_KEY)) return;
 
     const showIosInstallHint = window.setTimeout(() => {
       if (!isIosDevice() || isStandalonePwa()) return;
 
-      toast.info('Install LetsGo for reliable reminders.', {
+      toast.info("Install LetsGo for reliable reminders.", {
         id: INSTALL_TOAST_ID,
-        description: 'Tap Share, then Add to Home Screen.',
+        description: "Tap Share, then Add to Home Screen.",
         duration: Number.POSITIVE_INFINITY,
         cancel: {
-          label: 'Not now',
-          onClick: () => localStorage.setItem(INSTALL_PROMPT_KEY, 'true'),
+          label: "Not now",
+          onClick: () => localStorage.setItem(INSTALL_PROMPT_KEY, "true"),
         },
       });
     }, 2500);
@@ -105,40 +105,40 @@ function usePwaInstallPrompt() {
       window.clearTimeout(showIosInstallHint);
 
       const installEvent = event as BeforeInstallPromptEvent;
-      toast.info('Install LetsGo for app-like access and reminders.', {
+      toast.info("Install LetsGo for app-like access and reminders.", {
         id: INSTALL_TOAST_ID,
         duration: Number.POSITIVE_INFINITY,
         action: {
-          label: 'Install',
+          label: "Install",
           onClick: async () => {
             await installEvent.prompt();
             const choice = await installEvent.userChoice;
 
-            if (choice.outcome === 'dismissed') {
-              localStorage.setItem(INSTALL_PROMPT_KEY, 'true');
+            if (choice.outcome === "dismissed") {
+              localStorage.setItem(INSTALL_PROMPT_KEY, "true");
             }
           },
         },
         cancel: {
-          label: 'Not now',
-          onClick: () => localStorage.setItem(INSTALL_PROMPT_KEY, 'true'),
+          label: "Not now",
+          onClick: () => localStorage.setItem(INSTALL_PROMPT_KEY, "true"),
         },
       });
     };
 
     const onAppInstalled = () => {
-      localStorage.setItem(INSTALL_PROMPT_KEY, 'true');
+      localStorage.setItem(INSTALL_PROMPT_KEY, "true");
       toast.dismiss(INSTALL_TOAST_ID);
-      toast.success('LetsGo installed');
+      toast.success("LetsGo installed");
     };
 
-    window.addEventListener('beforeinstallprompt', onBeforeInstallPrompt);
-    window.addEventListener('appinstalled', onAppInstalled);
+    window.addEventListener("beforeinstallprompt", onBeforeInstallPrompt);
+    window.addEventListener("appinstalled", onAppInstalled);
 
     return () => {
       window.clearTimeout(showIosInstallHint);
-      window.removeEventListener('beforeinstallprompt', onBeforeInstallPrompt);
-      window.removeEventListener('appinstalled', onAppInstalled);
+      window.removeEventListener("beforeinstallprompt", onBeforeInstallPrompt);
+      window.removeEventListener("appinstalled", onAppInstalled);
     };
   }, []);
 }
@@ -154,7 +154,7 @@ function useServiceWorkerUpdates() {
       return;
     }
 
-    if (typeof navigator === 'undefined' || !('serviceWorker' in navigator)) {
+    if (typeof navigator === "undefined" || !("serviceWorker" in navigator)) {
       return;
     }
 
@@ -173,19 +173,19 @@ function useServiceWorkerUpdates() {
     const showReloadPrompt = (nextRegistration: ServiceWorkerRegistration) => {
       registration = nextRegistration;
 
-      toast.info('A new version of LetsGo is available.', {
+      toast.info("A new version of LetsGo is available.", {
         id: UPDATE_TOAST_ID,
         duration: Number.POSITIVE_INFINITY,
         action: {
-          label: 'Reload',
+          label: "Reload",
           onClick: () => {
             if (registration?.waiting) {
               navigator.serviceWorker.addEventListener(
-                'controllerchange',
+                "controllerchange",
                 reloadWhenControlled,
                 { once: true },
               );
-              registration.waiting.postMessage({ type: 'SKIP_WAITING' });
+              registration.waiting.postMessage({ type: "SKIP_WAITING" });
               return;
             }
 
@@ -197,9 +197,9 @@ function useServiceWorkerUpdates() {
 
     const registerServiceWorker = async () => {
       const nextRegistration = await navigator.serviceWorker.register(
-        '/sw.js',
+        "/sw.js",
         {
-          scope: '/',
+          scope: "/",
         },
       );
 
@@ -207,30 +207,33 @@ function useServiceWorkerUpdates() {
         showReloadPrompt(nextRegistration);
       }
 
-      nextRegistration.addEventListener('updatefound', () => {
+      nextRegistration.addEventListener("updatefound", () => {
         const nextWorker = nextRegistration.installing;
 
-        nextWorker?.addEventListener('statechange', () => {
+        nextWorker?.addEventListener("statechange", () => {
           if (
-            nextWorker.state === 'installed' &&
+            nextWorker.state === "installed" &&
             navigator.serviceWorker.controller
           ) {
             showReloadPrompt(nextRegistration);
           }
         });
       });
+
+      // Subscribe to push notifications after registration
+      await subscribeToPushNotifications(nextRegistration);
     };
 
     const registerTimer = window.setTimeout(() => {
       void registerServiceWorker().catch((error) => {
-        console.error('Service worker registration failed:', error);
+        console.error("Service worker registration failed:", error);
       });
     }, 1000);
 
     return () => {
       window.clearTimeout(registerTimer);
       navigator.serviceWorker.removeEventListener(
-        'controllerchange',
+        "controllerchange",
         reloadWhenControlled,
       );
     };
@@ -239,11 +242,75 @@ function useServiceWorkerUpdates() {
 
 function isStandalonePwa() {
   return (
-    window.matchMedia('(display-mode: standalone)').matches ||
-    ('standalone' in navigator && navigator.standalone === true)
+    window.matchMedia("(display-mode: standalone)").matches ||
+    ("standalone" in navigator && navigator.standalone === true)
   );
 }
 
 function isIosDevice() {
   return /iphone|ipad|ipod/i.test(navigator.userAgent);
+}
+
+async function subscribeToPushNotifications(
+  registration: ServiceWorkerRegistration,
+) {
+  try {
+    if (Notification.permission === "denied") return;
+
+    if (Notification.permission === "default") {
+      const permission = await Notification.requestPermission();
+      if (permission !== "granted") return;
+    }
+
+    // Get the VAPID public key from the server
+    const keyResponse = await fetch("/api/reminders/push-subscription");
+    if (!keyResponse.ok) {
+      console.error("Failed to fetch VAPID key");
+      return;
+    }
+
+    const { publicKey } = await keyResponse.json();
+    if (!publicKey) {
+      console.error("No VAPID public key returned from server");
+      return;
+    }
+
+    // Check if already subscribed
+    const existingSubscription =
+      await registration.pushManager.getSubscription();
+    if (existingSubscription) {
+      // Keep existing subscription (server deduplicates by endpoint)
+      return;
+    }
+
+    const subscription = await registration.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: urlBase64ToUint8Array(publicKey) as any,
+    });
+
+    const response = await fetch("/api/reminders/push-subscription", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(subscription.toJSON()),
+    });
+
+    if (!response.ok) {
+      console.error("Failed to save push subscription");
+    }
+  } catch (error) {
+    console.error("Failed to subscribe to push notifications:", error);
+  }
+}
+
+function urlBase64ToUint8Array(base64String: string): Uint8Array {
+  const padding = "=".repeat((4 - (base64String.length % 4)) % 4);
+  const base64 = (base64String + padding).replace(/-/g, "+").replace(/_/g, "/");
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+
+  for (let i = 0; i < rawData.length; i++) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+
+  return outputArray;
 }

@@ -1,12 +1,13 @@
-import { createServerFn } from '@tanstack/react-start';
-import { and, asc, count, desc, eq, ilike, isNull, or, sql } from 'drizzle-orm';
+import { createServerFn } from "@tanstack/react-start";
+import { and, asc, count, desc, eq, ilike, isNull, or, sql } from "drizzle-orm";
+import { z } from "zod";
 
-import { tourAttendees, tours } from '#/db/schema';
+import { tourAttendees, tours } from "#/db/schema";
 import {
   createTourInputSchema,
   listToursInputSchema,
   updateTourInputSchema,
-} from '#/features/tours/data/schema';
+} from "#/features/tours/data/schema";
 
 const selectTourColumns = {
   id: tours.id,
@@ -21,7 +22,7 @@ const selectTourColumns = {
     FROM ${tourAttendees}
     WHERE ${tourAttendees.tourId} = ${tours.id}
       AND ${tourAttendees.deletedAt} IS NULL
-  )`.as('attendee_count'),
+  )`.as("attendee_count"),
 };
 
 const sortColumns = {
@@ -30,7 +31,7 @@ const sortColumns = {
   endDate: tours.endDate,
 };
 
-export const listTours = createServerFn({ method: 'GET' })
+export const listTours = createServerFn({ method: "GET" })
   .inputValidator(listToursInputSchema)
   .handler(async ({ data }) => {
     const db = await getServerDb();
@@ -53,7 +54,7 @@ export const listTours = createServerFn({ method: 'GET' })
     const offset = (data.page - 1) * data.pageSize;
     const sortColumn = sortColumns[data.sortBy];
     const orderBy =
-      data.sortDirection === 'desc' ? desc(sortColumn) : asc(sortColumn);
+      data.sortDirection === "desc" ? desc(sortColumn) : asc(sortColumn);
 
     const [rows, totalRows] = await Promise.all([
       db
@@ -77,7 +78,7 @@ export const listTours = createServerFn({ method: 'GET' })
     };
   });
 
-export const createTour = createServerFn({ method: 'POST' })
+export const createTour = createServerFn({ method: "POST" })
   .inputValidator(createTourInputSchema)
   .handler(async ({ data }) => {
     const db = await getServerDb();
@@ -89,7 +90,7 @@ export const createTour = createServerFn({ method: 'POST' })
     return createdTour;
   });
 
-export const updateTour = createServerFn({ method: 'POST' })
+export const updateTour = createServerFn({ method: "POST" })
   .inputValidator(updateTourInputSchema)
   .handler(async ({ data }) => {
     const db = await getServerDb();
@@ -100,10 +101,21 @@ export const updateTour = createServerFn({ method: 'POST' })
       .returning(selectTourColumns);
 
     if (!updatedTour) {
-      throw new Error('Tour not found');
+      throw new Error("Tour not found");
     }
 
     return updatedTour;
+  });
+
+export const deleteTour = createServerFn({ method: "POST" })
+  .inputValidator(z.object({ id: z.number().int().positive() }))
+  .handler(async ({ data }) => {
+    const db = await getServerDb();
+    await db
+      .update(tours)
+      .set({ deletedAt: new Date() })
+      .where(and(eq(tours.id, data.id), isNull(tours.deletedAt)));
+    return { success: true };
   });
 
 function getTourValues(data: {
@@ -125,6 +137,6 @@ function getTourValues(data: {
 }
 
 async function getServerDb() {
-  const { getDb } = await import('#/db/index.server');
+  const { getDb } = await import("#/db/index.server");
   return getDb();
 }

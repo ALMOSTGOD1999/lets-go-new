@@ -1,4 +1,4 @@
-import { createServerFn } from '@tanstack/react-start';
+import { createServerFn } from "@tanstack/react-start";
 import {
   and,
   asc,
@@ -10,14 +10,15 @@ import {
   isNull,
   or,
   sql,
-} from 'drizzle-orm';
+} from "drizzle-orm";
+import { z } from "zod";
 
-import { clients, tourAttendees } from '#/db/schema';
+import { clients, tourAttendees } from "#/db/schema";
 import {
   createClientInputSchema,
   listClientsInputSchema,
   updateClientInputSchema,
-} from '#/features/clients/data/schema';
+} from "#/features/clients/data/schema";
 
 const selectClientColumns = {
   id: clients.id,
@@ -32,7 +33,7 @@ const selectClientColumns = {
     FROM ${tourAttendees}
     WHERE ${tourAttendees.clientId} = ${clients.id}
       AND ${tourAttendees.deletedAt} IS NULL
-  )`.as('booking_count'),
+  )`.as("booking_count"),
 };
 
 const sortColumns = {
@@ -41,7 +42,7 @@ const sortColumns = {
   phone: clients.phone,
 };
 
-export const listClients = createServerFn({ method: 'GET' })
+export const listClients = createServerFn({ method: "GET" })
   .inputValidator(listClientsInputSchema)
   .handler(async ({ data }) => {
     const db = await getServerDb();
@@ -66,7 +67,7 @@ export const listClients = createServerFn({ method: 'GET' })
     const offset = (data.page - 1) * data.pageSize;
     const sortColumn = sortColumns[data.sortBy];
     const orderBy =
-      data.sortDirection === 'desc' ? desc(sortColumn) : asc(sortColumn);
+      data.sortDirection === "desc" ? desc(sortColumn) : asc(sortColumn);
 
     const [rows, totalRows] = await Promise.all([
       db
@@ -90,7 +91,7 @@ export const listClients = createServerFn({ method: 'GET' })
     };
   });
 
-export const createClient = createServerFn({ method: 'POST' })
+export const createClient = createServerFn({ method: "POST" })
   .inputValidator(createClientInputSchema)
   .handler(async ({ data }) => {
     const db = await getServerDb();
@@ -133,7 +134,7 @@ export const createClient = createServerFn({ method: 'POST' })
     return createdClient;
   });
 
-export const updateClient = createServerFn({ method: 'POST' })
+export const updateClient = createServerFn({ method: "POST" })
   .inputValidator(updateClientInputSchema)
   .handler(async ({ data }) => {
     const db = await getServerDb();
@@ -150,13 +151,24 @@ export const updateClient = createServerFn({ method: 'POST' })
       .returning(selectClientColumns);
 
     if (!updatedClient) {
-      throw new Error('Client not found');
+      throw new Error("Client not found");
     }
 
     return updatedClient;
   });
 
+export const deleteClient = createServerFn({ method: "POST" })
+  .inputValidator(z.object({ id: z.number().int().positive() }))
+  .handler(async ({ data }) => {
+    const db = await getServerDb();
+    await db
+      .update(clients)
+      .set({ deletedAt: new Date() })
+      .where(and(eq(clients.id, data.id), isNull(clients.deletedAt)));
+    return { success: true };
+  });
+
 async function getServerDb() {
-  const { getDb } = await import('#/db/index.server');
+  const { getDb } = await import("#/db/index.server");
   return getDb();
 }

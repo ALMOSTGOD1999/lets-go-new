@@ -5,16 +5,16 @@ import {
   type SortingState,
   useReactTable,
   type VisibilityState,
-} from '@tanstack/react-table';
+} from "@tanstack/react-table";
 import {
   ChevronLeftIcon,
   ChevronRightIcon,
   ChevronsLeftIcon,
   ChevronsRightIcon,
   SlidersHorizontalIcon,
-} from 'lucide-react';
+} from "lucide-react";
 
-import { Button } from '#/components/ui/button';
+import { Button } from "#/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -23,8 +23,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '#/components/ui/dropdown-menu';
-import { Input } from '#/components/ui/input';
+} from "#/components/ui/dropdown-menu";
+import { Input } from "#/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -32,7 +32,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '#/components/ui/select';
+} from "#/components/ui/select";
 import {
   Table,
   TableBody,
@@ -40,9 +40,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '#/components/ui/table';
-import type { Tour, ToursListResult } from '#/features/tours/data/schema';
-import { getToursColumns } from './tours-columns';
+} from "#/components/ui/table";
+import type { Tour, ToursListResult } from "#/features/tours/data/schema";
+import { getToursColumns } from "./tours-columns";
 
 type ToursTableProps = {
   result: ToursListResult | undefined;
@@ -53,6 +53,7 @@ type ToursTableProps = {
   sorting: SortingState;
   columnVisibility: VisibilityState;
   onColumnVisibilityChange: (visibility: VisibilityState) => void;
+  onDelete: (tour: Tour) => void;
   onEdit: (tour: Tour) => void;
   onPageChange: (page: number) => void;
   onPageSizeChange: (pageSize: number) => void;
@@ -75,7 +76,7 @@ export function ToursTable({
   onSearchChange,
   onSortingChange,
 }: ToursTableProps) {
-  const columns = getToursColumns({ onEdit });
+  const columns = getToursColumns({ onDelete, onEdit });
   const data = result?.data ?? [];
   const pageCount = result?.pageCount ?? 1;
 
@@ -93,14 +94,14 @@ export function ToursTable({
     },
     onColumnVisibilityChange: (updater) => {
       const value =
-        typeof updater === 'function' ? updater(columnVisibility) : updater;
+        typeof updater === "function" ? updater(columnVisibility) : updater;
       onColumnVisibilityChange(value);
     },
     manualPagination: true,
     manualSorting: true,
     onPaginationChange: (updater) => {
       const value =
-        typeof updater === 'function'
+        typeof updater === "function"
           ? updater({ pageIndex: page - 1, pageSize })
           : updater;
 
@@ -206,7 +207,7 @@ export function ToursTable({
       </div>
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-muted-foreground text-sm">
-          {result ? `${result.total} tour${result.total === 1 ? '' : 's'}` : ''}
+          {result ? `${result.total} tour${result.total === 1 ? "" : "s"}` : ""}
         </p>
         <div className="flex items-center gap-2">
           <Select
@@ -280,10 +281,10 @@ export function ToursTable({
 
 function getColumnLabel(columnId: string) {
   const labels: Record<string, string> = {
-    name: 'Name',
-    startDate: 'Start date',
-    endDate: 'End date',
-    attendeeCount: 'Clients',
+    name: "Name",
+    startDate: "Start date",
+    endDate: "End date",
+    attendeeCount: "Clients",
   };
 
   return labels[columnId] ?? columnId;

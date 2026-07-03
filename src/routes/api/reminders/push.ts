@@ -1,20 +1,24 @@
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute } from "@tanstack/react-router";
 
 import {
   listCurrentReminderPushes,
   markReminderPushesFailed,
   markReminderPushesSent,
   pruneOldSentReminders,
-} from '#/features/reminders/server/functions';
+} from "#/features/reminders/server/functions";
 import {
   getMissingWebPushEnvVars,
   sendReminderWebPushes,
-} from '#/features/reminders/server/web-push';
+} from "#/features/reminders/server/web-push";
+import { startReminderPushInterval } from "#/features/reminders/server/push-trigger";
 
-const SECRET_HEADER = 'x-reminder-secret';
-const SECRET_ENV = 'REMINDER_PUSH_SECRET';
+// Start the background push interval on server startup
+startReminderPushInterval();
 
-export const Route = createFileRoute('/api/reminders/push')({
+const SECRET_HEADER = "x-reminder-secret";
+const SECRET_ENV = "REMINDER_PUSH_SECRET";
+
+export const Route = createFileRoute("/api/reminders/push")({
   server: {
     handlers: {
       POST: async ({ request }) => {
@@ -29,14 +33,14 @@ export const Route = createFileRoute('/api/reminders/push')({
         }
 
         if (!providedSecret || providedSecret !== configuredSecret) {
-          return new Response('Unauthorized', { status: 401 });
+          return new Response("Unauthorized", { status: 401 });
         }
 
         const missingWebPushEnvVars = getMissingWebPushEnvVars();
         if (missingWebPushEnvVars.length) {
           return Response.json(
             {
-              error: `Missing web push env vars: ${missingWebPushEnvVars.join(', ')}`,
+              error: `Missing web push env vars: ${missingWebPushEnvVars.join(", ")}`,
             },
             { status: 500 },
           );

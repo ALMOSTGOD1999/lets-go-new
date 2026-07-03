@@ -1,23 +1,24 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { toast } from 'sonner';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 import type {
   ListToursInput,
   TourFormValues,
-} from '#/features/tours/data/schema';
+} from "#/features/tours/data/schema";
 import {
   createTour,
+  deleteTour,
   listTours,
   updateTour,
-} from '#/features/tours/server/functions';
+} from "#/features/tours/server/functions";
 
-export const toursQueryKey = (input: ListToursInput) => ['tours', input];
+export const toursQueryKey = (input: ListToursInput) => ["tours", input];
 
 export function useTours(input: ListToursInput) {
   return useQuery({
     queryKey: toursQueryKey(input),
     queryFn: () => listTours({ data: input }),
-    enabled: typeof window !== 'undefined',
+    enabled: typeof window !== "undefined",
   });
 }
 
@@ -27,11 +28,11 @@ export function useCreateTour() {
   return useMutation({
     mutationFn: (input: TourFormValues) => createTour({ data: input }),
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['tours'] });
-      toast.success('Tour saved');
+      await queryClient.invalidateQueries({ queryKey: ["tours"] });
+      toast.success("Tour saved");
     },
     onError: (error) => {
-      toast.error('Unable to save tour', {
+      toast.error("Unable to save tour", {
         description: error.message,
       });
     },
@@ -45,11 +46,28 @@ export function useUpdateTour() {
     mutationFn: (input: TourFormValues & { id: number }) =>
       updateTour({ data: input }),
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ['tours'] });
-      toast.success('Tour updated');
+      await queryClient.invalidateQueries({ queryKey: ["tours"] });
+      toast.success("Tour updated");
     },
     onError: (error) => {
-      toast.error('Unable to update tour', {
+      toast.error("Unable to update tour", {
+        description: error.message,
+      });
+    },
+  });
+}
+
+export function useDeleteTour() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (input: { id: number }) => deleteTour({ data: input }),
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ["tours"] });
+      toast.success("Tour deleted");
+    },
+    onError: (error) => {
+      toast.error("Unable to delete tour", {
         description: error.message,
       });
     },

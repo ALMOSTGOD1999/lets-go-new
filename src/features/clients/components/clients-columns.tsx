@@ -20,10 +20,12 @@ import {
 import type { Client } from "#/features/clients/data/schema";
 
 type ClientsColumnsOptions = {
+  onDelete: (client: Client) => void;
   onEdit: (client: Client) => void;
 };
 
 export function getClientsColumns({
+  onDelete,
   onEdit,
 }: ClientsColumnsOptions): ColumnDef<Client>[] {
   return [
@@ -109,6 +111,13 @@ export function getClientsColumns({
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => onEdit(row.original)}>
                 Edit
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                className="text-destructive"
+                onClick={() => onDelete(row.original)}
+              >
+                Delete
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
