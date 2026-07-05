@@ -158,7 +158,9 @@ export const createVoucher = createServerFn({ method: "POST" })
   });
 
 export const updateVoucher = createServerFn({ method: "POST" })
-  .inputValidator(voucherFormSchema.extend({ id: z.number().int().positive() }))
+  .inputValidator(
+    voucherFormSchema.safeExtend({ id: z.number().int().positive() }),
+  )
   .handler(async ({ data }) => {
     const db = await getServerDb();
     const [row] = await db

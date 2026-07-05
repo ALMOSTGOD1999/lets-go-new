@@ -1,10 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
-import type {
-  Receipt,
-  ReceiptFormValues,
-} from "#/features/bookings/data/schema";
+import type { ReceiptFormValues } from "#/features/bookings/data/schema";
 import {
   createReceipt,
   deleteReceipt,
@@ -27,9 +24,8 @@ export function useCreateReceipt() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: (input: ReceiptFormValues) => createReceipt({ data: input }),
-    onSuccess: (data, variables) => {
+    onSuccess: (_data, variables) => {
       const key = receiptsQueryKey(variables.attendeeId);
-      qc.setQueryData<Receipt[]>(key, (old) => [...(old ?? []), data]);
       qc.invalidateQueries({ queryKey: key });
       qc.invalidateQueries({ queryKey: ["tour-attendees"] });
       qc.invalidateQueries({ queryKey: ["client-bookings"] });
@@ -45,11 +41,8 @@ export function useUpdateReceipt() {
   return useMutation({
     mutationFn: (input: ReceiptFormValues & { id: number }) =>
       updateReceipt({ data: input }),
-    onSuccess: (data, variables) => {
+    onSuccess: (_data, variables) => {
       const key = receiptsQueryKey(variables.attendeeId);
-      qc.setQueryData<Receipt[]>(key, (old) =>
-        (old ?? []).map((r) => (r.id === data.id ? data : r)),
-      );
       qc.invalidateQueries({ queryKey: key });
       qc.invalidateQueries({ queryKey: ["tour-attendees"] });
       qc.invalidateQueries({ queryKey: ["client-bookings"] });
@@ -64,10 +57,7 @@ export function useDeleteReceipt() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: (id: number) => deleteReceipt({ data: { id } }),
-    onSuccess: (_data, id) => {
-      qc.setQueryData<Receipt[]>(["receipts"], (old) =>
-        (old ?? []).filter((r) => r.id !== id),
-      );
+    onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["receipts"] });
       qc.invalidateQueries({ queryKey: ["tour-attendees"] });
       qc.invalidateQueries({ queryKey: ["client-bookings"] });

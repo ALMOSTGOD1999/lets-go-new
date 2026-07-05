@@ -22,7 +22,7 @@ export const listToursInputSchema = z.object({
 
 export const createTourInputSchema = tourFormSchema;
 
-export const updateTourInputSchema = tourFormSchema.extend({
+export const updateTourInputSchema = tourFormSchema.safeExtend({
   id: z.number().int().positive(),
 });
 
