@@ -1,7 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
-import type { ReceiptFormValues } from "#/features/bookings/data/schema";
+import type {
+  Receipt,
+  ReceiptFormValues,
+} from "#/features/bookings/data/schema";
 import {
   createReceipt,
   deleteReceipt,
@@ -24,12 +27,12 @@ export function useCreateReceipt() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: (input: ReceiptFormValues) => createReceipt({ data: input }),
-    onSuccess: async (_data, variables) => {
-      await qc.invalidateQueries({
-        queryKey: receiptsQueryKey(variables.attendeeId),
-      });
-      await qc.invalidateQueries({ queryKey: ["tour-attendees"] });
-      await qc.invalidateQueries({ queryKey: ["client-bookings"] });
+    onSuccess: (data, variables) => {
+      const key = receiptsQueryKey(variables.attendeeId);
+      qc.setQueryData<Receipt[]>(key, (old) => [...(old ?? []), data]);
+      qc.invalidateQueries({ queryKey: key });
+      qc.invalidateQueries({ queryKey: ["tour-attendees"] });
+      qc.invalidateQueries({ queryKey: ["client-bookings"] });
       toast.success("Receipt saved");
     },
     onError: (error) =>
@@ -42,12 +45,14 @@ export function useUpdateReceipt() {
   return useMutation({
     mutationFn: (input: ReceiptFormValues & { id: number }) =>
       updateReceipt({ data: input }),
-    onSuccess: async (_data, variables) => {
-      await qc.invalidateQueries({
-        queryKey: receiptsQueryKey(variables.attendeeId),
-      });
-      await qc.invalidateQueries({ queryKey: ["tour-attendees"] });
-      await qc.invalidateQueries({ queryKey: ["client-bookings"] });
+    onSuccess: (data, variables) => {
+      const key = receiptsQueryKey(variables.attendeeId);
+      qc.setQueryData<Receipt[]>(key, (old) =>
+        (old ?? []).map((r) => (r.id === data.id ? data : r)),
+      );
+      qc.invalidateQueries({ queryKey: key });
+      qc.invalidateQueries({ queryKey: ["tour-attendees"] });
+      qc.invalidateQueries({ queryKey: ["client-bookings"] });
       toast.success("Receipt updated");
     },
     onError: (error) =>
@@ -59,10 +64,13 @@ export function useDeleteReceipt() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: (id: number) => deleteReceipt({ data: { id } }),
-    onSuccess: async () => {
-      await qc.invalidateQueries({ queryKey: ["receipts"] });
-      await qc.invalidateQueries({ queryKey: ["tour-attendees"] });
-      await qc.invalidateQueries({ queryKey: ["client-bookings"] });
+    onSuccess: (_data, id) => {
+      qc.setQueryData<Receipt[]>(["receipts"], (old) =>
+        (old ?? []).filter((r) => r.id !== id),
+      );
+      qc.invalidateQueries({ queryKey: ["receipts"] });
+      qc.invalidateQueries({ queryKey: ["tour-attendees"] });
+      qc.invalidateQueries({ queryKey: ["client-bookings"] });
       toast.success("Receipt deleted");
     },
     onError: (error) =>
