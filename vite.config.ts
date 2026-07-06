@@ -20,6 +20,9 @@ const config = defineConfig({
     tailwindcss(),
     tanstackStart({
       prerender: { enabled: false },
+      nitro: {
+        preset: "vercel",
+      },
     }),
     nitro(),
     viteReact({
