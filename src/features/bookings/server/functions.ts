@@ -6,6 +6,7 @@ import { clients, receipts, tourAttendees, tours, vouchers } from "#/db/schema";
 import {
   type ReceiptMethod,
   receiptFormSchema,
+  voucherBaseSchema,
   voucherFormSchema,
 } from "#/features/bookings/data/schema";
 import { calculateAttendeeBilling } from "#/features/tour-attendees/lib/calculations";
@@ -159,7 +160,16 @@ export const createVoucher = createServerFn({ method: "POST" })
 
 export const updateVoucher = createServerFn({ method: "POST" })
   .inputValidator(
-    voucherFormSchema.safeExtend({ id: z.number().int().positive() }),
+    voucherBaseSchema
+      .extend({ id: z.number().int().positive() })
+      .refine(
+        (v) =>
+          !v.checkinDate || !v.checkoutDate || v.checkoutDate >= v.checkinDate,
+        {
+          path: ["checkoutDate"],
+          message: "Checkout must be on or after check-in",
+        },
+      ),
   )
   .handler(async ({ data }) => {
     const db = await getServerDb();

@@ -1,16 +1,19 @@
 import { z } from "zod";
 
-export const tourFormSchema = z
-  .object({
-    name: z.string().trim().min(1, "Name is required"),
-    description: z.string().trim().optional(),
-    startDate: z.string().min(1, "Start date is required"),
-    endDate: z.string().min(1, "End date is required"),
-  })
-  .refine((value) => value.endDate >= value.startDate, {
+const tourBaseSchema = z.object({
+  name: z.string().trim().min(1, "Name is required"),
+  description: z.string().trim().optional(),
+  startDate: z.string().min(1, "Start date is required"),
+  endDate: z.string().min(1, "End date is required"),
+});
+
+export const tourFormSchema = tourBaseSchema.refine(
+  (value) => value.endDate >= value.startDate,
+  {
     message: "End date must be on or after start date",
     path: ["endDate"],
-  });
+  },
+);
 
 export const listToursInputSchema = z.object({
   page: z.number().int().min(1).default(1),
@@ -22,9 +25,12 @@ export const listToursInputSchema = z.object({
 
 export const createTourInputSchema = tourFormSchema;
 
-export const updateTourInputSchema = tourFormSchema.safeExtend({
-  id: z.number().int().positive(),
-});
+export const updateTourInputSchema = tourBaseSchema
+  .extend({ id: z.number().int().positive() })
+  .refine((value) => value.endDate >= value.startDate, {
+    message: "End date must be on or after start date",
+    path: ["endDate"],
+  });
 
 export type Tour = {
   id: number;

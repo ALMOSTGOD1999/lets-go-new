@@ -20,33 +20,33 @@ export const receiptFormSchema = z.object({
 export const voucherTypeSchema = z.enum(["hotel", "package", "vehicle"]);
 export type VoucherType = z.output<typeof voucherTypeSchema>;
 
-export const voucherFormSchema = z
-  .object({
-    id: z.number().int().positive().optional(),
-    attendeeId: z.number().int().positive(),
-    voucherType: voucherTypeSchema,
-    bookingId: z.string().trim().max(64).nullable().optional(),
-    date: z.string().min(1, "Issue date is required"),
-    serviceType: z.string().trim().min(1, "Service type is required"),
-    propertyName: z.string().trim().min(1, "Name is required"),
-    address: z.string().trim().nullable().optional(),
-    checkinDate: z.string().nullable().optional(),
-    checkoutDate: z.string().nullable().optional(),
-    subBookingType: z.string().trim().nullable().optional(),
-    meal: z.string().trim().nullable().optional(),
-    payment: z.string().trim().nullable().optional(),
-    confirmedBy: z.string().trim().nullable().optional(),
-    serviceContact: z.string().trim().nullable().optional(),
-    confirmerContact: z.string().trim().nullable().optional(),
-    remarks: z.string().trim().nullable().optional(),
-  })
-  .refine(
-    (v) => !v.checkinDate || !v.checkoutDate || v.checkoutDate >= v.checkinDate,
-    {
-      path: ["checkoutDate"],
-      message: "Checkout must be on or after check-in",
-    },
-  );
+export const voucherBaseSchema = z.object({
+  id: z.number().int().positive().optional(),
+  attendeeId: z.number().int().positive(),
+  voucherType: voucherTypeSchema,
+  bookingId: z.string().trim().max(64).nullable().optional(),
+  date: z.string().min(1, "Issue date is required"),
+  serviceType: z.string().trim().min(1, "Service type is required"),
+  propertyName: z.string().trim().min(1, "Name is required"),
+  address: z.string().trim().nullable().optional(),
+  checkinDate: z.string().nullable().optional(),
+  checkoutDate: z.string().nullable().optional(),
+  subBookingType: z.string().trim().nullable().optional(),
+  meal: z.string().trim().nullable().optional(),
+  payment: z.string().trim().nullable().optional(),
+  confirmedBy: z.string().trim().nullable().optional(),
+  serviceContact: z.string().trim().nullable().optional(),
+  confirmerContact: z.string().trim().nullable().optional(),
+  remarks: z.string().trim().nullable().optional(),
+});
+
+export const voucherFormSchema = voucherBaseSchema.refine(
+  (v) => !v.checkinDate || !v.checkoutDate || v.checkoutDate >= v.checkinDate,
+  {
+    path: ["checkoutDate"],
+    message: "Checkout must be on or after check-in",
+  },
+);
 
 export type VoucherFormValues = z.output<typeof voucherFormSchema>;
 export type ReceiptMethod = z.output<typeof receiptMethodSchema>;
