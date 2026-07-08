@@ -1,27 +1,27 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState } from "react";
 
-import { Main } from '#/components/layout/main';
-import { ClientBookingsSearch } from '#/features/client-bookings/components/client-bookings-search';
-import { ClientBookingsSummary } from '#/features/client-bookings/components/client-bookings-summary';
-import { ClientBookingsTable } from '#/features/client-bookings/components/client-bookings-table';
-import { ClientDetailsHeader } from '#/features/client-bookings/components/client-details-header';
+import { Main } from "#/components/layout/main";
+import { ClientBookingsSearch } from "#/features/client-bookings/components/client-bookings-search";
+import { ClientBookingsSummary } from "#/features/client-bookings/components/client-bookings-summary";
+import { ClientBookingsTable } from "#/features/client-bookings/components/client-bookings-table";
+import { ClientDetailsHeader } from "#/features/client-bookings/components/client-details-header";
 import {
   useAvailableToursForClient,
   useClient,
   useClientBookings,
   useCreateClientBooking,
   useUpdateClientBooking,
-} from '#/features/client-bookings/hooks/use-client-bookings';
-import { ClientSheet } from '#/features/clients/components/client-sheet';
-import type { ClientFormValues } from '#/features/clients/data/schema';
-import { useUpdateClient } from '#/features/clients/hooks/use-clients';
-import { TourAttendeeSheet } from '#/features/tour-attendees/components/tour-attendee-sheet';
-import type { TourAttendeeWithTour } from '#/features/tour-attendees/data/schema';
+} from "#/features/client-bookings/hooks/use-client-bookings";
+import { ClientSheet } from "#/features/clients/components/client-sheet";
+import type { ClientFormValues } from "#/features/clients/data/schema";
+import { useUpdateClient } from "#/features/clients/hooks/use-clients";
+import { TourAttendeeSheet } from "#/features/tour-attendees/components/tour-attendee-sheet";
+import type { TourAttendeeWithTour } from "#/features/tour-attendees/data/schema";
 
 export function ClientDetailsPage({ clientId }: { clientId: number }) {
   const [editClientOpen, setEditClientOpen] = useState(false);
   const [bookingOpen, setBookingOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [selectedBooking, setSelectedBooking] =
     useState<TourAttendeeWithTour | null>(null);
   const clientQuery = useClient(clientId);
@@ -38,7 +38,7 @@ export function ClientDetailsPage({ clientId }: { clientId: number }) {
     [bookings, searchTerm],
   );
   const summary = useMemo(() => getBookingSummary(bookings), [bookings]);
-  const title = client?.name ?? 'Client details';
+  const title = client?.name ?? "Client details";
 
   const submitClient = async (values: ClientFormValues) => {
     await updateClientMutation.mutateAsync({ id: clientId, ...values });
@@ -73,7 +73,7 @@ export function ClientDetailsPage({ clientId }: { clientId: number }) {
         <ClientBookingsSearch
           searchTerm={searchTerm}
           onSearchTermChange={setSearchTerm}
-          onClearSearch={() => setSearchTerm('')}
+          onClearSearch={() => setSearchTerm("")}
         />
 
         <ClientBookingsTable
@@ -81,8 +81,8 @@ export function ClientDetailsPage({ clientId }: { clientId: number }) {
           isLoading={bookingsQuery.isLoading}
           emptyMessage={
             searchTerm.trim()
-              ? 'No bookings match your search.'
-              : 'No bookings yet.'
+              ? "No bookings match your search."
+              : "No bookings yet."
           }
           onEdit={(booking) => {
             setSelectedBooking(booking);
@@ -162,8 +162,8 @@ function getBookingSummary(bookings: TourAttendeeWithTour[]) {
 }
 
 function formatDate(value: Date | string | null | undefined) {
-  if (!value) return 'Not set';
+  if (!value) return "Not set";
   const date = value instanceof Date ? value : new Date(value);
-  if (Number.isNaN(date.getTime())) return 'Invalid date';
-  return new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' }).format(date);
+  if (Number.isNaN(date.getTime())) return "Invalid date";
+  return new Intl.DateTimeFormat("en-IN", { dateStyle: "medium" }).format(date);
 }
