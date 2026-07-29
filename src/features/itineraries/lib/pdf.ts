@@ -401,7 +401,7 @@ function buildOverview(
   });
 
   const estLines = Math.ceil(overview.length / 82);
-  const boxH = Math.max(40, Math.min(estLines * 14 + 22, 90));
+  const boxH = Math.max(40, estLines * 14 + 22);
   const boxY = y - 18 - boxH;
 
   page.drawRectangle({
@@ -449,14 +449,35 @@ function buildDayPlan(page: PDFPage, itin: Itinerary, startY: number): void {
   });
   y -= 28;
 
-  // Row height: 40px if there are any details (room for 1 detail line), 28px otherwise
-  const ROW_H = hasDetails ? 40 : 28;
   const DOT_R = 10;
   const dotCx = M + DOT_R;
   const maxRows = Math.min(itin.days, hasDetails ? 7 : 9);
+  // Rough chars per line for detail text (8.5px font, ~485px available width)
+  const CHARS_PER_LINE = 95;
 
+  // Pre-compute row heights and total block height
+  const rowHeights: number[] = [];
+  let totalBlockH = 0;
   for (let i = 0; i < maxRows; i++) {
-    const rowY = y - i * (ROW_H + 4);
+    const detail = details[i]?.trim() || null;
+    let rh: number;
+    if (detail) {
+      const lines = Math.ceil(detail.length / CHARS_PER_LINE);
+      rh = Math.max(40, lines * 11 + 22);
+    } else if (hasDetails) {
+      rh = 40;
+    } else {
+      rh = 28;
+    }
+    rowHeights.push(rh);
+    totalBlockH += rh + 4;
+  }
+
+  // Position rows from top of the section downward
+  let cursorY = y;
+  for (let i = 0; i < maxRows; i++) {
+    const rowY = cursorY;
+    const ROW_H = rowHeights[i];
     if (rowY - ROW_H < 88) break;
 
     const accent = DAY_ACCENTS[i % DAY_ACCENTS.length];
@@ -475,7 +496,7 @@ function buildDayPlan(page: PDFPage, itin: Itinerary, startY: number): void {
       cornerRadius: 4,
     });
 
-    // Day dot (circle)
+    // Day dot (circle) — vertically centered
     const dotTopY = rowY - ROW_H / 2 - DOT_R;
     page.drawRectangle({
       x: dotCx - DOT_R,
@@ -495,15 +516,17 @@ function buildDayPlan(page: PDFPage, itin: Itinerary, startY: number): void {
 
     // Connector line between dots
     if (i < maxRows - 1) {
+      const nextRowH = rowHeights[i + 1];
+      const nextRowY = cursorY - ROW_H - 4;
       page.drawLine({
         start: { x: dotCx, y: rowY - ROW_H },
-        end: { x: dotCx, y: rowY - ROW_H - 4 },
+        end: { x: dotCx, y: nextRowY - nextRowH },
         color: C.line,
         thickness: 1.5,
       });
     }
 
-    // "Day N" label — upper half of row
+    // "Day N" label — upper part of row
     const labelY = hasDetails ? rowY - 12 : rowY - ROW_H / 2 + 4;
     page.drawText(`Day ${i + 1}`, {
       x: M + 28,
@@ -514,7 +537,7 @@ function buildDayPlan(page: PDFPage, itin: Itinerary, startY: number): void {
     });
 
     if (detail) {
-      // Detail text — lower half of row
+      // Detail text — bottom of row, can span multiple lines
       page.drawText(detail, {
         x: M + 28,
         y: rowY - ROW_H + 8,
@@ -532,10 +555,12 @@ function buildDayPlan(page: PDFPage, itin: Itinerary, startY: number): void {
         color: C.muted,
       });
     }
+
+    cursorY -= ROW_H + 4;
   }
 
   if (itin.days > maxRows) {
-    const remainY = y - maxRows * (ROW_H + 4);
+    const remainY = cursorY;
     if (remainY > 88) {
       page.drawText(`... and ${itin.days - maxRows} more days`, {
         x: M + 28,
