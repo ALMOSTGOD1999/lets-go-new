@@ -87,16 +87,66 @@ function stampLogo(
 export async function shareItineraryPdf(itinerary: Itinerary) {
   const pdf = PDF.create();
   pdf.setTitle(`${itinerary.title} — Itinerary`);
-  const page = pdf.addPage({ size: "a4" });
   const logoPaths = await getLogoPaths();
 
+  // State tracked across pages
+  let page = pdf.addPage({ size: "a4" });
   let y = buildHeader(page, logoPaths, itinerary);
   y = buildStatsRow(page, itinerary, y);
+
   if (itinerary.overview?.trim()) {
     y = buildOverview(page, itinerary.overview, y);
+    // If overview pushed us past the footer threshold, add a continuation page
+    if (y < 88) {
+      buildFooter(page);
+      page = pdf.addPage({ size: "a4" });
+      y = buildContinuationHeader(page, logoPaths, itinerary);
+    }
   }
-  buildDayPlan(page, itinerary, y);
-  // Faint watermark logo in the body
+
+  // ── Day plan section ──────────────────────────────────────────────────────
+  y = buildDaySectionHeader(page, y);
+
+  const details = itinerary.dayDetails ?? [];
+  const hasDetails = details.some((d) => d?.trim());
+  const CHARS_PER_LINE = 95;
+  const ACCENTS = DAY_ACCENTS;
+
+  for (let i = 0; i < itinerary.days; i++) {
+    const detail = details[i]?.trim() || null;
+
+    // Calculate required row height for this day
+    let ROW_H: number;
+    if (detail) {
+      const lines = Math.ceil(detail.length / CHARS_PER_LINE);
+      ROW_H = Math.max(40, lines * 11 + 22);
+    } else if (hasDetails) {
+      ROW_H = 40;
+    } else {
+      ROW_H = 28;
+    }
+
+    // Check if this row fits; if not, start a new page
+    if (y - ROW_H < 60) {
+      buildFooter(page);
+      page = pdf.addPage({ size: "a4" });
+      y = buildContinuationHeader(page, logoPaths, itinerary);
+    }
+
+    y = drawDayRow(
+      page,
+      i,
+      detail,
+      y,
+      ROW_H,
+      hasDetails,
+      itinerary.destination,
+      ACCENTS,
+    );
+    y -= 4; // gap between rows
+  }
+
+  // Faint watermark logo in the body on every page
   stampLogo(page, logoPaths, 168, 268, 0.5, 0.04);
   buildFooter(page);
 
@@ -426,11 +476,9 @@ function buildOverview(
   return boxY - 14;
 }
 
-// ─── Day plan ─────────────────────────────────────────────────────────────────
-function buildDayPlan(page: PDFPage, itin: Itinerary, startY: number): void {
-  let y = startY - 20;
-  const details = itin.dayDetails ?? [];
-  const hasDetails = details.some((d) => d?.trim());
+// ─── Day plan section header ────────────────────────────────────────────────
+function buildDaySectionHeader(page: PDFPage, startY: number): number {
+  const y = startY - 20;
 
   page.drawRectangle({
     x: M,
@@ -447,129 +495,125 @@ function buildDayPlan(page: PDFPage, itin: Itinerary, startY: number): void {
     font: "Helvetica-Bold",
     color: C.navy,
   });
-  y -= 28;
 
+  return y - 28;
+}
+
+// ─── Draw a single day row ───────────────────────────────────────────────────
+function drawDayRow(
+  page: PDFPage,
+  index: number,
+  detail: string | null,
+  rowY: number,
+  ROW_H: number,
+  hasDetails: boolean,
+  destination: string,
+  accents: Color[],
+): number {
   const DOT_R = 10;
   const dotCx = M + DOT_R;
-  const maxRows = Math.min(itin.days, hasDetails ? 7 : 9);
-  // Rough chars per line for detail text (8.5px font, ~485px available width)
-  const CHARS_PER_LINE = 95;
+  const accent = accents[index % accents.length];
+  const rowBg = index % 2 === 0 ? C.soft : C.white;
 
-  // Pre-compute row heights and total block height
-  const rowHeights: number[] = [];
-  let totalBlockH = 0;
-  for (let i = 0; i < maxRows; i++) {
-    const detail = details[i]?.trim() || null;
-    let rh: number;
-    if (detail) {
-      const lines = Math.ceil(detail.length / CHARS_PER_LINE);
-      rh = Math.max(40, lines * 11 + 22);
-    } else if (hasDetails) {
-      rh = 40;
-    } else {
-      rh = 28;
-    }
-    rowHeights.push(rh);
-    totalBlockH += rh + 4;
-  }
+  // Row background
+  page.drawRectangle({
+    x: M,
+    y: rowY - ROW_H,
+    width: W - M * 2,
+    height: ROW_H,
+    color: rowBg,
+    borderColor: C.line,
+    borderWidth: 0.5,
+    cornerRadius: 4,
+  });
 
-  // Position rows from top of the section downward
-  let cursorY = y;
-  for (let i = 0; i < maxRows; i++) {
-    const rowY = cursorY;
-    const ROW_H = rowHeights[i];
-    if (rowY - ROW_H < 88) break;
+  // Day dot (circle) — vertically centered
+  const dotTopY = rowY - ROW_H / 2 - DOT_R;
+  page.drawRectangle({
+    x: dotCx - DOT_R,
+    y: dotTopY,
+    width: DOT_R * 2,
+    height: DOT_R * 2,
+    color: accent,
+    cornerRadius: DOT_R,
+  });
+  page.drawText(String(index + 1), {
+    x: dotCx - DOT_R,
+    y: dotTopY + 3,
+    size: 8,
+    font: "Helvetica-Bold",
+    color: C.white,
+    maxWidth: DOT_R * 2,
+    alignment: "center",
+  });
 
-    const accent = DAY_ACCENTS[i % DAY_ACCENTS.length];
-    const rowBg = i % 2 === 0 ? C.soft : C.white;
-    const detail = details[i]?.trim() || null;
+  // "Day N" label — upper part of row
+  const labelY = hasDetails ? rowY - 12 : rowY - ROW_H / 2 + 4;
+  page.drawText(`Day ${index + 1}`, {
+    x: M + 28,
+    y: labelY,
+    size: 9.5,
+    font: "Helvetica-Bold",
+    color: accent,
+  });
 
-    // Row background
-    page.drawRectangle({
-      x: M,
-      y: rowY - ROW_H,
-      width: W - M * 2,
-      height: ROW_H,
-      color: rowBg,
-      borderColor: C.line,
-      borderWidth: 0.5,
-      cornerRadius: 4,
-    });
-
-    // Day dot (circle) — vertically centered
-    const dotTopY = rowY - ROW_H / 2 - DOT_R;
-    page.drawRectangle({
-      x: dotCx - DOT_R,
-      y: dotTopY,
-      width: DOT_R * 2,
-      height: DOT_R * 2,
-      color: accent,
-      cornerRadius: DOT_R,
-    });
-    page.drawText(String(i + 1), {
-      x: dotCx - (i + 1 >= 10 ? 5.5 : 3),
-      y: dotTopY + 3,
-      size: 8,
-      font: "Helvetica-Bold",
-      color: C.white,
-    });
-
-    // Connector line between dots
-    if (i < maxRows - 1) {
-      const nextRowH = rowHeights[i + 1];
-      const nextRowY = cursorY - ROW_H - 4;
-      page.drawLine({
-        start: { x: dotCx, y: rowY - ROW_H },
-        end: { x: dotCx, y: nextRowY - nextRowH },
-        color: C.line,
-        thickness: 1.5,
-      });
-    }
-
-    // "Day N" label — upper part of row
-    const labelY = hasDetails ? rowY - 12 : rowY - ROW_H / 2 + 4;
-    page.drawText(`Day ${i + 1}`, {
+  if (detail) {
+    // Detail text — bottom of row, can span multiple lines
+    page.drawText(detail, {
       x: M + 28,
-      y: labelY,
-      size: 9.5,
-      font: "Helvetica-Bold",
-      color: accent,
+      y: rowY - ROW_H + 8,
+      size: 8.5,
+      color: C.ink,
+      maxWidth: W - M * 2 - 56,
+      lineHeight: 11,
     });
-
-    if (detail) {
-      // Detail text — bottom of row, can span multiple lines
-      page.drawText(detail, {
-        x: M + 28,
-        y: rowY - ROW_H + 8,
-        size: 8.5,
-        color: C.ink,
-        maxWidth: W - M - 70,
-        lineHeight: 11,
-      });
-    } else {
-      // Destination as subtle subtitle on same line
-      page.drawText(itin.destination, {
-        x: M + 86,
-        y: labelY,
-        size: 8.5,
-        color: C.muted,
-      });
-    }
-
-    cursorY -= ROW_H + 4;
+  } else {
+    // Destination as subtle subtitle on same line
+    page.drawText(destination, {
+      x: M + 86,
+      y: labelY,
+      size: 8.5,
+      color: C.muted,
+    });
   }
 
-  if (itin.days > maxRows) {
-    const remainY = cursorY;
-    if (remainY > 88) {
-      page.drawText(`... and ${itin.days - maxRows} more days`, {
-        x: M + 28,
-        y: remainY + 4,
-        size: 8.5,
-        color: C.muted,
-      });
-    }
-  }
+  return rowY;
+}
+
+// ─── Continuation page header (thinner, for pages beyond the first) ─────────
+function buildContinuationHeader(
+  page: PDFPage,
+  logoPaths: SvgPath[],
+  itin: Itinerary,
+): number {
+  // Company strip at the top
+  page.drawRectangle({ x: 0, y: 790, width: W, height: 44, color: C.soft });
+  page.drawRectangle({ x: 0, y: 834, width: W, height: 8, color: C.green });
+  page.drawRectangle({ x: 188, y: 834, width: 160, height: 8, color: C.teal });
+  page.drawRectangle({
+    x: 348,
+    y: 834,
+    width: 247,
+    height: 8,
+    color: C.orange,
+  });
+
+  stampLogo(page, logoPaths, M, 836, 0.1, 1);
+  page.drawText(COMPANY.name.toUpperCase(), {
+    x: M + 68,
+    y: 820,
+    size: 12,
+    font: "Helvetica-Bold",
+    color: C.navy,
+  });
+  page.drawText(`${itin.title} — Continued`, {
+    x: M + 68,
+    y: 806,
+    size: 8.5,
+    color: C.muted,
+  });
+
+  return 772;
 }
 
 // ─── Footer ───────────────────────────────────────────────────────────────────
