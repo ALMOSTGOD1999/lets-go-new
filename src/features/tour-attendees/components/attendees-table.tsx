@@ -1,16 +1,16 @@
-import { Link } from '@tanstack/react-router';
-import { MoreHorizontalIcon } from 'lucide-react';
-import type React from 'react';
+import { Link } from "@tanstack/react-router";
+import { MoreHorizontalIcon } from "lucide-react";
+import type React from "react";
 
-import { Badge } from '#/components/ui/badge';
-import { Button } from '#/components/ui/button';
+import { Badge } from "#/components/ui/badge";
+import { Button } from "#/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '#/components/ui/dropdown-menu';
+} from "#/components/ui/dropdown-menu";
 import {
   Table,
   TableBody,
@@ -18,8 +18,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '#/components/ui/table';
-import type { TourAttendeeWithClient } from '#/features/tour-attendees/data/schema';
+} from "#/components/ui/table";
+import type { TourAttendeeWithClient } from "#/features/tour-attendees/data/schema";
 
 export function AttendeesTable({
   attendees,
@@ -82,9 +82,9 @@ export function AttendeesTable({
                   </TableCell>
                   <TableCell>
                     {attendee.adultCount} adult
-                    {attendee.adultCount === 1 ? '' : 's'} ·{' '}
+                    {attendee.adultCount === 1 ? "" : "s"} ·{" "}
                     {attendee.childCount} child
-                    {attendee.childCount === 1 ? '' : 'ren'}
+                    {attendee.childCount === 1 ? "" : "ren"}
                   </TableCell>
                   <TableCell>{formatCurrency(attendee.subtotal)}</TableCell>
                   <TableCell>{formatCurrency(attendee.gstTotal)}</TableCell>
@@ -161,8 +161,8 @@ export function AttendeesTable({
               <div className="mt-3 grid grid-cols-2 gap-3 text-sm">
                 <Metric label="Travelers">
                   {attendee.adultCount} adult
-                  {attendee.adultCount === 1 ? '' : 's'} · {attendee.childCount}{' '}
-                  child{attendee.childCount === 1 ? '' : 'ren'}
+                  {attendee.adultCount === 1 ? "" : "s"} · {attendee.childCount}{" "}
+                  child{attendee.childCount === 1 ? "" : "ren"}
                 </Metric>
                 <Metric label="Balance">
                   {formatCurrency(attendee.balanceAmount)}
@@ -176,7 +176,7 @@ export function AttendeesTable({
               </div>
               <div className="mt-3 flex items-center justify-between gap-3 border-t border-border/60 pt-3">
                 <div className="text-xs text-muted-foreground">
-                  Base {formatCurrency(attendee.subtotal)} · GST{' '}
+                  Base {formatCurrency(attendee.subtotal)} · GST{" "}
                   {formatCurrency(attendee.gstTotal)}
                 </div>
                 <AttendeeActionsMenu
@@ -270,26 +270,27 @@ function EmptyState({ children }: { children: React.ReactNode }) {
   );
 }
 function formatCurrency(value: number) {
-  return new Intl.NumberFormat('en-IN', {
-    style: 'currency',
-    currency: 'INR',
-    maximumFractionDigits: 0,
+  return new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
   }).format(value);
 }
-function formatStatus(status: TourAttendeeWithClient['paymentStatus']) {
+function formatStatus(status: TourAttendeeWithClient["paymentStatus"]) {
   return {
-    unpaid: 'Unpaid',
-    partial: 'Partial',
-    paid: 'Paid',
-    overpaid: 'Overpaid',
+    unpaid: "Unpaid",
+    partial: "Partial",
+    paid: "Paid",
+    overpaid: "Overpaid",
   }[status];
 }
-function formatStatusVariant(status: TourAttendeeWithClient['paymentStatus']) {
-  return status === 'paid'
-    ? 'secondary'
-    : status === 'partial'
-      ? 'outline'
-      : status === 'overpaid'
-        ? 'default'
-        : 'destructive';
+function formatStatusVariant(status: TourAttendeeWithClient["paymentStatus"]) {
+  return status === "paid"
+    ? "secondary"
+    : status === "partial"
+      ? "outline"
+      : status === "overpaid"
+        ? "default"
+        : "destructive";
 }

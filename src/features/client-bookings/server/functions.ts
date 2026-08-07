@@ -1,11 +1,11 @@
-import { createServerFn } from '@tanstack/react-start';
-import { and, asc, eq, isNull, notExists, sql } from 'drizzle-orm';
-import { z } from 'zod';
+import { createServerFn } from "@tanstack/react-start";
+import { and, asc, eq, isNull, notExists, sql } from "drizzle-orm";
+import { z } from "zod";
 
-import { clients, receipts, tourAttendees, tours } from '#/db/schema';
-import { calculateAttendeeBilling } from '#/features/tour-attendees/lib/calculations';
+import { clients, receipts, tourAttendees, tours } from "#/db/schema";
+import { calculateAttendeeBilling } from "#/features/tour-attendees/lib/calculations";
 
-export const getClientById = createServerFn({ method: 'GET' })
+export const getClientById = createServerFn({ method: "GET" })
   .inputValidator(z.object({ id: z.number().int().positive() }))
   .handler(async ({ data }) => {
     const db = await getServerDb();
@@ -23,11 +23,11 @@ export const getClientById = createServerFn({ method: 'GET' })
       .where(and(eq(clients.id, data.id), isNull(clients.deletedAt)))
       .limit(1);
 
-    if (!client) throw new Error('Client not found');
+    if (!client) throw new Error("Client not found");
     return client;
   });
 
-export const listClientBookings = createServerFn({ method: 'GET' })
+export const listClientBookings = createServerFn({ method: "GET" })
   .inputValidator(z.object({ clientId: z.number().int().positive() }))
   .handler(async ({ data }) => {
     const db = await getServerDb();
@@ -43,7 +43,7 @@ export const listClientBookings = createServerFn({ method: 'GET' })
         adultGstPercent: tourAttendees.adultGstPercent,
         childGstPercent: tourAttendees.childGstPercent,
         discountAmount: tourAttendees.discountAmount,
-        receivedAmount: sql<number>`coalesce((select sum(${receipts.amount}) from ${receipts} where ${receipts.attendeeId} = ${tourAttendees.id}), 0)::int`,
+        receivedAmount: sql<number>`coalesce((select sum(${receipts.amount}) from ${receipts} where ${receipts.attendeeId} = ${tourAttendees.id}), 0)::double precision`,
         createdAt: tourAttendees.createdAt,
         updatedAt: tourAttendees.updatedAt,
         tourName: tours.name,
@@ -69,7 +69,7 @@ export const listClientBookings = createServerFn({ method: 'GET' })
     return rows.map((row) => ({ ...row, ...calculateAttendeeBilling(row) }));
   });
 
-export const listAvailableToursForClient = createServerFn({ method: 'GET' })
+export const listAvailableToursForClient = createServerFn({ method: "GET" })
   .inputValidator(z.object({ clientId: z.number().int().positive() }))
   .handler(async ({ data }) => {
     const db = await getServerDb();
@@ -107,6 +107,6 @@ export const listAvailableToursForClient = createServerFn({ method: 'GET' })
   });
 
 async function getServerDb() {
-  const { getDb } = await import('#/db/index.server');
+  const { getDb } = await import("#/db/index.server");
   return getDb();
 }

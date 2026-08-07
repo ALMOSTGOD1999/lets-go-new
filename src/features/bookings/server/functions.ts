@@ -12,7 +12,7 @@ import {
 import { calculateAttendeeBilling } from "#/features/tour-attendees/lib/calculations";
 
 const attendeeSchema = z.object({ attendeeId: z.number().int().positive() });
-const receiptTotalSql = sql<number>`coalesce((select sum(${receipts.amount}) from ${receipts} where ${receipts.attendeeId} = ${tourAttendees.id}), 0)::int`;
+const receiptTotalSql = sql<number>`coalesce((select sum(${receipts.amount}) from ${receipts} where ${receipts.attendeeId} = ${tourAttendees.id}), 0)::double precision`;
 
 export const getBookingContext = createServerFn({ method: "GET" })
   .inputValidator(attendeeSchema)

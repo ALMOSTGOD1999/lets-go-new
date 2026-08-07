@@ -1,15 +1,15 @@
-import { Link } from '@tanstack/react-router';
-import { MoreHorizontalIcon } from 'lucide-react';
+import { Link } from "@tanstack/react-router";
+import { MoreHorizontalIcon } from "lucide-react";
 
-import { Badge } from '#/components/ui/badge';
-import { Button } from '#/components/ui/button';
+import { Badge } from "#/components/ui/badge";
+import { Button } from "#/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '#/components/ui/dropdown-menu';
+} from "#/components/ui/dropdown-menu";
 import {
   Table,
   TableBody,
@@ -17,14 +17,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '#/components/ui/table';
-import type { TourAttendeeWithTour } from '#/features/tour-attendees/data/schema';
+} from "#/components/ui/table";
+import type { TourAttendeeWithTour } from "#/features/tour-attendees/data/schema";
 
 export function ClientBookingsTable({
   bookings,
   isLoading,
   onEdit,
-  emptyMessage = 'No bookings yet.',
+  emptyMessage = "No bookings yet.",
 }: {
   bookings: TourAttendeeWithTour[];
   isLoading: boolean;
@@ -73,7 +73,7 @@ export function ClientBookingsTable({
                     </Button>
                   </TableCell>
                   <TableCell>
-                    {formatDate(booking.tourStartDate)} –{' '}
+                    {formatDate(booking.tourStartDate)} –{" "}
                     {formatDate(booking.tourEndDate)}
                   </TableCell>
                   <TableCell>
@@ -132,7 +132,7 @@ export function ClientBookingsTable({
                     {booking.tourName}
                   </Button>
                   <p className="text-sm text-muted-foreground">
-                    {formatDate(booking.tourStartDate)} –{' '}
+                    {formatDate(booking.tourStartDate)} –{" "}
                     {formatDate(booking.tourEndDate)}
                   </p>
                 </div>
@@ -144,8 +144,8 @@ export function ClientBookingsTable({
               <div className="mt-3 grid grid-cols-2 gap-3 text-sm">
                 <Metric label="Travelers">
                   {booking.adultCount} adult
-                  {booking.adultCount === 1 ? '' : 's'} · {booking.childCount}{' '}
-                  child{booking.childCount === 1 ? '' : 'ren'}
+                  {booking.adultCount === 1 ? "" : "s"} · {booking.childCount}{" "}
+                  child{booking.childCount === 1 ? "" : "ren"}
                 </Metric>
                 <Metric label="Balance">
                   {formatCurrency(booking.balanceAmount)}
@@ -160,7 +160,7 @@ export function ClientBookingsTable({
 
               <div className="mt-3 flex items-center justify-between gap-3 border-t border-border/60 pt-3">
                 <div className="text-xs text-muted-foreground">
-                  Dates {formatDate(booking.tourStartDate)} –{' '}
+                  Dates {formatDate(booking.tourStartDate)} –{" "}
                   {formatDate(booking.tourEndDate)}
                 </div>
                 <BookingActionsMenu booking={booking} onEdit={onEdit} />
@@ -221,19 +221,19 @@ function BookingActionsMenu({
   );
 }
 
-function getStatusVariant(status: TourAttendeeWithTour['paymentStatus']) {
-  if (status === 'paid') return 'secondary';
-  if (status === 'partial') return 'outline';
-  if (status === 'overpaid') return 'default';
-  return 'destructive';
+function getStatusVariant(status: TourAttendeeWithTour["paymentStatus"]) {
+  if (status === "paid") return "secondary";
+  if (status === "partial") return "outline";
+  if (status === "overpaid") return "default";
+  return "destructive";
 }
 
-function formatStatus(status: TourAttendeeWithTour['paymentStatus']) {
+function formatStatus(status: TourAttendeeWithTour["paymentStatus"]) {
   return {
-    unpaid: 'Unpaid',
-    partial: 'Partial',
-    paid: 'Paid',
-    overpaid: 'Overpaid',
+    unpaid: "Unpaid",
+    partial: "Partial",
+    paid: "Paid",
+    overpaid: "Overpaid",
   }[status];
 }
 
@@ -263,16 +263,17 @@ function EmptyState({ children }: { children: React.ReactNode }) {
 }
 
 function formatCurrency(value: number) {
-  return new Intl.NumberFormat('en-IN', {
-    style: 'currency',
-    currency: 'INR',
-    maximumFractionDigits: 0,
+  return new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
   }).format(value);
 }
 
 function formatDate(value: Date | string | null | undefined) {
-  if (!value) return 'Not set';
+  if (!value) return "Not set";
   const date = value instanceof Date ? value : new Date(value);
-  if (Number.isNaN(date.getTime())) return 'Invalid date';
-  return new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' }).format(date);
+  if (Number.isNaN(date.getTime())) return "Invalid date";
+  return new Intl.DateTimeFormat("en-IN", { dateStyle: "medium" }).format(date);
 }

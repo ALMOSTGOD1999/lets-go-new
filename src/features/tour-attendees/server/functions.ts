@@ -1,15 +1,15 @@
-import { createServerFn } from '@tanstack/react-start';
-import { and, asc, eq, isNull, sql } from 'drizzle-orm';
-import { z } from 'zod';
+import { createServerFn } from "@tanstack/react-start";
+import { and, asc, eq, isNull, sql } from "drizzle-orm";
+import { z } from "zod";
 
-import { clients, receipts, tourAttendees, tours } from '#/db/schema';
-import type { TourAttendeeWithClient } from '#/features/tour-attendees/data/schema';
+import { clients, receipts, tourAttendees, tours } from "#/db/schema";
+import type { TourAttendeeWithClient } from "#/features/tour-attendees/data/schema";
 import {
   createTourAttendeeInputSchema,
   type TourAttendeeInput,
   updateTourAttendeeInputSchema,
-} from '#/features/tour-attendees/data/schema';
-import { calculateAttendeeBilling } from '#/features/tour-attendees/lib/calculations';
+} from "#/features/tour-attendees/data/schema";
+import { calculateAttendeeBilling } from "#/features/tour-attendees/lib/calculations";
 
 const selectTourAttendeeColumns = {
   id: tourAttendees.id,
@@ -26,9 +26,9 @@ const selectTourAttendeeColumns = {
   updatedAt: tourAttendees.updatedAt,
 };
 
-const receiptTotalSql = sql<number>`coalesce((select sum(${receipts.amount}) from ${receipts} where ${receipts.attendeeId} = ${tourAttendees.id}), 0)::int`;
+const receiptTotalSql = sql<number>`coalesce((select sum(${receipts.amount}) from ${receipts} where ${receipts.attendeeId} = ${tourAttendees.id}), 0)::double precision`;
 
-export const getTourById = createServerFn({ method: 'GET' })
+export const getTourById = createServerFn({ method: "GET" })
   .inputValidator(z.object({ id: z.number().int().positive() }))
   .handler(async ({ data }) => {
     const db = await getServerDb();
@@ -46,11 +46,11 @@ export const getTourById = createServerFn({ method: 'GET' })
       .where(and(eq(tours.id, data.id), isNull(tours.deletedAt)))
       .limit(1);
 
-    if (!tour) throw new Error('Tour not found');
+    if (!tour) throw new Error("Tour not found");
     return tour;
   });
 
-export const listTourAttendees = createServerFn({ method: 'GET' })
+export const listTourAttendees = createServerFn({ method: "GET" })
   .inputValidator(z.object({ tourId: z.number().int().positive() }))
   .handler(async ({ data }) => {
     const db = await getServerDb();
@@ -76,7 +76,7 @@ export const listTourAttendees = createServerFn({ method: 'GET' })
     return rows.map(addBilling);
   });
 
-export const createTourAttendee = createServerFn({ method: 'POST' })
+export const createTourAttendee = createServerFn({ method: "POST" })
   .inputValidator(createTourAttendeeInputSchema)
   .handler(async ({ data }) => {
     const db = await getServerDb();
@@ -87,7 +87,7 @@ export const createTourAttendee = createServerFn({ method: 'POST' })
       .limit(1);
 
     if (!tour) {
-      throw new Error('Tour not found');
+      throw new Error("Tour not found");
     }
 
     const [client] = await db
@@ -97,7 +97,7 @@ export const createTourAttendee = createServerFn({ method: 'POST' })
       .limit(1);
 
     if (!client) {
-      throw new Error('Client not found');
+      throw new Error("Client not found");
     }
 
     const [existing] = await db
@@ -113,7 +113,7 @@ export const createTourAttendee = createServerFn({ method: 'POST' })
       .limit(1);
 
     if (existing) {
-      throw new Error('This client is already added to this tour');
+      throw new Error("This client is already added to this tour");
     }
 
     const [row] = await db
@@ -124,7 +124,7 @@ export const createTourAttendee = createServerFn({ method: 'POST' })
     return row;
   });
 
-export const updateTourAttendee = createServerFn({ method: 'POST' })
+export const updateTourAttendee = createServerFn({ method: "POST" })
   .inputValidator(updateTourAttendeeInputSchema)
   .handler(async ({ data }) => {
     const db = await getServerDb();
@@ -136,7 +136,7 @@ export const updateTourAttendee = createServerFn({ method: 'POST' })
       .returning(selectTourAttendeeColumns);
 
     if (!row) {
-      throw new Error('Attendee not found');
+      throw new Error("Attendee not found");
     }
 
     return row;
@@ -172,6 +172,6 @@ function addBilling(
 }
 
 async function getServerDb() {
-  const { getDb } = await import('#/db/index.server');
+  const { getDb } = await import("#/db/index.server");
   return getDb();
 }

@@ -28,6 +28,8 @@ const C = {
   line: rgb(0.86, 0.9, 0.95),
   soft: rgb(0.97, 0.98, 1),
   white: rgb(1, 1, 1),
+  pageTint: rgb(0.985, 0.99, 1),
+  panelBorder: rgb(0.82, 0.88, 0.94),
 };
 
 const DAY_ACCENTS: Color[] = [C.teal, C.orange, C.green, C.gold];

@@ -141,20 +141,32 @@ export function ItinerarySheet({
                         name={field.name}
                         type="number"
                         min={1}
-                        value={field.state.value}
+                        value={
+                          Number.isNaN(field.state.value)
+                            ? ""
+                            : field.state.value
+                        }
                         aria-invalid={isInvalid}
-                        onBlur={field.handleBlur}
+                        onBlur={() => {
+                          const nextValue = Number.isNaN(field.state.value)
+                            ? 1
+                            : Math.max(1, field.state.value);
+                          field.handleChange(nextValue);
+                          syncDayDetailsLength(form, nextValue);
+                          field.handleBlur();
+                        }}
                         onChange={(e) => {
-                          const n = Math.max(1, parseInt(e.target.value) || 1);
-                          field.handleChange(n);
-                          // Keep dayDetails array length in sync
-                          const curr: string[] =
-                            (form.store.state.values as ItineraryFormValues)
-                              .dayDetails ?? [];
-                          form.setFieldValue(
-                            "dayDetails",
-                            Array.from({ length: n }, (_, i) => curr[i] ?? ""),
+                          if (e.target.value === "") {
+                            field.handleChange(Number.NaN);
+                            return;
+                          }
+
+                          const n = Math.max(
+                            1,
+                            parseInt(e.target.value, 10) || 1,
                           );
+                          field.handleChange(n);
+                          syncDayDetailsLength(form, n);
                         }}
                       />
                       {isInvalid && (
@@ -177,12 +189,27 @@ export function ItinerarySheet({
                         name={field.name}
                         type="number"
                         min={0}
-                        value={field.state.value}
-                        aria-invalid={isInvalid}
-                        onBlur={field.handleBlur}
-                        onChange={(e) =>
-                          field.handleChange(Number(e.target.value))
+                        value={
+                          Number.isNaN(field.state.value)
+                            ? ""
+                            : field.state.value
                         }
+                        aria-invalid={isInvalid}
+                        onBlur={() => {
+                          field.handleChange(
+                            Number.isNaN(field.state.value)
+                              ? 0
+                              : Math.max(0, field.state.value),
+                          );
+                          field.handleBlur();
+                        }}
+                        onChange={(e) => {
+                          field.handleChange(
+                            e.target.value === ""
+                              ? Number.NaN
+                              : Math.max(0, Number(e.target.value)),
+                          );
+                        }}
                       />
                       {isInvalid && (
                         <FieldError errors={field.state.meta.errors} />
@@ -335,4 +362,20 @@ function getDefaultValues(itinerary: Itinerary | null): ItineraryFormValues {
       (_, i) => (itinerary?.dayDetails ?? [])[i] ?? "",
     ),
   };
+}
+
+function syncDayDetailsLength(
+  form: {
+    store: { state: { values: ItineraryFormValues } };
+    setFieldValue: (field: "dayDetails", value: string[]) => void;
+  },
+  days: number,
+) {
+  const currentValues = form.store.state.values as ItineraryFormValues;
+  const currentDayDetails = currentValues.dayDetails ?? [];
+
+  form.setFieldValue(
+    "dayDetails",
+    Array.from({ length: days }, (_, index) => currentDayDetails[index] ?? ""),
+  );
 }

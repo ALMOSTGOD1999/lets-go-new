@@ -4,14 +4,6 @@ $ vite build
 [2Ktransforming...
 [@tanstack/devtools-vite] Removed devtools code from: /src/routes/__root.tsx
 
-[33m[plugin tanstack-start-core::server-fn:client] C:/Users/mukho/Downloads/letsgonew/src/features/tour-attendees/server/functions.ts:31:28 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
-[33m[plugin tanstack-start-core::server-fn:client] C:/Users/mukho/Downloads/letsgonew/src/features/tour-attendees/server/functions.ts:53:34 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
-[33m[plugin tanstack-start-core::server-fn:client] C:/Users/mukho/Downloads/letsgonew/src/features/tour-attendees/server/functions.ts:79:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
-[33m[plugin tanstack-start-core::server-fn:client] C:/Users/mukho/Downloads/letsgonew/src/features/tour-attendees/server/functions.ts:127:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
-[33m[plugin tanstack-start-core::server-fn:client] C:/Users/mukho/Downloads/letsgonew/src/features/tours/server/functions.ts:34:26 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
-[33m[plugin tanstack-start-core::server-fn:client] C:/Users/mukho/Downloads/letsgonew/src/features/tours/server/functions.ts:81:27 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
-[33m[plugin tanstack-start-core::server-fn:client] C:/Users/mukho/Downloads/letsgonew/src/features/tours/server/functions.ts:93:27 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
-[33m[plugin tanstack-start-core::server-fn:client] C:/Users/mukho/Downloads/letsgonew/src/features/tours/server/functions.ts:110:27 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 [33m[plugin tanstack-start-core::server-fn:client] C:/Users/mukho/Downloads/letsgonew/src/features/clients/server/functions.ts:45:28 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 [33m[plugin tanstack-start-core::server-fn:client] C:/Users/mukho/Downloads/letsgonew/src/features/clients/server/functions.ts:94:29 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 [33m[plugin tanstack-start-core::server-fn:client] C:/Users/mukho/Downloads/letsgonew/src/features/clients/server/functions.ts:137:29 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
@@ -20,6 +12,14 @@ $ vite build
 [33m[plugin tanstack-start-core::server-fn:client] C:/Users/mukho/Downloads/letsgonew/src/features/itineraries/server/functions.ts:78:32 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 [33m[plugin tanstack-start-core::server-fn:client] C:/Users/mukho/Downloads/letsgonew/src/features/itineraries/server/functions.ts:102:32 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 [33m[plugin tanstack-start-core::server-fn:client] C:/Users/mukho/Downloads/letsgonew/src/features/itineraries/server/functions.ts:129:32 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+[33m[plugin tanstack-start-core::server-fn:client] C:/Users/mukho/Downloads/letsgonew/src/features/tour-attendees/server/functions.ts:31:28 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+[33m[plugin tanstack-start-core::server-fn:client] C:/Users/mukho/Downloads/letsgonew/src/features/tour-attendees/server/functions.ts:53:34 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+[33m[plugin tanstack-start-core::server-fn:client] C:/Users/mukho/Downloads/letsgonew/src/features/tour-attendees/server/functions.ts:79:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+[33m[plugin tanstack-start-core::server-fn:client] C:/Users/mukho/Downloads/letsgonew/src/features/tour-attendees/server/functions.ts:127:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+[33m[plugin tanstack-start-core::server-fn:client] C:/Users/mukho/Downloads/letsgonew/src/features/tours/server/functions.ts:34:26 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+[33m[plugin tanstack-start-core::server-fn:client] C:/Users/mukho/Downloads/letsgonew/src/features/tours/server/functions.ts:81:27 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+[33m[plugin tanstack-start-core::server-fn:client] C:/Users/mukho/Downloads/letsgonew/src/features/tours/server/functions.ts:93:27 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+[33m[plugin tanstack-start-core::server-fn:client] C:/Users/mukho/Downloads/letsgonew/src/features/tours/server/functions.ts:110:27 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 [33m[plugin tanstack-start-core::server-fn:client] C:/Users/mukho/Downloads/letsgonew/src/features/client-bookings/server/functions.ts:8:30 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 [33m[plugin tanstack-start-core::server-fn:client] C:/Users/mukho/Downloads/letsgonew/src/features/client-bookings/server/functions.ts:30:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 [33m[plugin tanstack-start-core::server-fn:client] C:/Users/mukho/Downloads/letsgonew/src/features/client-bookings/server/functions.ts:72:44 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
@@ -48,76 +48,76 @@ computing gzip size...
 .output/public/assets/geist-latin-wght-normal-BgDaEnEv.woff2          29.40 kB
 .output/public/assets/styles-8ov2WyTt.css                             97.55 kB │ gzip:  16.04 kB
 .output/public/assets/root-DLTE-HSj.js                                 0.03 kB │ gzip:   0.05 kB
-.output/public/assets/404-6pUxWnjC.js                                  0.07 kB │ gzip:   0.08 kB
-.output/public/assets/500-CLxXQYdI.js                                  0.07 kB │ gzip:   0.08 kB
-.output/public/assets/403-Bqgj3Ciz.js                                  0.08 kB │ gzip:   0.09 kB
-.output/public/assets/400-CjFhM_iI.js                                  0.08 kB │ gzip:   0.09 kB
-.output/public/assets/503-CKlic9Gn.js                                  0.08 kB │ gzip:   0.09 kB
-.output/public/assets/401-ubEyjur7.js                                  0.08 kB │ gzip:   0.09 kB
-.output/public/assets/429-C0sqhdsF.js                                  0.08 kB │ gzip:   0.09 kB
+.output/public/assets/404-C2O8N7Zi.js                                  0.07 kB │ gzip:   0.08 kB
+.output/public/assets/500-CxABlNX2.js                                  0.07 kB │ gzip:   0.08 kB
+.output/public/assets/403-C8n61wlL.js                                  0.08 kB │ gzip:   0.09 kB
+.output/public/assets/400-hmmvAriJ.js                                  0.08 kB │ gzip:   0.09 kB
+.output/public/assets/503-lE4eo9ci.js                                  0.08 kB │ gzip:   0.09 kB
+.output/public/assets/401-CqU2e6HI.js                                  0.08 kB │ gzip:   0.09 kB
+.output/public/assets/429-DUBA-SBF.js                                  0.08 kB │ gzip:   0.09 kB
 .output/public/assets/useRouter-DJWOoCEu.js                            0.14 kB │ gzip:   0.14 kB
 .output/public/assets/main-Cqr1BRNV.js                                 0.19 kB │ gzip:   0.17 kB
 .output/public/assets/skeleton-D_ePdvNY.js                             0.20 kB │ gzip:   0.17 kB
-.output/public/assets/ellipsis-BLK9ID6c.js                             0.21 kB │ gzip:   0.15 kB
-.output/public/assets/log-out-Dc8jUwqN.js                              0.21 kB │ gzip:   0.18 kB
-.output/public/assets/plus-BuhwHEhx.js                                 0.21 kB │ gzip:   0.18 kB
+.output/public/assets/ellipsis-CgcDW98p.js                             0.21 kB │ gzip:   0.15 kB
+.output/public/assets/log-out-BeAhXmtt.js                              0.21 kB │ gzip:   0.18 kB
+.output/public/assets/plus-B0PCF-UH.js                                 0.21 kB │ gzip:   0.18 kB
 .output/public/assets/useNavigate-CYkM_430.js                          0.22 kB │ gzip:   0.18 kB
-.output/public/assets/bookings_._attendeeId.vouchers-DEMyYyvA.js       0.23 kB │ gzip:   0.19 kB
-.output/public/assets/spinner-DRpD9-8N.js                              0.23 kB │ gzip:   0.20 kB
-.output/public/assets/bookings_._attendeeId.receipts-BwE71ZlQ.js       0.24 kB │ gzip:   0.19 kB
-.output/public/assets/calendar-D7VAHI7Z.js                             0.24 kB │ gzip:   0.19 kB
-.output/public/assets/users-DwUJ5UnT.js                                0.29 kB │ gzip:   0.21 kB
-.output/public/assets/forbidden-error-DMDzfZZf.js                      0.31 kB │ gzip:   0.24 kB
-.output/public/assets/bad-request-error-DsaXqcgI.js                    0.31 kB │ gzip:   0.25 kB
-.output/public/assets/too-many-requests-error-gKoreqa7.js              0.32 kB │ gzip:   0.25 kB
-.output/public/assets/maintenance-error-DQpbrtA-.js                    0.36 kB │ gzip:   0.28 kB
-.output/public/assets/unauthorized-error-D4rPPB3d.js                   0.37 kB │ gzip:   0.28 kB
-.output/public/assets/eye-off-DGr57u8q.js                              0.41 kB │ gzip:   0.26 kB
+.output/public/assets/bookings_._attendeeId.vouchers-E_8c8DK8.js       0.23 kB │ gzip:   0.18 kB
+.output/public/assets/spinner-yPrRyZ8x.js                              0.23 kB │ gzip:   0.20 kB
+.output/public/assets/bookings_._attendeeId.receipts-BCuULh1h.js       0.24 kB │ gzip:   0.19 kB
+.output/public/assets/calendar-Do2D9j7G.js                             0.24 kB │ gzip:   0.19 kB
+.output/public/assets/users-nwn8xg67.js                                0.29 kB │ gzip:   0.22 kB
+.output/public/assets/forbidden-error-BS1i5bJ1.js                      0.31 kB │ gzip:   0.24 kB
+.output/public/assets/bad-request-error-BcKRSQiA.js                    0.31 kB │ gzip:   0.25 kB
+.output/public/assets/too-many-requests-error-tOl0lpGE.js              0.32 kB │ gzip:   0.25 kB
+.output/public/assets/maintenance-error-CFYsOIcq.js                    0.36 kB │ gzip:   0.28 kB
+.output/public/assets/unauthorized-error-CFEGkMpy.js                   0.37 kB │ gzip:   0.28 kB
+.output/public/assets/eye-off-ppziMNl3.js                              0.41 kB │ gzip:   0.26 kB
 .output/public/assets/redirect-C-eRQtnH.js                             0.55 kB │ gzip:   0.33 kB
-.output/public/assets/_error-C52N2gJg.js                               0.58 kB │ gzip:   0.33 kB
+.output/public/assets/_error-B97d69-J.js                               0.58 kB │ gzip:   0.33 kB
 .output/public/assets/utils-B8fL8PDJ.js                                0.60 kB │ gzip:   0.35 kB
 .output/public/assets/badge--9sKbYex.js                                0.63 kB │ gzip:   0.35 kB
 .output/public/assets/textarea-w3nRoXyd.js                             0.72 kB │ gzip:   0.39 kB
-.output/public/assets/masterkey-dialog-h6gxPxUQ.js                     0.92 kB │ gzip:   0.51 kB
-.output/public/assets/offline-CllnlBbm.js                              1.25 kB │ gzip:   0.61 kB
-.output/public/assets/use-clients-CkK9vKlD.js                          1.47 kB │ gzip:   0.66 kB
+.output/public/assets/masterkey-dialog-BjQD2cHU.js                     0.92 kB │ gzip:   0.52 kB
+.output/public/assets/offline-DODw7kcS.js                              1.25 kB │ gzip:   0.62 kB
+.output/public/assets/use-clients-Dws93APf.js                          1.47 kB │ gzip:   0.66 kB
 .output/public/assets/card-5pEqxgRJ.js                                 1.59 kB │ gzip:   0.58 kB
 .output/public/assets/with-selector-BlmI59Oj.js                        1.67 kB │ gzip:   0.75 kB
-.output/public/assets/login-Dp9dMfkL.js                                2.82 kB │ gzip:   1.29 kB
+.output/public/assets/login-BuVljEEj.js                                2.82 kB │ gzip:   1.29 kB
 .output/public/assets/field-t_OQT5Vp.js                                2.97 kB │ gzip:   1.11 kB
 .output/public/assets/input-group-BkMkhYvC.js                          3.04 kB │ gzip:   1.07 kB
 .output/public/assets/react-dom-DxFEp2cD.js                            3.54 kB │ gzip:   1.34 kB
-.output/public/assets/_authenticated-EcVjfBkg.js                       3.63 kB │ gzip:   1.41 kB
-.output/public/assets/client-sheet-DcruZ3BT.js                         3.74 kB │ gzip:   1.25 kB
+.output/public/assets/_authenticated-DlWAoqWs.js                       3.63 kB │ gzip:   1.41 kB
+.output/public/assets/client-sheet-CjY1lYvW.js                         3.74 kB │ gzip:   1.25 kB
 .output/public/assets/useStore-DtNXy86P.js                             3.90 kB │ gzip:   1.76 kB
-.output/public/assets/settings-CmWp0rkI.js                             4.33 kB │ gzip:   1.48 kB
+.output/public/assets/settings-CnWsiSjg.js                             4.33 kB │ gzip:   1.48 kB
 .output/public/assets/input-C-bEw3zH.js                                5.25 kB │ gzip:   2.32 kB
-.output/public/assets/reminders-CXFyOk_0.js                            6.33 kB │ gzip:   2.17 kB
-.output/public/assets/tour-attendee-sheet-DdixwmF0.js                  6.95 kB │ gzip:   2.25 kB
-.output/public/assets/useQuery-B-5l5DBK.js                             8.79 kB │ gzip:   3.21 kB
-.output/public/assets/clients-KNjOaYNC.js                             11.14 kB │ gzip:   4.14 kB
-.output/public/assets/tours_._tourId-DQ_dsOhY.js                      11.16 kB │ gzip:   3.41 kB
+.output/public/assets/reminders-IfLRMoca.js                            6.33 kB │ gzip:   2.17 kB
+.output/public/assets/tour-attendee-sheet-bpRdNfuz.js                  6.95 kB │ gzip:   2.26 kB
+.output/public/assets/useQuery-B2q9hTsX.js                             8.79 kB │ gzip:   3.21 kB
+.output/public/assets/clients-Dnns_QbV.js                             11.14 kB │ gzip:   4.14 kB
+.output/public/assets/tours_._tourId-BuzYfnfP.js                      11.20 kB │ gzip:   3.42 kB
 .output/public/assets/button-OEbGfKx_.js                              11.82 kB │ gzip:   4.63 kB
-.output/public/assets/clients_._clientId-DSeqBiGJ.js                  12.13 kB │ gzip:   3.74 kB
-.output/public/assets/tours-6wzMoZLm.js                               15.04 kB │ gzip:   4.81 kB
-.output/public/assets/sheet-l5qGym1K.js                               16.47 kB │ gzip:   6.26 kB
+.output/public/assets/clients_._clientId-BKg9fYM1.js                  12.17 kB │ gzip:   3.75 kB
+.output/public/assets/tours-ntTqfTAY.js                               15.04 kB │ gzip:   4.81 kB
+.output/public/assets/sheet-NnNWRxsM.js                               16.47 kB │ gzip:   6.26 kB
 .output/public/assets/link-pk6Vn1i0.js                                17.51 kB │ gzip:   6.55 kB
-.output/public/assets/route-BWHWv89Z.js                               19.86 kB │ gzip:   6.73 kB
-.output/public/assets/itineraries-UFKFtCxt.js                         22.88 kB │ gzip:   7.45 kB
-.output/public/assets/dropdown-menu-DPCiM_tY.js                       26.03 kB │ gzip:   8.70 kB
+.output/public/assets/route-C7BOKkOJ.js                               19.86 kB │ gzip:   6.73 kB
+.output/public/assets/itineraries-P7wiEewb.js                         23.28 kB │ gzip:   7.57 kB
+.output/public/assets/dropdown-menu-BB6hOpHJ.js                       26.03 kB │ gzip:   8.70 kB
 .output/public/assets/auth-client-DxSzBn3_.js                         28.13 kB │ gzip:  10.57 kB
 .output/public/assets/useBaseUiId-aKYPlw34.js                         33.90 kB │ gzip:   9.75 kB
 .output/public/assets/utils-DQ8uTClE.js                               36.42 kB │ gzip:  12.12 kB
-.output/public/assets/bookings-CH8hU2ea.js                            39.33 kB │ gzip:   9.18 kB
-.output/public/assets/lib-BOMG66Y_.js                                 46.90 kB │ gzip:  12.37 kB
-.output/public/assets/use-reminders-DBoU3h56.js                       50.51 kB │ gzip:  12.76 kB
+.output/public/assets/bookings-onRiAaNj.js                            39.67 kB │ gzip:   9.31 kB
+.output/public/assets/lib-DlSVVUmE.js                                 46.90 kB │ gzip:  12.37 kB
+.output/public/assets/use-reminders-CVdrJ_Vt.js                       50.51 kB │ gzip:  12.77 kB
 .output/public/assets/useForm-lNbsEqHI.js                             63.32 kB │ gzip:  15.53 kB
-.output/public/assets/popover-or_Ioky9.js                             82.98 kB │ gzip:  25.06 kB
-.output/public/assets/table-AAbrH5Vl.js                               98.78 kB │ gzip:  29.34 kB
-.output/public/assets/index-Cqjq1O-t.js                              442.17 kB │ gzip: 140.81 kB
+.output/public/assets/popover-C8d7C6gi.js                             82.98 kB │ gzip:  25.06 kB
+.output/public/assets/table-CnVyIYSV.js                               98.78 kB │ gzip:  29.33 kB
+.output/public/assets/index-BQ_TNObF.js                              442.17 kB │ gzip: 140.81 kB
 .output/public/assets/dist-CPU6X9oe.js                               948.04 kB │ gzip: 242.31 kB
 
-[32m✓ built in 24.44s[39m
+[32m✓ built in 10.32s[39m
 [33m[plugin builtin:vite-reporter] 
 (!) Some chunks are larger than 500 kB after minification. Consider:
 - Using dynamic import() to code-split the application
@@ -131,21 +131,27 @@ computing gzip size...
 [33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/tour-attendees/server/functions.ts?tss-serverfn-split:53:34 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 [33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/tour-attendees/server/functions.ts?tss-serverfn-split:79:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 [33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/tour-attendees/server/functions.ts?tss-serverfn-split:127:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
-[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/itineraries/server/functions.ts?tss-serverfn-split:30:32 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
-[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/itineraries/server/functions.ts?tss-serverfn-split:78:32 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
-[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/itineraries/server/functions.ts?tss-serverfn-split:102:32 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
-[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/itineraries/server/functions.ts?tss-serverfn-split:129:32 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 [33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/client-bookings/server/functions.ts?tss-serverfn-split:8:30 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 [33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/client-bookings/server/functions.ts?tss-serverfn-split:30:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 [33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/client-bookings/server/functions.ts?tss-serverfn-split:72:44 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
-[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/tours/server/functions.ts?tss-serverfn-split:34:26 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
-[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/tours/server/functions.ts?tss-serverfn-split:81:27 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
-[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/tours/server/functions.ts?tss-serverfn-split:93:27 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
-[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/tours/server/functions.ts?tss-serverfn-split:110:27 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 [33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/clients/server/functions.ts?tss-serverfn-split:45:28 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 [33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/clients/server/functions.ts?tss-serverfn-split:94:29 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 [33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/clients/server/functions.ts?tss-serverfn-split:137:29 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 [33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/clients/server/functions.ts?tss-serverfn-split:160:29 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/itineraries/server/functions.ts?tss-serverfn-split:30:32 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/itineraries/server/functions.ts?tss-serverfn-split:78:32 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/itineraries/server/functions.ts?tss-serverfn-split:102:32 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/itineraries/server/functions.ts?tss-serverfn-split:129:32 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/tours/server/functions.ts?tss-serverfn-split:34:26 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/tours/server/functions.ts?tss-serverfn-split:81:27 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/tours/server/functions.ts?tss-serverfn-split:93:27 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/tours/server/functions.ts?tss-serverfn-split:110:27 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/reminders/server/functions.ts?tss-serverfn-split:34:34 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/reminders/server/functions.ts?tss-serverfn-split:56:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/reminders/server/functions.ts?tss-serverfn-split:67:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/reminders/server/functions.ts?tss-serverfn-split:88:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/reminders/server/functions.ts?tss-serverfn-split:105:33 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/reminders/server/functions.ts?tss-serverfn-split:122:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 [33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/bookings/server/functions.ts?tss-serverfn-split:17:34 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 [33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/bookings/server/functions.ts?tss-serverfn-split:58:29 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 [33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/bookings/server/functions.ts?tss-serverfn-split:69:29 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
@@ -155,37 +161,28 @@ computing gzip size...
 [33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/bookings/server/functions.ts?tss-serverfn-split:129:30 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 [33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/bookings/server/functions.ts?tss-serverfn-split:161:30 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 [33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/bookings/server/functions.ts?tss-serverfn-split:202:30 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
-[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/reminders/server/functions.ts?tss-serverfn-split:34:34 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
-[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/reminders/server/functions.ts?tss-serverfn-split:56:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
-[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/reminders/server/functions.ts?tss-serverfn-split:67:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
-[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/reminders/server/functions.ts?tss-serverfn-split:88:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
-[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/reminders/server/functions.ts?tss-serverfn-split:105:33 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
-[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/reminders/server/functions.ts?tss-serverfn-split:122:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 [33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/reminders/server/functions.ts:34:34 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 [33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/reminders/server/functions.ts:56:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 [33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/reminders/server/functions.ts:67:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 [33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/reminders/server/functions.ts:88:31 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 [33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/reminders/server/functions.ts:105:33 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 [33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/reminders/server/functions.ts:122:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
-[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/clients/server/functions.ts:45:28 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
-[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/clients/server/functions.ts:94:29 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
-[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/clients/server/functions.ts:137:29 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
-[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/clients/server/functions.ts:160:29 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
-[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/tour-attendees/server/functions.ts:31:28 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
-[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/tour-attendees/server/functions.ts:53:34 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
-[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/tour-attendees/server/functions.ts:79:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
-[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/tour-attendees/server/functions.ts:127:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 [33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/tours/server/functions.ts:34:26 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 [33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/tours/server/functions.ts:81:27 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 [33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/tours/server/functions.ts:93:27 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 [33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/tours/server/functions.ts:110:27 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/clients/server/functions.ts:45:28 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/clients/server/functions.ts:94:29 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/clients/server/functions.ts:137:29 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/clients/server/functions.ts:160:29 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 [33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/itineraries/server/functions.ts:30:32 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 [33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/itineraries/server/functions.ts:78:32 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 [33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/itineraries/server/functions.ts:102:32 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 [33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/itineraries/server/functions.ts:129:32 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
-[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/client-bookings/server/functions.ts:8:30 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
-[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/client-bookings/server/functions.ts:30:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
-[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/client-bookings/server/functions.ts:72:44 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/tour-attendees/server/functions.ts:31:28 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/tour-attendees/server/functions.ts:53:34 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/tour-attendees/server/functions.ts:79:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/tour-attendees/server/functions.ts:127:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 [33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/bookings/server/functions.ts:17:34 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 [33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/bookings/server/functions.ts:58:29 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 [33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/bookings/server/functions.ts:69:29 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
@@ -195,6 +192,9 @@ computing gzip size...
 [33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/bookings/server/functions.ts:129:30 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 [33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/bookings/server/functions.ts:161:30 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 [33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/bookings/server/functions.ts:202:30 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/client-bookings/server/functions.ts:8:30 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/client-bookings/server/functions.ts:30:35 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
+[33m[plugin tanstack-start-core::server-fn:ssr] C:/Users/mukho/Downloads/letsgonew/src/features/client-bookings/server/functions.ts:72:44 createServerFn().inputValidator() is deprecated. Use createServerFn().validator() instead.[39m
 ✓ 2577 modules transformed.
 rendering chunks...
 computing gzip size...
@@ -215,20 +215,20 @@ node_modules/.nitro/vite/services/ssr/assets/401-CZAK_Xqe.js                    
 node_modules/.nitro/vite/services/ssr/assets/start-CkKQdpwB.js                                0.22 kB │ gzip:   0.17 kB
 node_modules/.nitro/vite/services/ssr/assets/429-CguiRvkB.js                                  0.23 kB │ gzip:   0.17 kB
 node_modules/.nitro/vite/services/ssr/assets/core-RrmWoKne.js                                 0.25 kB │ gzip:   0.18 kB
-node_modules/.nitro/vite/services/ssr/assets/index.server-CT5xbnFd.js                         0.28 kB │ gzip:   0.22 kB
+node_modules/.nitro/vite/services/ssr/assets/index.server-D13AHbod.js                         0.28 kB │ gzip:   0.22 kB
 node_modules/.nitro/vite/services/ssr/assets/empty-plugin-adapters-BjjYwp1q.js                0.30 kB │ gzip:   0.20 kB
 node_modules/.nitro/vite/services/ssr/assets/main-Odf1YRuQ.js                                 0.34 kB │ gzip:   0.26 kB
 node_modules/.nitro/vite/services/ssr/assets/skeleton-D74_vLAD.js                             0.36 kB │ gzip:   0.26 kB
 node_modules/.nitro/vite/services/ssr/assets/loader-circle-CptXVi4R.js                        0.40 kB │ gzip:   0.28 kB
-node_modules/.nitro/vite/services/ssr/assets/bookings_._attendeeId.receipts-BEQXe4tj.js       0.43 kB │ gzip:   0.25 kB
-node_modules/.nitro/vite/services/ssr/assets/bookings_._attendeeId.vouchers-D3XhIZCO.js       0.43 kB │ gzip:   0.25 kB
+node_modules/.nitro/vite/services/ssr/assets/bookings_._attendeeId.receipts-BXJke7Jw.js       0.43 kB │ gzip:   0.25 kB
+node_modules/.nitro/vite/services/ssr/assets/bookings_._attendeeId.vouchers-DnVfsgHW.js       0.43 kB │ gzip:   0.25 kB
 node_modules/.nitro/vite/services/ssr/assets/spinner-HmhZ6w3U.js                              0.43 kB │ gzip:   0.29 kB
-node_modules/.nitro/vite/services/ssr/assets/tours_._tourId-znQ_50tQ.js                       0.44 kB │ gzip:   0.28 kB
+node_modules/.nitro/vite/services/ssr/assets/tours_._tourId-BgtICzTK.js                       0.44 kB │ gzip:   0.28 kB
 node_modules/.nitro/vite/services/ssr/assets/_error-CpLajL4J.js                               0.45 kB │ gzip:   0.28 kB
-node_modules/.nitro/vite/services/ssr/assets/clients_._clientId-DsHQrQ8u.js                   0.46 kB │ gzip:   0.28 kB
+node_modules/.nitro/vite/services/ssr/assets/clients_._clientId-C6pKc6pc.js                   0.46 kB │ gzip:   0.28 kB
 node_modules/.nitro/vite/services/ssr/assets/createServerRpc-D8DnDnAO.js                      0.46 kB │ gzip:   0.30 kB
-node_modules/.nitro/vite/services/ssr/assets/bookings_._attendeeId.receipts-Clp72p4b.js       0.47 kB │ gzip:   0.29 kB
-node_modules/.nitro/vite/services/ssr/assets/bookings_._attendeeId.vouchers-tQjrmk-Y.js       0.47 kB │ gzip:   0.29 kB
+node_modules/.nitro/vite/services/ssr/assets/bookings_._attendeeId.receipts-D1PB7f46.js       0.47 kB │ gzip:   0.29 kB
+node_modules/.nitro/vite/services/ssr/assets/bookings_._attendeeId.vouchers-_mkTeJhs.js       0.47 kB │ gzip:   0.29 kB
 node_modules/.nitro/vite/services/ssr/assets/forbidden-error--Xg2Rra6.js                      0.50 kB │ gzip:   0.33 kB
 node_modules/.nitro/vite/services/ssr/assets/log-out-B_CTJGly.js                              0.50 kB │ gzip:   0.32 kB
 node_modules/.nitro/vite/services/ssr/assets/bad-request-error-Q2pZu3t-.js                    0.51 kB │ gzip:   0.33 kB
@@ -244,7 +244,7 @@ node_modules/.nitro/vite/services/ssr/assets/createSsrRpc-YBrk29gR.js           
 node_modules/.nitro/vite/services/ssr/assets/users-CHfc2C2Z.js                                0.60 kB │ gzip:   0.36 kB
 node_modules/.nitro/vite/services/ssr/assets/plus-CBohyjWW.js                                 0.69 kB │ gzip:   0.33 kB
 node_modules/.nitro/vite/services/ssr/assets/eye-off-BEoqWTEz.js                              0.72 kB │ gzip:   0.41 kB
-node_modules/.nitro/vite/services/ssr/assets/auth-functions-B-fpvQB7.js                       0.75 kB │ gzip:   0.41 kB
+node_modules/.nitro/vite/services/ssr/assets/auth-functions-DHKjyOjr.js                       0.75 kB │ gzip:   0.41 kB
 node_modules/.nitro/vite/services/ssr/assets/textarea-CC8P_GfJ.js                             0.88 kB │ gzip:   0.48 kB
 node_modules/.nitro/vite/services/ssr/assets/badge-CE96pkVJ.js                                0.88 kB │ gzip:   0.47 kB
 node_modules/.nitro/vite/services/ssr/assets/schema-BP3eGeQU.js                               0.90 kB │ gzip:   0.41 kB
@@ -252,12 +252,12 @@ node_modules/.nitro/vite/services/ssr/assets/schema-xPOOSyUu.js                 
 node_modules/.nitro/vite/services/ssr/assets/kysely-migration-tables-JkVUjPF_-DYfj3qqm.js     1.05 kB │ gzip:   0.58 kB
 node_modules/.nitro/vite/services/ssr/assets/_error-u7i20JBJ.js                               1.11 kB │ gzip:   0.51 kB
 node_modules/.nitro/vite/services/ssr/assets/schema-DMzyN2p1.js                               1.11 kB │ gzip:   0.46 kB
-node_modules/.nitro/vite/services/ssr/assets/calculations-DyReLnVj.js                         1.16 kB │ gzip:   0.42 kB
 node_modules/.nitro/vite/services/ssr/assets/schema-pD-Rmbum.js                               1.17 kB │ gzip:   0.47 kB
+node_modules/.nitro/vite/services/ssr/assets/calculations-D8_bi8r7.js                         1.29 kB │ gzip:   0.46 kB
 node_modules/.nitro/vite/services/ssr/assets/input-DA1iUdJR.js                                1.47 kB │ gzip:   0.63 kB
 node_modules/.nitro/vite/services/ssr/assets/error-page-B0oNE-45.js                           1.53 kB │ gzip:   0.66 kB
-node_modules/.nitro/vite/services/ssr/assets/functions-BYAeosjy.js                            1.77 kB │ gzip:   0.75 kB
-node_modules/.nitro/vite/services/ssr/assets/schema-C9z1y67P.js                               1.80 kB │ gzip:   0.61 kB
+node_modules/.nitro/vite/services/ssr/assets/functions-BD_zmNCf.js                            1.77 kB │ gzip:   0.75 kB
+node_modules/.nitro/vite/services/ssr/assets/schema-DXCb5pFS.js                               1.79 kB │ gzip:   0.61 kB
 node_modules/.nitro/vite/services/ssr/assets/offline-d6g0M8u9.js                              2.04 kB │ gzip:   0.88 kB
 node_modules/.nitro/vite/services/ssr/assets/masterkey-dialog-BhrAplQV.js                     2.04 kB │ gzip:   0.78 kB
 node_modules/.nitro/vite/services/ssr/assets/card-DikidWnV.js                                 2.10 kB │ gzip:   0.69 kB
@@ -265,55 +265,61 @@ node_modules/.nitro/vite/services/ssr/assets/sqlite-adapter-B5hplUOP.js         
 node_modules/.nitro/vite/services/ssr/assets/tooltip-gxwNe4KH.js                              2.53 kB │ gzip:   0.86 kB
 node_modules/.nitro/vite/services/ssr/assets/sliders-horizontal-TcpVJD8h.js                   2.60 kB │ gzip:   0.67 kB
 node_modules/.nitro/vite/services/ssr/assets/use-clients-D7SrRqcC.js                          2.84 kB │ gzip:   0.94 kB
-node_modules/.nitro/vite/services/ssr/assets/functions-C8MuwptW.js                            2.94 kB │ gzip:   1.21 kB
+node_modules/.nitro/vite/services/ssr/assets/functions-C6EKA58r.js                            2.94 kB │ gzip:   1.21 kB
 node_modules/.nitro/vite/services/ssr/assets/button-Bdphyhbu.js                               3.02 kB │ gzip:   1.04 kB
 node_modules/.nitro/vite/services/ssr/assets/input-group-BkujaRN9.js                          3.69 kB │ gzip:   1.21 kB
 node_modules/.nitro/vite/services/ssr/assets/field-Dz8TxdGK.js                                3.88 kB │ gzip:   1.29 kB
 node_modules/.nitro/vite/services/ssr/assets/d1-sqlite-dialect-BLC8LXE6-Dgw6Z7ph.js           4.01 kB │ gzip:   1.51 kB
 node_modules/.nitro/vite/services/ssr/assets/dropdown-menu-BMT8f0AO.js                        4.30 kB │ gzip:   1.25 kB
 node_modules/.nitro/vite/services/ssr/assets/sheet-Bv2ShtS-.js                                4.32 kB │ gzip:   1.25 kB
-node_modules/.nitro/vite/services/ssr/assets/functions-Cr4sC1wb.js                            4.37 kB │ gzip:   1.34 kB
 node_modules/.nitro/vite/services/ssr/assets/alert-dialog-DbRPkHjC.js                         4.37 kB │ gzip:   1.17 kB
+node_modules/.nitro/vite/services/ssr/assets/functions-vq2S7FF5.js                            4.38 kB │ gzip:   1.35 kB
 node_modules/.nitro/vite/services/ssr/assets/bun-sqlite-dialect-BW9W1_Ps-CjZM7gN5.js          4.69 kB │ gzip:   1.69 kB
 node_modules/.nitro/vite/services/ssr/assets/node-sqlite-dialect-DGNt4xbc.js                  4.69 kB │ gzip:   1.67 kB
-node_modules/.nitro/vite/services/ssr/assets/functions-gIFcRmOX.js                            4.70 kB │ gzip:   1.64 kB
+node_modules/.nitro/vite/services/ssr/assets/functions-4AEfOA5y.js                            4.70 kB │ gzip:   1.64 kB
 node_modules/.nitro/vite/services/ssr/assets/login-C56lyJ4F.js                                5.01 kB │ gzip:   1.78 kB
 node_modules/.nitro/vite/services/ssr/assets/createLucideIcon-BkcQENto.js                     5.28 kB │ gzip:   1.28 kB
-node_modules/.nitro/vite/services/ssr/assets/functions-D5nG6pNh.js                            5.36 kB │ gzip:   1.66 kB
-node_modules/.nitro/vite/services/ssr/assets/functions-4GJtWMHt.js                            5.39 kB │ gzip:   1.74 kB
-node_modules/.nitro/vite/services/ssr/assets/web-push-Dkr6m9Fh.js                             5.55 kB │ gzip:   1.87 kB
-node_modules/.nitro/vite/services/ssr/assets/functions-B3Y6zHMi.js                            5.85 kB │ gzip:   1.69 kB
+node_modules/.nitro/vite/services/ssr/assets/functions-CX9e5DwJ.js                            5.36 kB │ gzip:   1.66 kB
+node_modules/.nitro/vite/services/ssr/assets/functions-DlTHVICh.js                            5.39 kB │ gzip:   1.74 kB
+node_modules/.nitro/vite/services/ssr/assets/web-push-C-KQtPb9.js                             5.55 kB │ gzip:   1.86 kB
+node_modules/.nitro/vite/services/ssr/assets/functions-U3kj3lo7.js                            5.86 kB │ gzip:   1.70 kB
 node_modules/.nitro/vite/services/ssr/assets/client-sheet-1PX4-xXW.js                         6.34 kB │ gzip:   1.42 kB
 node_modules/.nitro/vite/services/ssr/assets/_authenticated-CirRw88X.js                       6.40 kB │ gzip:   1.96 kB
 node_modules/.nitro/vite/services/ssr/assets/settings-B21NXX3d.js                             7.63 kB │ gzip:   2.03 kB
 node_modules/.nitro/vite/services/ssr/assets/table-DPJ7kxd3.js                                7.69 kB │ gzip:   2.14 kB
-node_modules/.nitro/vite/services/ssr/assets/functions-CZtOcme1.js                            8.12 kB │ gzip:   2.18 kB
+node_modules/.nitro/vite/services/ssr/assets/functions-CDlWrAwS.js                            8.12 kB │ gzip:   2.19 kB
 node_modules/.nitro/vite/services/ssr/assets/popover-Ba9JOWJ4.js                              8.35 kB │ gzip:   2.39 kB
-node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-DR4--OLi.js           8.76 kB │ gzip:   1.73 kB
-node_modules/.nitro/vite/services/ssr/assets/functions-CYGC0mSD.js                           10.20 kB │ gzip:   2.51 kB
-node_modules/.nitro/vite/services/ssr/assets/reminders-jTVm3a9D.js                           11.48 kB │ gzip:   3.05 kB
+node_modules/.nitro/vite/services/ssr/assets/_tanstack-start-manifest_v-Bdu0Y0-i.js           8.76 kB │ gzip:   1.73 kB
+node_modules/.nitro/vite/services/ssr/assets/functions-BZyCEv8K.js                           10.22 kB │ gzip:   2.52 kB
+node_modules/.nitro/vite/services/ssr/assets/reminders-B1zYHxvc.js                           11.48 kB │ gzip:   3.05 kB
 node_modules/.nitro/vite/services/ssr/assets/tour-attendee-sheet-DaWVQS6Q.js                 12.93 kB │ gzip:   2.97 kB
-node_modules/.nitro/vite/services/ssr/assets/schema-Xv55y3WG.js                              13.52 kB │ gzip:   2.54 kB
-node_modules/.nitro/vite/services/ssr/assets/use-reminders-C5-TOvcV.js                       14.49 kB │ gzip:   3.77 kB
+node_modules/.nitro/vite/services/ssr/assets/schema-BK3Chy0L.js                              13.54 kB │ gzip:   2.55 kB
+node_modules/.nitro/vite/services/ssr/assets/use-reminders-C54xatWj.js                       14.49 kB │ gzip:   3.77 kB
 node_modules/.nitro/vite/services/ssr/assets/dist-CXy9q3gI.js                                14.62 kB │ gzip:   4.13 kB
 node_modules/.nitro/vite/services/ssr/assets/clients-D3OSGSG0.js                             19.38 kB │ gzip:   5.45 kB
-node_modules/.nitro/vite/services/ssr/assets/tours_._tourId-BfbWX6mU.js                      19.81 kB │ gzip:   4.58 kB
-node_modules/.nitro/vite/services/ssr/assets/clients_._clientId-BRh6LNIo.js                  21.80 kB │ gzip:   5.12 kB
+node_modules/.nitro/vite/services/ssr/assets/tours_._tourId-B3wxccgc.js                      19.86 kB │ gzip:   4.59 kB
+node_modules/.nitro/vite/services/ssr/assets/clients_._clientId-YpUlXt7e.js                  21.86 kB │ gzip:   5.13 kB
 node_modules/.nitro/vite/services/ssr/assets/tours-CC4TS_Wq.js                               26.43 kB │ gzip:   6.32 kB
 node_modules/.nitro/vite/services/ssr/assets/route-BWtcpjet.js                               28.61 kB │ gzip:   7.66 kB
 node_modules/.nitro/vite/services/ssr/assets/auth-client-By4837ds.js                         30.19 kB │ gzip:   8.28 kB
-node_modules/.nitro/vite/services/ssr/assets/router-DAx_uUZD.js                              31.06 kB │ gzip:   7.84 kB
-node_modules/.nitro/vite/services/ssr/assets/itineraries-BAandFlh.js                         41.30 kB │ gzip:   9.94 kB
+node_modules/.nitro/vite/services/ssr/assets/router-CgbAcUJx.js                              31.06 kB │ gzip:   7.84 kB
+node_modules/.nitro/vite/services/ssr/assets/itineraries-CppBrFuY.js                         42.13 kB │ gzip:  10.09 kB
 node_modules/.nitro/vite/services/ssr/assets/default-query-compiler-uGxXxk2A.js              45.11 kB │ gzip:   7.91 kB
 node_modules/.nitro/vite/services/ssr/assets/dist-BzlUJl2J.js                                48.41 kB │ gzip:  14.13 kB
-node_modules/.nitro/vite/services/ssr/assets/bookings-xRS9fZ3w.js                            67.53 kB │ gzip:  11.83 kB
+node_modules/.nitro/vite/services/ssr/assets/bookings-BMQjL_5G.js                            68.30 kB │ gzip:  12.03 kB
 node_modules/.nitro/vite/services/ssr/assets/factory-Dzk05EfI.js                             72.62 kB │ gzip:  15.83 kB
 node_modules/.nitro/vite/services/ssr/index.js                                              186.31 kB │ gzip:  47.82 kB
 node_modules/.nitro/vite/services/ssr/assets/dist-BELFVFHz.js                               206.06 kB │ gzip:  34.88 kB
 node_modules/.nitro/vite/services/ssr/assets/compiled-query-4m_weJi-.js                     239.59 kB │ gzip:  39.33 kB
-node_modules/.nitro/vite/services/ssr/assets/auth.server-BVRrUmTR.js                        663.59 kB │ gzip: 146.02 kB
+node_modules/.nitro/vite/services/ssr/assets/auth.server-CG7qyRaC.js                        663.59 kB │ gzip: 146.02 kB
 
-[32m✓ built in 7.65s[39m
+[33m[33m[PLUGIN_TIMINGS] [0mYour build spent significant time in plugins. Here is a breakdown:
+  - tanstack-start-core:import-protection (69%)
+  - @tanstack/devtools:remove-devtools-on-build (21%)
+  - tanstack-start-core:import-protection-transform-cache (8%)
+See https://rolldown.rs/options/checks#plugintimings for more details.
+[39m
+[32m✓ built in 8.68s[39m
 
 [90m[[90mnitro[90m][39m [35m◐[39m Building [[35mNitro[39m] [2m(preset: [36mnode-server[39m, compatibility: [36m2026-08-07[39m)[22m
 [90m[[90mnitro[90m][39m [32m✔[39m Generated public [36m.output/public[39m
@@ -321,20 +327,20 @@ node_modules/.nitro/vite/services/ssr/assets/auth.server-BVRrUmTR.js            
 [2Ktransforming...✓ 1868 modules transformed.
 [36mℹ[39m Tracing dependencies:
 - [36mpg[39m (8.21.0)
-- [36mpg-protocol[39m (1.14.0)
 - [36mpg-pool[39m (3.14.0)
+- [36mpg-protocol[39m (1.14.0)
 - [36mpg-types[39m (2.2.0)
 - [36mpgpass[39m (1.0.5)
 - [36mpg-connection-string[39m (2.13.0)
 - [36mpg-cloudflare[39m (1.4.0)
-- [36mpostgres-array[39m (2.0.0)
-- [36mpostgres-bytea[39m (1.0.1)
+- [36msplit2[39m (4.2.0)
 - [36mpostgres-date[39m (1.0.7)
+- [36mpostgres-bytea[39m (1.0.1)
+- [36mpostgres-array[39m (2.0.0)
 - [36mpostgres-interval[39m (1.2.0)
 - [36mpg-int8[39m (1.0.1)
-- [36msplit2[39m (4.2.0)
 - [36mxtend[39m (4.0.2)
-[32m✔[39m Traced 14 dependencies (54 files) in 1128ms.
+[32m✔[39m Traced 14 dependencies (54 files) in 5147ms.
 [36mℹ[39m Ensure your production environment matches the builder OS and architecture ([36mwin32-x64[39m) to avoid native module issues.
 rendering chunks...
 computing gzip size...
@@ -350,21 +356,21 @@ computing gzip size...
 .output/server/_ssr/429-CguiRvkB.mjs                                   0.25 kB │ gzip:   0.19 kB
 .output/server/_ssr/core-RrmWoKne.mjs                                  0.25 kB │ gzip:   0.20 kB
 .output/server/_ssr/utils-C_uf36nf.mjs                                 0.29 kB │ gzip:   0.21 kB
-.output/server/_ssr/index.server-CT5xbnFd.mjs                          0.34 kB │ gzip:   0.25 kB
+.output/server/_ssr/index.server-D13AHbod.mjs                          0.34 kB │ gzip:   0.25 kB
 .output/server/_ssr/createServerRpc-D8DnDnAO.mjs                       0.38 kB │ gzip:   0.26 kB
 .output/server/_ssr/loader-circle-CptXVi4R.mjs                         0.48 kB │ gzip:   0.33 kB
-.output/server/_ssr/bookings_._attendeeId.receipts-BEQXe4tj.mjs        0.49 kB │ gzip:   0.29 kB
-.output/server/_ssr/bookings_._attendeeId.vouchers-D3XhIZCO.mjs        0.49 kB │ gzip:   0.30 kB
+.output/server/_ssr/bookings_._attendeeId.receipts-BXJke7Jw.mjs        0.49 kB │ gzip:   0.30 kB
+.output/server/_ssr/bookings_._attendeeId.vouchers-DnVfsgHW.mjs        0.49 kB │ gzip:   0.29 kB
 .output/server/_ssr/main-Odf1YRuQ.mjs                                  0.49 kB │ gzip:   0.33 kB
 .output/server/_ssr/_error-CpLajL4J.mjs                                0.50 kB │ gzip:   0.33 kB
 .output/server/_ssr/skeleton-D74_vLAD.mjs                              0.50 kB │ gzip:   0.33 kB
-.output/server/_ssr/tours_._tourId-znQ_50tQ.mjs                        0.50 kB │ gzip:   0.33 kB
-.output/server/_ssr/clients_._clientId-DsHQrQ8u.mjs                    0.52 kB │ gzip:   0.33 kB
+.output/server/_ssr/tours_._tourId-BgtICzTK.mjs                        0.50 kB │ gzip:   0.33 kB
+.output/server/_ssr/clients_._clientId-C6pKc6pc.mjs                    0.52 kB │ gzip:   0.33 kB
 .output/server/_ssr/createSsrRpc-YBrk29gR.mjs                          0.52 kB │ gzip:   0.33 kB
 .output/server/_ssr/spinner-HmhZ6w3U.mjs                               0.58 kB │ gzip:   0.37 kB
 .output/server/_ssr/log-out-B_CTJGly.mjs                               0.58 kB │ gzip:   0.38 kB
-.output/server/_ssr/bookings_._attendeeId.receipts-Clp72p4b.mjs        0.59 kB │ gzip:   0.34 kB
-.output/server/_ssr/bookings_._attendeeId.vouchers-tQjrmk-Y.mjs        0.59 kB │ gzip:   0.34 kB
+.output/server/_ssr/bookings_._attendeeId.receipts-D1PB7f46.mjs        0.59 kB │ gzip:   0.34 kB
+.output/server/_ssr/bookings_._attendeeId.vouchers-_mkTeJhs.mjs        0.59 kB │ gzip:   0.34 kB
 .output/server/_ssr/ellipsis-BkIPJ8Z9.mjs                              0.61 kB │ gzip:   0.35 kB
 .output/server/_ssr/triangle-alert-BZguIwYL.mjs                        0.64 kB │ gzip:   0.40 kB
 .output/server/_ssr/calendar-DIjc270e.mjs                              0.64 kB │ gzip:   0.39 kB
@@ -376,7 +382,7 @@ computing gzip size...
 .output/server/_ssr/maintenance-error-CCmFZwKL.mjs                     0.76 kB │ gzip:   0.44 kB
 .output/server/_ssr/plus-CBohyjWW.mjs                                  0.77 kB │ gzip:   0.38 kB
 .output/server/_ssr/general-error-BYvvPuyU.mjs                         0.77 kB │ gzip:   0.44 kB
-.output/server/_ssr/auth-functions-B-fpvQB7.mjs                        0.78 kB │ gzip:   0.44 kB
+.output/server/_ssr/auth-functions-DHKjyOjr.mjs                        0.78 kB │ gzip:   0.44 kB
 .output/server/_ssr/unauthorized-error-BETvfu9h.mjs                    0.78 kB │ gzip:   0.44 kB
 .output/server/_ssr/eye-off-BEoqWTEz.mjs                               0.79 kB │ gzip:   0.47 kB
 .output/server/_ssr/schema-BP3eGeQU.mjs                                0.97 kB │ gzip:   0.46 kB
@@ -385,14 +391,14 @@ computing gzip size...
 .output/server/_ssr/schema-xPOOSyUu.mjs                                1.04 kB │ gzip:   0.43 kB
 .output/server/_ssr/badge-CE96pkVJ.mjs                                 1.06 kB │ gzip:   0.55 kB
 .output/server/_ssr/schema-DMzyN2p1.mjs                                1.18 kB │ gzip:   0.51 kB
-.output/server/_ssr/calculations-DyReLnVj.mjs                          1.18 kB │ gzip:   0.44 kB
 .output/server/_ssr/_error-u7i20JBJ.mjs                                1.23 kB │ gzip:   0.55 kB
 .output/server/_libs/hookable.mjs                                      1.23 kB │ gzip:   0.57 kB
 .output/server/_ssr/schema-pD-Rmbum.mjs                                1.24 kB │ gzip:   0.52 kB
+.output/server/_ssr/calculations-D8_bi8r7.mjs                          1.31 kB │ gzip:   0.49 kB
 .output/server/_ssr/input-DA1iUdJR.mjs                                 1.52 kB │ gzip:   0.69 kB
 .output/server/_runtime.mjs                                            1.53 kB │ gzip:   0.73 kB
-.output/server/_ssr/functions-BYAeosjy.mjs                             1.81 kB │ gzip:   0.79 kB
-.output/server/_ssr/schema-C9z1y67P.mjs                                1.84 kB │ gzip:   0.66 kB
+.output/server/_ssr/functions-BD_zmNCf.mjs                             1.81 kB │ gzip:   0.79 kB
+.output/server/_ssr/schema-DXCb5pFS.mjs                                1.83 kB │ gzip:   0.66 kB
 .output/server/_ssr/error-page-B0oNE-45.mjs                            1.86 kB │ gzip:   0.74 kB
 .output/server/_ssr/sqlite-adapter-B5hplUOP.mjs                        1.97 kB │ gzip:   0.82 kB
 .output/server/_ssr/offline-d6g0M8u9.mjs                               2.27 kB │ gzip:   0.94 kB
@@ -401,61 +407,61 @@ computing gzip size...
 .output/server/_ssr/sliders-horizontal-TcpVJD8h.mjs                    2.68 kB │ gzip:   0.72 kB
 .output/server/_ssr/use-clients-D7SrRqcC.mjs                           2.89 kB │ gzip:   0.98 kB
 .output/server/_ssr/tooltip-gxwNe4KH.mjs                               2.91 kB │ gzip:   0.97 kB
-.output/server/_ssr/functions-C8MuwptW.mjs                             3.03 kB │ gzip:   1.26 kB
+.output/server/_ssr/functions-C6EKA58r.mjs                             3.03 kB │ gzip:   1.26 kB
 .output/server/_ssr/button-Bdphyhbu.mjs                                3.15 kB │ gzip:   1.11 kB
 .output/server/_libs/clsx+class-variance-authority.mjs                 3.25 kB │ gzip:   1.27 kB
 .output/server/_ssr/input-group-BkujaRN9.mjs                           3.91 kB │ gzip:   1.28 kB
 .output/server/_ssr/d1-sqlite-dialect-BLC8LXE6-Dgw6Z7ph.mjs            3.94 kB │ gzip:   1.48 kB
 .output/server/_ssr/field-Dz8TxdGK.mjs                                 4.23 kB │ gzip:   1.38 kB
 .output/server/_ssr/createLucideIcon-BkcQENto.mjs                      4.39 kB │ gzip:   1.31 kB
-.output/server/_ssr/functions-Cr4sC1wb.mjs                             4.44 kB │ gzip:   1.39 kB
+.output/server/_ssr/functions-vq2S7FF5.mjs                             4.45 kB │ gzip:   1.40 kB
 .output/server/_chunks/_libs/@tanstack/react-router-ssr-query.mjs      4.50 kB │ gzip:   1.43 kB
 .output/server/_ssr/bun-sqlite-dialect-BW9W1_Ps-CjZM7gN5.mjs           4.62 kB │ gzip:   1.66 kB
 .output/server/_ssr/node-sqlite-dialect-DGNt4xbc.mjs                   4.62 kB │ gzip:   1.64 kB
-.output/server/_ssr/functions-gIFcRmOX.mjs                             4.81 kB │ gzip:   1.69 kB
+.output/server/_ssr/functions-4AEfOA5y.mjs                             4.81 kB │ gzip:   1.69 kB
 .output/server/_ssr/sheet-Bv2ShtS-.mjs                                 4.85 kB │ gzip:   1.37 kB
 .output/server/_ssr/alert-dialog-DbRPkHjC.mjs                          4.88 kB │ gzip:   1.29 kB
 .output/server/_ssr/dropdown-menu-BMT8f0AO.mjs                         4.89 kB │ gzip:   1.38 kB
-.output/server/_ssr/functions-D5nG6pNh.mjs                             5.41 kB │ gzip:   1.71 kB
-.output/server/_ssr/functions-4GJtWMHt.mjs                             5.49 kB │ gzip:   1.81 kB
-.output/server/_ssr/web-push-Dkr6m9Fh.mjs                              5.60 kB │ gzip:   1.91 kB
+.output/server/_ssr/functions-CX9e5DwJ.mjs                             5.41 kB │ gzip:   1.71 kB
+.output/server/_ssr/functions-DlTHVICh.mjs                             5.49 kB │ gzip:   1.81 kB
+.output/server/_ssr/web-push-C-KQtPb9.mjs                              5.60 kB │ gzip:   1.91 kB
 .output/server/_ssr/login-C56lyJ4F.mjs                                 5.77 kB │ gzip:   1.88 kB
-.output/server/_ssr/functions-B3Y6zHMi.mjs                             5.92 kB │ gzip:   1.75 kB
+.output/server/_ssr/functions-U3kj3lo7.mjs                             5.93 kB │ gzip:   1.75 kB
 .output/server/_chunks/_libs/@tanstack/devtools-event-client.mjs       6.76 kB │ gzip:   1.72 kB
 .output/server/_ssr/_authenticated-CirRw88X.mjs                        7.15 kB │ gzip:   2.01 kB
 .output/server/_ssr/client-sheet-1PX4-xXW.mjs                          7.35 kB │ gzip:   1.55 kB
 .output/server/_chunks/_libs/@tanstack/react-query.mjs                 7.78 kB │ gzip:   1.97 kB
-.output/server/_ssr/functions-CZtOcme1.mjs                             8.22 kB │ gzip:   2.24 kB
+.output/server/_ssr/functions-CDlWrAwS.mjs                             8.22 kB │ gzip:   2.24 kB
 .output/server/_ssr/table-DPJ7kxd3.mjs                                 8.63 kB │ gzip:   2.30 kB
-.output/server/_ssr/_tanstack-start-manifest_v-DR4--OLi.mjs            8.82 kB │ gzip:   1.77 kB
+.output/server/_ssr/_tanstack-start-manifest_v-Bdu0Y0-i.mjs            8.82 kB │ gzip:   1.76 kB
 .output/server/_ssr/popover-Ba9JOWJ4.mjs                               8.95 kB │ gzip:   2.52 kB
 .output/server/_ssr/settings-B21NXX3d.mjs                              9.01 kB │ gzip:   2.15 kB
-.output/server/_ssr/functions-CYGC0mSD.mjs                            10.28 kB │ gzip:   2.56 kB
+.output/server/_ssr/functions-BZyCEv8K.mjs                            10.29 kB │ gzip:   2.57 kB
 .output/server/_chunks/_libs/@tanstack/history.mjs                    10.71 kB │ gzip:   3.13 kB
 .output/server/_chunks/_libs/@date-fns/tz.mjs                         11.73 kB │ gzip:   3.35 kB
 .output/server/_chunks/_libs/@tanstack/react-form.mjs                 11.78 kB │ gzip:   2.41 kB
-.output/server/_ssr/schema-Xv55y3WG.mjs                               12.87 kB │ gzip:   2.50 kB
-.output/server/_ssr/reminders-jTVm3a9D.mjs                            13.33 kB │ gzip:   3.16 kB
+.output/server/_ssr/schema-BK3Chy0L.mjs                               12.90 kB │ gzip:   2.51 kB
+.output/server/_ssr/reminders-B1zYHxvc.mjs                            13.33 kB │ gzip:   3.16 kB
 .output/server/_ssr/tour-attendee-sheet-DaWVQS6Q.mjs                  14.48 kB │ gzip:   3.10 kB
 .output/server/_ssr/dist-CXy9q3gI.mjs                                 14.55 kB │ gzip:   4.10 kB
-.output/server/_ssr/use-reminders-C5-TOvcV.mjs                        16.22 kB │ gzip:   3.88 kB
+.output/server/_ssr/use-reminders-C54xatWj.mjs                        16.22 kB │ gzip:   3.88 kB
 .output/server/_ssr/clients-D3OSGSG0.mjs                              22.12 kB │ gzip:   5.59 kB
-.output/server/_ssr/tours_._tourId-BfbWX6mU.mjs                       22.47 kB │ gzip:   4.69 kB
 .output/server/_libs/h3+rou3+srvx.mjs                                 22.52 kB │ gzip:   6.12 kB
+.output/server/_ssr/tours_._tourId-B3wxccgc.mjs                       22.53 kB │ gzip:   4.69 kB
 .output/server/_chunks/_libs/@pushforge/builder.mjs                   22.89 kB │ gzip:   6.42 kB
-.output/server/_ssr/clients_._clientId-BRh6LNIo.mjs                   24.27 kB │ gzip:   5.20 kB
+.output/server/_ssr/clients_._clientId-YpUlXt7e.mjs                   24.32 kB │ gzip:   5.20 kB
 .output/server/_ssr/auth-client-By4837ds.mjs                          28.08 kB │ gzip:   8.13 kB
 .output/server/_ssr/tours-CC4TS_Wq.mjs                                29.88 kB │ gzip:   6.45 kB
 .output/server/_ssr/route-BWtcpjet.mjs                                30.25 kB │ gzip:   7.67 kB
-.output/server/_ssr/router-DAx_uUZD.mjs                               30.63 kB │ gzip:   7.79 kB
+.output/server/_ssr/router-CgbAcUJx.mjs                               30.63 kB │ gzip:   7.79 kB
 .output/server/_ssr/default-query-compiler-uGxXxk2A.mjs               43.72 kB │ gzip:   7.83 kB
-.output/server/_ssr/itineraries-BAandFlh.mjs                          44.96 kB │ gzip:  10.05 kB
+.output/server/_ssr/itineraries-CppBrFuY.mjs                          45.79 kB │ gzip:  10.20 kB
 .output/server/_ssr/dist-BzlUJl2J.mjs                                 46.95 kB │ gzip:  13.89 kB
 .output/server/_libs/sonner.mjs                                       51.99 kB │ gzip:  11.80 kB
-.output/server/index.mjs                                              58.02 kB │ gzip:  15.96 kB
+.output/server/index.mjs                                              58.02 kB │ gzip:  15.85 kB
 .output/server/_ssr/factory-Dzk05EfI.mjs                              69.16 kB │ gzip:  15.51 kB
 .output/server/_chunks/_libs/@tanstack/query-core.mjs                 71.55 kB │ gzip:  14.96 kB
-.output/server/_ssr/bookings-xRS9fZ3w.mjs                             75.49 kB │ gzip:  13.70 kB
+.output/server/_ssr/bookings-BMQjL_5G.mjs                             76.28 kB │ gzip:  13.89 kB
 .output/server/_libs/tailwind-merge.mjs                               88.17 kB │ gzip:  15.68 kB
 .output/server/_chunks/_libs/@tanstack/react-table.mjs               100.96 kB │ gzip:  19.68 kB
 .output/server/_libs/date-fns.mjs                                    107.26 kB │ gzip:  18.74 kB
@@ -463,15 +469,15 @@ computing gzip size...
 .output/server/_libs/zod.mjs                                         131.53 kB │ gzip:  25.47 kB
 .output/server/_libs/react-day-picker.mjs                            141.91 kB │ gzip:  26.50 kB
 .output/server/_ssr/ssr.mjs                                          179.55 kB │ gzip:  47.01 kB
-.output/server/_libs/drizzle-orm.mjs                                 184.55 kB │ gzip:  35.03 kB
+.output/server/_libs/drizzle-orm.mjs                                 184.57 kB │ gzip:  35.05 kB
 .output/server/_ssr/dist-BELFVFHz.mjs                                195.05 kB │ gzip:  33.95 kB
 .output/server/_ssr/compiled-query-4m_weJi-.mjs                      225.92 kB │ gzip:  38.28 kB
 .output/server/_chunks/_libs/@base-ui/react.mjs                      557.82 kB │ gzip: 116.02 kB
-.output/server/_ssr/auth.server-BVRrUmTR.mjs                         638.83 kB │ gzip: 143.51 kB
+.output/server/_ssr/auth.server-CG7qyRaC.mjs                         638.83 kB │ gzip: 143.50 kB
 .output/server/_chunks/_libs/@tanstack/react-router.mjs              660.70 kB │ gzip: 137.76 kB
 .output/server/_chunks/_libs/@libpdf/core.mjs                      2,026.03 kB │ gzip: 424.19 kB
 
-[32m✓ built in 7.38s[39m
+[32m✓ built in 11.78s[39m
 [36mℹ[39m Generated [36m.output/nitro.json[39m
 
 [90m[[90mnitro[90m][39m [32m✔[39m You can preview this build using [36mnode .output/server/index.mjs[39m

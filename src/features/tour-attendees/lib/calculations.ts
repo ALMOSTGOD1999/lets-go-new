@@ -1,7 +1,7 @@
 import type {
   PaymentStatus,
   TourAttendeeBilling,
-} from '#/features/tour-attendees/data/schema';
+} from "#/features/tour-attendees/data/schema";
 
 type AttendeePricingInput = {
   adultCount: number;
@@ -29,8 +29,8 @@ export function calculateAttendeeBilling(
   const gstTotal = adultGstAmount + childGstAmount;
   const grossTotal = subtotal + gstTotal;
   const finalTotal = grossTotal - attendee.discountAmount;
-  const receivedAmount = attendee.receivedAmount ?? 0;
-  const balanceAmount = finalTotal - receivedAmount;
+  const receivedAmount = roundMoney(attendee.receivedAmount ?? 0);
+  const balanceAmount = roundMoney(finalTotal - receivedAmount);
 
   return {
     adultBase,
@@ -51,17 +51,21 @@ function getPaymentStatus(
   finalTotal: number,
   receivedAmount: number,
 ): PaymentStatus {
-  if (receivedAmount === 0) {
-    return 'unpaid';
+  if (Math.abs(receivedAmount) < 0.005) {
+    return "unpaid";
   }
 
-  if (receivedAmount < finalTotal) {
-    return 'partial';
+  if (receivedAmount < finalTotal - 0.005) {
+    return "partial";
   }
 
-  if (receivedAmount === finalTotal) {
-    return 'paid';
+  if (Math.abs(receivedAmount - finalTotal) < 0.005) {
+    return "paid";
   }
 
-  return 'overpaid';
+  return "overpaid";
+}
+
+function roundMoney(value: number) {
+  return Math.round(value * 100) / 100;
 }

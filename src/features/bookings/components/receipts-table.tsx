@@ -1,14 +1,14 @@
-import { MoreHorizontalIcon } from 'lucide-react';
-import type React from 'react';
+import { MoreHorizontalIcon } from "lucide-react";
+import type React from "react";
 
-import { Button } from '#/components/ui/button';
+import { Button } from "#/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '#/components/ui/dropdown-menu';
+} from "#/components/ui/dropdown-menu";
 import {
   Table,
   TableBody,
@@ -16,8 +16,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '#/components/ui/table';
-import type { Receipt } from '#/features/bookings/data/schema';
+} from "#/components/ui/table";
+import type { Receipt } from "#/features/bookings/data/schema";
 
 export function ReceiptsTable({
   receipts,
@@ -62,7 +62,7 @@ export function ReceiptsTable({
                     {formatCurrency(receipt.amount)}
                   </TableCell>
                   <TableCell>{receipt.method}</TableCell>
-                  <TableCell>{receipt.methodInfo || '—'}</TableCell>
+                  <TableCell>{receipt.methodInfo || "—"}</TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end">
                       <ReceiptActions
@@ -115,7 +115,7 @@ export function ReceiptsTable({
               </div>
               <div className="mt-3 grid grid-cols-2 gap-3 text-sm">
                 <Metric label="Method">{receipt.method}</Metric>
-                <Metric label="Reference">{receipt.methodInfo || '—'}</Metric>
+                <Metric label="Reference">{receipt.methodInfo || "—"}</Metric>
               </div>
             </div>
           ))
@@ -195,15 +195,16 @@ function EmptyState({ children }: { children: React.ReactNode }) {
 }
 
 function formatCurrency(value: number) {
-  return new Intl.NumberFormat('en-IN', {
-    style: 'currency',
-    currency: 'INR',
-    maximumFractionDigits: 0,
+  return new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
   }).format(value);
 }
 
 function formatDate(value: Date | string) {
-  return new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' }).format(
+  return new Intl.DateTimeFormat("en-IN", { dateStyle: "medium" }).format(
     new Date(value),
   );
 }

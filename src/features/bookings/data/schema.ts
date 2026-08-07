@@ -12,7 +12,7 @@ export const receiptFormSchema = z.object({
   id: z.number().int().positive().optional(),
   attendeeId: z.number().int().positive(),
   date: z.string().min(1, "Receipt date is required"),
-  amount: z.number().int().min(1, "Amount must be at least ₹1"),
+  amount: z.number().min(1, "Amount must be at least ₹1"),
   method: receiptMethodSchema,
   methodInfo: z.string().trim().max(255).nullable().optional(),
 });

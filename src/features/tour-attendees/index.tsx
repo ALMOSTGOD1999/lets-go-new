@@ -1,28 +1,28 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState } from "react";
 
-import { Main } from '#/components/layout/main';
-import type { Client } from '#/features/clients/data/schema';
-import { useClients } from '#/features/clients/hooks/use-clients';
+import { Main } from "#/components/layout/main";
+import type { Client } from "#/features/clients/data/schema";
+import { useClients } from "#/features/clients/hooks/use-clients";
 import {
   type ReminderDefaults,
   ReminderSheet,
-} from '#/features/reminders/components/reminder-sheet';
-import { useCreateReminder } from '#/features/reminders/hooks/use-reminders';
-import { AttendeeSearch } from '#/features/tour-attendees/components/attendee-search';
-import { AttendeesTable } from '#/features/tour-attendees/components/attendees-table';
-import { TourAttendeeSheet } from '#/features/tour-attendees/components/tour-attendee-sheet';
-import { TourDetailsHeader } from '#/features/tour-attendees/components/tour-details-header';
-import type { TourAttendeeWithClient } from '#/features/tour-attendees/data/schema';
+} from "#/features/reminders/components/reminder-sheet";
+import { useCreateReminder } from "#/features/reminders/hooks/use-reminders";
+import { AttendeeSearch } from "#/features/tour-attendees/components/attendee-search";
+import { AttendeesTable } from "#/features/tour-attendees/components/attendees-table";
+import { TourAttendeeSheet } from "#/features/tour-attendees/components/tour-attendee-sheet";
+import { TourDetailsHeader } from "#/features/tour-attendees/components/tour-details-header";
+import type { TourAttendeeWithClient } from "#/features/tour-attendees/data/schema";
 import {
   useCreateTourAttendee,
   useTour,
   useTourAttendees,
   useUpdateTourAttendee,
-} from '#/features/tour-attendees/hooks/use-tour-attendees';
+} from "#/features/tour-attendees/hooks/use-tour-attendees";
 
 export function TourDetailsPage({ tourId }: { tourId: number }) {
   const [sheetOpen, setSheetOpen] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [selectedAttendee, setSelectedAttendee] =
     useState<TourAttendeeWithClient | null>(null);
   const [reminderDefaults, setReminderDefaults] =
@@ -32,9 +32,9 @@ export function TourDetailsPage({ tourId }: { tourId: number }) {
   const clientsQuery = useClients({
     page: 1,
     pageSize: 100,
-    search: '',
-    sortBy: 'name',
-    sortDirection: 'asc',
+    search: "",
+    sortBy: "name",
+    sortDirection: "asc",
   });
   const createAttendeeMutation = useCreateTourAttendee();
   const updateAttendeeMutation = useUpdateTourAttendee();
@@ -88,7 +88,7 @@ export function TourDetailsPage({ tourId }: { tourId: number }) {
         <AttendeeSearch
           searchTerm={searchTerm}
           onSearchTermChange={setSearchTerm}
-          onClearSearch={() => setSearchTerm('')}
+          onClearSearch={() => setSearchTerm("")}
         />
         <AttendeesTable
           attendees={filteredAttendees}
@@ -100,11 +100,11 @@ export function TourDetailsPage({ tourId }: { tourId: number }) {
           onRemind={(attendee) => {
             setReminderDefaults({
               title: `${attendee.clientName} tour reminder`,
-              message: `Reminder for ${attendee.clientName} in ${tourQuery.data?.name ?? 'this tour'}`,
-              type: 'attendee',
-              relatedEntityType: 'attendee',
+              message: `Reminder for ${attendee.clientName} in ${tourQuery.data?.name ?? "this tour"}`,
+              type: "attendee",
+              relatedEntityType: "attendee",
               relatedEntityId: attendee.id,
-              relatedLabel: `${attendee.clientName} · ${tourQuery.data?.name ?? 'Tour'}`,
+              relatedLabel: `${attendee.clientName} · ${tourQuery.data?.name ?? "Tour"}`,
               targetPath: `/bookings/${attendee.id}/vouchers`,
             });
           }}
@@ -202,9 +202,10 @@ function getAvailableClients(
   );
 }
 function formatCurrency(value: number) {
-  return new Intl.NumberFormat('en-IN', {
-    style: 'currency',
-    currency: 'INR',
-    maximumFractionDigits: 0,
+  return new Intl.NumberFormat("en-IN", {
+    style: "currency",
+    currency: "INR",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
   }).format(value);
 }

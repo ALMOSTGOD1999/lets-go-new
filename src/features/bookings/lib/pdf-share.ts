@@ -426,7 +426,7 @@ function travellerCount(context: BookingContext) {
 }
 
 function formatCurrency(value: number) {
-  return `INR ${new Intl.NumberFormat("en-IN", { maximumFractionDigits: 0 }).format(value)}`;
+  return `INR ${new Intl.NumberFormat("en-IN", { minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(value)}`;
 }
 
 function formatDate(value: Date | string) {

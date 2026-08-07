@@ -1,16 +1,16 @@
-import { useForm } from '@tanstack/react-form';
-import { CalendarIcon } from 'lucide-react';
-import { useEffect, useState } from 'react';
+import { useForm } from "@tanstack/react-form";
+import { CalendarIcon } from "lucide-react";
+import { useEffect, useState } from "react";
 
-import { Button } from '#/components/ui/button';
-import { Calendar } from '#/components/ui/calendar';
-import { Field, FieldGroup, FieldLabel } from '#/components/ui/field';
-import { Input } from '#/components/ui/input';
+import { Button } from "#/components/ui/button";
+import { Calendar } from "#/components/ui/calendar";
+import { Field, FieldGroup, FieldLabel } from "#/components/ui/field";
+import { Input } from "#/components/ui/input";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '#/components/ui/popover';
+} from "#/components/ui/popover";
 import {
   Select,
   SelectContent,
@@ -18,7 +18,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '#/components/ui/select';
+} from "#/components/ui/select";
 import {
   Sheet,
   SheetContent,
@@ -26,21 +26,21 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-} from '#/components/ui/sheet';
+} from "#/components/ui/sheet";
 import type {
   Receipt,
   ReceiptFormValues,
   ReceiptMethod,
-} from '#/features/bookings/data/schema';
-import { receiptFormSchema } from '#/features/bookings/data/schema';
-import { cn } from '#/lib/utils';
+} from "#/features/bookings/data/schema";
+import { receiptFormSchema } from "#/features/bookings/data/schema";
+import { cn } from "#/lib/utils";
 
 const paymentMethods: ReceiptMethod[] = [
-  'Cash',
-  'UPI',
-  'Bank Transfer',
-  'Card',
-  'Other',
+  "Cash",
+  "UPI",
+  "Bank Transfer",
+  "Card",
+  "Other",
 ];
 
 export function ReceiptSheet({
@@ -61,19 +61,28 @@ export function ReceiptSheet({
     validators: { onChange: receiptFormSchema, onSubmit: receiptFormSchema },
     onSubmit: async ({ value }) => {
       await onSubmit(value);
-      form.reset(getDefaults(null, attendeeId));
+      const defaults = getDefaults(null, attendeeId);
+      form.reset(defaults);
+      setAmountInput(String(defaults.amount));
     },
   });
+  const [amountInput, setAmountInput] = useState(() =>
+    String(getDefaults(receipt, attendeeId).amount),
+  );
 
   useEffect(() => {
-    if (open) form.reset(getDefaults(receipt, attendeeId));
+    if (open) {
+      const defaults = getDefaults(receipt, attendeeId);
+      form.reset(defaults);
+      setAmountInput(String(defaults.amount));
+    }
   }, [open, receipt, attendeeId, form]);
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent className="overflow-y-auto sm:max-w-xl">
         <SheetHeader>
-          <SheetTitle>{receipt ? 'Edit receipt' : 'New receipt'}</SheetTitle>
+          <SheetTitle>{receipt ? "Edit receipt" : "New receipt"}</SheetTitle>
           <SheetDescription>
             Record a payment for this booking.
           </SheetDescription>
@@ -108,12 +117,28 @@ export function ReceiptSheet({
                     <Input
                       id={field.name}
                       min={1}
+                      step="0.01"
+                      inputMode="decimal"
                       type="number"
-                      value={field.state.value}
-                      onBlur={field.handleBlur}
-                      onChange={(event) =>
-                        field.handleChange(Number(event.target.value))
-                      }
+                      value={amountInput}
+                      onBlur={() => {
+                        const parsed = Number.parseFloat(amountInput);
+                        const nextValue = Number.isFinite(parsed)
+                          ? Math.max(1, parsed)
+                          : 1;
+                        field.handleChange(nextValue);
+                        setAmountInput(String(nextValue));
+                        field.handleBlur();
+                      }}
+                      onChange={(event) => {
+                        const nextInput = event.target.value;
+                        setAmountInput(nextInput);
+                        field.handleChange(
+                          nextInput === ""
+                            ? Number.NaN
+                            : Number.parseFloat(nextInput),
+                        );
+                      }}
                     />
                   </Field>
                 )}
@@ -152,7 +177,7 @@ export function ReceiptSheet({
                   <Input
                     id={field.name}
                     placeholder="Transaction ID, UPI ID, bank, notes..."
-                    value={field.state.value ?? ''}
+                    value={field.state.value ?? ""}
                     onBlur={field.handleBlur}
                     onChange={(event) =>
                       field.handleChange(event.target.value || null)
@@ -164,7 +189,7 @@ export function ReceiptSheet({
           </FieldGroup>
           <SheetFooter className="px-4 pb-4">
             <Button type="submit">
-              {receipt ? 'Save changes' : 'Create receipt'}
+              {receipt ? "Save changes" : "Create receipt"}
             </Button>
           </SheetFooter>
         </form>
@@ -199,8 +224,8 @@ function ReceiptDatePicker({
               id={id}
               aria-label={label}
               className={cn(
-                'w-full justify-start text-left font-normal',
-                !selectedDate && 'text-muted-foreground',
+                "w-full justify-start text-left font-normal",
+                !selectedDate && "text-muted-foreground",
               )}
               onBlur={onBlur}
               type="button"
@@ -245,7 +270,7 @@ function getDefaults(
         attendeeId,
         date: today,
         amount: 1,
-        method: 'Cash',
+        method: "Cash",
         methodInfo: null,
       };
 }
@@ -264,5 +289,5 @@ function parseDateInputValue(value: string | null | undefined) {
 }
 
 function formatDisplayDate(date: Date) {
-  return new Intl.DateTimeFormat('en-IN', { dateStyle: 'medium' }).format(date);
+  return new Intl.DateTimeFormat("en-IN", { dateStyle: "medium" }).format(date);
 }

@@ -2,6 +2,7 @@ import { sql } from "drizzle-orm";
 import {
   check,
   date,
+  doublePrecision,
   integer,
   pgTable,
   text,
@@ -90,7 +91,7 @@ export const receipts = pgTable(
       .notNull()
       .references(() => tourAttendees.id),
     date: date("date", { mode: "date" }).notNull(),
-    amount: integer("amount").notNull(),
+    amount: doublePrecision("amount").notNull(),
     method: text("method").notNull(),
     methodInfo: text("method_info"),
     createdAt: timestamp("created_at").defaultNow().notNull(),
