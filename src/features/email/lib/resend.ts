@@ -17,7 +17,8 @@ export async function sendResendEmail(message: ResendMessage) {
   }
 
   const from = process.env.RESEND_FROM_EMAIL?.trim() || DEFAULT_FROM;
-  const replyTo = message.replyTo ?? process.env.RESEND_REPLY_TO?.trim() || undefined;
+  const replyTo =
+    message.replyTo ?? (process.env.RESEND_REPLY_TO?.trim() || undefined);
 
   const response = await fetch(RESEND_API_URL, {
     method: "POST",
@@ -38,7 +39,9 @@ export async function sendResendEmail(message: ResendMessage) {
 
   if (!response.ok) {
     const detail = await safeReadResponse(response);
-    throw new Error(detail || `Resend request failed with status ${response.status}`);
+    throw new Error(
+      detail || `Resend request failed with status ${response.status}`,
+    );
   }
 
   return response.json();
@@ -54,7 +57,9 @@ export async function trySendResendEmail(message: ResendMessage) {
 }
 
 export function getAppBaseUrl() {
-  return process.env.APP_BASE_URL?.trim() || process.env.PUBLIC_APP_URL?.trim() || "";
+  return (
+    process.env.APP_BASE_URL?.trim() || process.env.PUBLIC_APP_URL?.trim() || ""
+  );
 }
 
 async function safeReadResponse(response: Response) {
