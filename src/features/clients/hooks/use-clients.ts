@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
 import type {
+  ClientEmailFormValues,
   ClientFormValues,
   ListClientsInput,
 } from "#/features/clients/data/schema";
@@ -9,6 +10,7 @@ import {
   createClient,
   deleteClient,
   listClients,
+  sendClientEmailCampaign,
   updateClient,
 } from "#/features/clients/server/functions";
 
@@ -69,6 +71,23 @@ export function useDeleteClient() {
     },
     onError: (error) => {
       toast.error("Unable to delete client", {
+        description: error.message,
+      });
+    },
+  });
+}
+
+export function useSendClientEmailCampaign() {
+  return useMutation({
+    mutationFn: (input: ClientEmailFormValues) =>
+      sendClientEmailCampaign({ data: input }),
+    onSuccess: (result) => {
+      toast.success("Email sent", {
+        description: `Delivered to ${result.sentCount} client${result.sentCount === 1 ? "" : "s"}.`,
+      });
+    },
+    onError: (error) => {
+      toast.error("Unable to send email", {
         description: error.message,
       });
     },

@@ -4,7 +4,12 @@ import { useEffect, useState } from "react";
 
 import { Button } from "#/components/ui/button";
 import { Calendar } from "#/components/ui/calendar";
-import { Field, FieldGroup, FieldLabel } from "#/components/ui/field";
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from "#/components/ui/field";
 import { Input } from "#/components/ui/input";
 import {
   Popover,
@@ -111,37 +116,45 @@ export function ReceiptSheet({
                 )}
               </form.Field>
               <form.Field name="amount">
-                {(field) => (
-                  <Field>
-                    <FieldLabel htmlFor={field.name}>Amount</FieldLabel>
-                    <Input
-                      id={field.name}
-                      min={1}
-                      step="0.01"
-                      inputMode="decimal"
-                      type="number"
-                      value={amountInput}
-                      onBlur={() => {
-                        const parsed = Number.parseFloat(amountInput);
-                        const nextValue = Number.isFinite(parsed)
-                          ? Math.max(1, parsed)
-                          : 1;
-                        field.handleChange(nextValue);
-                        setAmountInput(String(nextValue));
-                        field.handleBlur();
-                      }}
-                      onChange={(event) => {
-                        const nextInput = event.target.value;
-                        setAmountInput(nextInput);
-                        field.handleChange(
-                          nextInput === ""
-                            ? Number.NaN
-                            : Number.parseFloat(nextInput),
-                        );
-                      }}
-                    />
-                  </Field>
-                )}
+                {(field) => {
+                  const isInvalid =
+                    field.state.meta.isTouched && !field.state.meta.isValid;
+
+                  return (
+                    <Field data-invalid={isInvalid}>
+                      <FieldLabel htmlFor={field.name}>Amount</FieldLabel>
+                      <Input
+                        id={field.name}
+                        inputMode="decimal"
+                        placeholder="e.g. 1250.50"
+                        type="text"
+                        value={amountInput}
+                        aria-invalid={isInvalid}
+                        onBlur={() => {
+                          const parsed = parseDecimalInput(amountInput);
+                          const nextValue = Number.isFinite(parsed)
+                            ? Math.max(1, parsed)
+                            : 1;
+                          field.handleChange(nextValue);
+                          setAmountInput(formatDecimalInput(nextValue));
+                          field.handleBlur();
+                        }}
+                        onChange={(event) => {
+                          const nextInput = event.target.value;
+                          setAmountInput(nextInput);
+                          field.handleChange(
+                            nextInput.trim() === ""
+                              ? Number.NaN
+                              : parseDecimalInput(nextInput),
+                          );
+                        }}
+                      />
+                      {isInvalid && (
+                        <FieldError errors={field.state.meta.errors} />
+                      )}
+                    </Field>
+                  );
+                }}
               </form.Field>
             </div>
             <form.Field name="method">
@@ -282,6 +295,23 @@ function toDateInputValue(date: Date) {
 function toDateString(value: Date | string) {
   const date = value instanceof Date ? value : new Date(value);
   return toDateInputValue(date);
+}
+
+function parseDecimalInput(value: string) {
+  const normalized = value.replace(/,/g, ".").replace(/\s+/g, "").trim();
+  if (!normalized) {
+    return Number.NaN;
+  }
+
+  return Number.parseFloat(normalized);
+}
+
+function formatDecimalInput(value: number) {
+  return Number.isInteger(value) ? String(value) : String(roundMoney(value));
+}
+
+function roundMoney(value: number) {
+  return Math.round(value * 100) / 100;
 }
 
 function parseDateInputValue(value: string | null | undefined) {

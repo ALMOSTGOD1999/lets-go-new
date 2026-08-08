@@ -1,10 +1,14 @@
 import type { SortingState, VisibilityState } from "@tanstack/react-table";
-import { PlusIcon } from "lucide-react";
+import { MailIcon, PlusIcon } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { MasterkeyDialog } from "#/components/masterkey-dialog";
 import { Main } from "#/components/layout/main";
 import { Button } from "#/components/ui/button";
+import {
+  ClientEmailSheet,
+  type ClientEmailSheetDefaults,
+} from "#/features/clients/components/client-email-sheet";
 import { ClientSheet } from "#/features/clients/components/client-sheet";
 import { ClientsTable } from "#/features/clients/components/clients-table";
 import type { Client, ClientFormValues } from "#/features/clients/data/schema";
@@ -12,6 +16,7 @@ import {
   useClients,
   useCreateClient,
   useDeleteClient,
+  useSendClientEmailCampaign,
   useUpdateClient,
 } from "#/features/clients/hooks/use-clients";
 
@@ -26,6 +31,10 @@ export function ClientsPage() {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [sheetOpen, setSheetOpen] = useState(false);
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
+  const [emailSheetOpen, setEmailSheetOpen] = useState(false);
+  const [emailDefaults, setEmailDefaults] = useState<
+    ClientEmailSheetDefaults | undefined
+  >();
 
   useEffect(() => {
     const timeoutId = window.setTimeout(() => {
@@ -47,6 +56,7 @@ export function ClientsPage() {
   const createClientMutation = useCreateClient();
   const updateClientMutation = useUpdateClient();
   const deleteClientMutation = useDeleteClient();
+  const sendEmailMutation = useSendClientEmailCampaign();
   const [deleteTarget, setDeleteTarget] = useState<Client | null>(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
@@ -66,6 +76,31 @@ export function ClientsPage() {
   const openEditSheet = (client: Client) => {
     setSelectedClient(client);
     setSheetOpen(true);
+  };
+
+  const openBulkEmailSheet = () => {
+    setEmailDefaults({
+      audience: "all",
+      emailType: "promotional",
+      subject: "",
+      headline: "",
+      message: "",
+      audienceLabel: "All clients with email",
+    });
+    setEmailSheetOpen(true);
+  };
+
+  const openClientEmailSheet = (client: Client) => {
+    setEmailDefaults({
+      audience: "specific",
+      clientIds: [client.id],
+      emailType: "promotional",
+      subject: "",
+      headline: "",
+      message: `Hello ${client.name},\n\n`,
+      audienceLabel: `${client.name} <${client.email}>`,
+    });
+    setEmailSheetOpen(true);
   };
 
   const submitClient = async (values: ClientFormValues) => {
@@ -104,10 +139,20 @@ export function ClientsPage() {
               Manage traveler profiles and contact details here.
             </p>
           </div>
-          <Button onClick={openCreateSheet} type="button">
-            <PlusIcon data-icon="inline-start" />
-            Add client
-          </Button>
+          <div className="flex gap-2">
+            <Button onClick={openCreateSheet} type="button">
+              <PlusIcon data-icon="inline-start" />
+              Add client
+            </Button>
+            <Button
+              onClick={openBulkEmailSheet}
+              type="button"
+              variant="outline"
+            >
+              <MailIcon data-icon="inline-start" />
+              Send email
+            </Button>
+          </div>
         </div>
         <ClientsTable
           columnVisibility={columnVisibility}
@@ -120,6 +165,7 @@ export function ClientsPage() {
           onColumnVisibilityChange={setColumnVisibility}
           onDelete={handleDeleteClick}
           onEdit={openEditSheet}
+          onSendEmail={openClientEmailSheet}
           onPageChange={setPage}
           onPageSizeChange={(value) => {
             setPageSize(value);
@@ -143,6 +189,19 @@ export function ClientsPage() {
             }
           }}
           onSubmit={submitClient}
+        />
+        <ClientEmailSheet
+          open={emailSheetOpen}
+          defaults={emailDefaults}
+          onOpenChange={(open) => {
+            setEmailSheetOpen(open);
+            if (!open) setEmailDefaults(undefined);
+          }}
+          onSubmit={async (values) => {
+            await sendEmailMutation.mutateAsync(values);
+            setEmailSheetOpen(false);
+            setEmailDefaults(undefined);
+          }}
         />
         <MasterkeyDialog
           open={deleteDialogOpen}

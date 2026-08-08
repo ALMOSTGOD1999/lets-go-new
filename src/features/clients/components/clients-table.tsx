@@ -55,6 +55,7 @@ type ClientsTableProps = {
   onColumnVisibilityChange: (visibility: VisibilityState) => void;
   onDelete: (client: Client) => void;
   onEdit: (client: Client) => void;
+  onSendEmail: (client: Client) => void;
   onPageChange: (page: number) => void;
   onPageSizeChange: (pageSize: number) => void;
   onSearchChange: (search: string) => void;
@@ -72,12 +73,13 @@ export function ClientsTable({
   onColumnVisibilityChange,
   onDelete,
   onEdit,
+  onSendEmail,
   onPageChange,
   onPageSizeChange,
   onSearchChange,
   onSortingChange,
 }: ClientsTableProps) {
-  const columns = getClientsColumns({ onDelete, onEdit });
+  const columns = getClientsColumns({ onDelete, onEdit, onSendEmail });
   const data = result?.data ?? [];
   const pageCount = result?.pageCount ?? 1;
 

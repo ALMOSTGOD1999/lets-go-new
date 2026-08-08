@@ -22,11 +22,13 @@ import type { Client } from "#/features/clients/data/schema";
 type ClientsColumnsOptions = {
   onDelete: (client: Client) => void;
   onEdit: (client: Client) => void;
+  onSendEmail: (client: Client) => void;
 };
 
 export function getClientsColumns({
   onDelete,
   onEdit,
+  onSendEmail,
 }: ClientsColumnsOptions): ColumnDef<Client>[] {
   return [
     {
@@ -111,6 +113,9 @@ export function getClientsColumns({
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => onEdit(row.original)}>
                 Edit
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => onSendEmail(row.original)}>
+                Send email
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
