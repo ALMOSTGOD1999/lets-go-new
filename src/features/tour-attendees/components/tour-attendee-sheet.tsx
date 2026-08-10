@@ -1,15 +1,15 @@
-import { useForm } from '@tanstack/react-form';
-import { type ComponentProps, useEffect } from 'react';
+import { useForm } from "@tanstack/react-form";
+import { type ComponentProps, useEffect } from "react";
 
-import { Button } from '#/components/ui/button';
+import { Button } from "#/components/ui/button";
 import {
   Field,
   FieldDescription,
   FieldError,
   FieldGroup,
   FieldLabel,
-} from '#/components/ui/field';
-import { Input } from '#/components/ui/input';
+} from "#/components/ui/field";
+import { Input } from "#/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -17,7 +17,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '#/components/ui/select';
+} from "#/components/ui/select";
 import {
   Sheet,
   SheetContent,
@@ -25,19 +25,19 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-} from '#/components/ui/sheet';
-import { Spinner } from '#/components/ui/spinner';
-import type { Client } from '#/features/clients/data/schema';
+} from "#/components/ui/sheet";
+import { Spinner } from "#/components/ui/spinner";
+import type { Client } from "#/features/clients/data/schema";
 import type {
   TourAttendeeFormValues,
   TourAttendeeWithClient,
   TourAttendeeWithTour,
-} from '#/features/tour-attendees/data/schema';
-import { tourAttendeeFormSchema } from '#/features/tour-attendees/data/schema';
-import type { Tour } from '#/features/tours/data/schema';
+} from "#/features/tour-attendees/data/schema";
+import { tourAttendeeFormSchema } from "#/features/tour-attendees/data/schema";
+import type { Tour } from "#/features/tours/data/schema";
 
 type AttendeeSheetBooking = TourAttendeeWithClient | TourAttendeeWithTour;
-type TourOption = Pick<Tour, 'id' | 'name' | 'startDate' | 'endDate'>;
+type TourOption = Pick<Tour, "id" | "name" | "startDate" | "endDate">;
 
 type TourAttendeeSheetProps = {
   open: boolean;
@@ -46,7 +46,7 @@ type TourAttendeeSheetProps = {
   tours?: TourOption[];
   defaultTourId?: number;
   defaultClientId?: number;
-  mode?: 'tour' | 'client';
+  mode?: "tour" | "client";
   onOpenChange: (open: boolean) => void;
   onSubmit: (values: TourAttendeeFormValues) => Promise<void>;
 };
@@ -58,7 +58,7 @@ export function TourAttendeeSheet({
   tours = [],
   defaultTourId,
   defaultClientId,
-  mode = 'tour',
+  mode = "tour",
   onOpenChange,
   onSubmit,
 }: TourAttendeeSheetProps) {
@@ -80,15 +80,15 @@ export function TourAttendeeSheet({
   });
 
   const title = attendee
-    ? 'Edit booking'
-    : mode === 'client'
-      ? 'Assign tour'
-      : 'Add attendee';
+    ? "Edit booking"
+    : mode === "client"
+      ? "Assign tour"
+      : "Add attendee";
   const description = attendee
-    ? 'Update pricing for this booking.'
-    : mode === 'client'
-      ? 'Select an existing tour and add booking pricing for this client.'
-      : 'Select an existing client and add booking pricing for this tour.';
+    ? "Update pricing for this booking."
+    : mode === "client"
+      ? "Select an existing tour and add booking pricing for this client."
+      : "Select an existing client and add booking pricing for this tour.";
 
   useEffect(() => {
     if (open) {
@@ -113,7 +113,7 @@ export function TourAttendeeSheet({
           }}
         >
           <FieldGroup>
-            {mode === 'client' ? (
+            {mode === "client" ? (
               <form.Field name="tourId">
                 {(field) => {
                   const isInvalid = isFieldInvalid(field.state.meta);
@@ -121,7 +121,7 @@ export function TourAttendeeSheet({
                   return (
                     <Field data-invalid={isInvalid}>
                       <FieldLabel htmlFor={field.name}>Tour</FieldLabel>
-                      {attendee && 'tourName' in attendee ? (
+                      {attendee && "tourName" in attendee ? (
                         <Input
                           id={field.name}
                           aria-invalid={isInvalid}
@@ -133,7 +133,7 @@ export function TourAttendeeSheet({
                           value={
                             field.state.value > 0
                               ? String(field.state.value)
-                              : ''
+                              : ""
                           }
                           onValueChange={(value) => {
                             field.handleChange(Number(value));
@@ -147,7 +147,7 @@ export function TourAttendeeSheet({
                             <SelectValue placeholder="Select tour">
                               {(value) =>
                                 getTourSelectLabel(tours, value) ??
-                                'Select tour'
+                                "Select tour"
                               }
                             </SelectValue>
                           </SelectTrigger>
@@ -198,7 +198,7 @@ export function TourAttendeeSheet({
                           value={
                             field.state.value > 0
                               ? String(field.state.value)
-                              : ''
+                              : ""
                           }
                           onValueChange={(value) => {
                             field.handleChange(Number(value));
@@ -212,7 +212,7 @@ export function TourAttendeeSheet({
                             <SelectValue placeholder="Select client">
                               {(value) =>
                                 getClientSelectLabel(clients, value) ??
-                                'Select client'
+                                "Select client"
                               }
                             </SelectValue>
                           </SelectTrigger>
@@ -371,7 +371,7 @@ export function TourAttendeeSheet({
                 type="submit"
               >
                 {isSubmitting ? <Spinner data-icon="inline-start" /> : null}
-                {attendee ? 'Save changes' : 'Create booking'}
+                {attendee ? "Save changes" : "Create booking"}
               </Button>
             )}
           </form.Subscribe>
@@ -387,7 +387,9 @@ type NumberFieldProps = {
   value: number;
   min: number;
   max?: number;
-  errors: ComponentProps<typeof FieldError>['errors'];
+  step?: string;
+  allowDecimal?: boolean;
+  errors: ComponentProps<typeof FieldError>["errors"];
   isInvalid: boolean;
   onBlur: () => void;
   onChange: (value: number) => void;
@@ -399,11 +401,15 @@ function NumberField({
   value,
   min,
   max,
+  step = "1",
+  allowDecimal = false,
   errors,
   isInvalid,
   onBlur,
   onChange,
 }: NumberFieldProps) {
+  const displayValue = Number.isNaN(value) ? "" : value;
+
   return (
     <Field data-invalid={isInvalid}>
       <FieldLabel htmlFor={id}>{label}</FieldLabel>
@@ -412,10 +418,19 @@ function NumberField({
         aria-invalid={isInvalid}
         min={min}
         max={max}
+        step={step}
+        inputMode={allowDecimal ? "decimal" : "numeric"}
         type="number"
-        value={value}
+        value={displayValue}
         onBlur={onBlur}
-        onChange={(event) => onChange(Number(event.target.value))}
+        onChange={(event) => {
+          if (event.target.value === "") {
+            onChange(Number.NaN);
+            return;
+          }
+
+          onChange(Number(event.target.value));
+        }}
       />
       {isInvalid ? <FieldError errors={errors} /> : null}
     </Field>

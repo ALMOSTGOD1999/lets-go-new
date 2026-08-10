@@ -1,22 +1,21 @@
-import { z } from 'zod';
+import { z } from "zod";
 
-const rupeeIntegerSchema = z.number().int().min(0, 'Enter a positive amount');
+const rupeeAmountSchema = z.number().min(0, "Enter a positive amount");
 const gstPercentSchema = z
   .number()
-  .int()
-  .min(0, 'GST must be between 0 and 100')
-  .max(100, 'GST must be between 0 and 100');
+  .min(0, "GST must be between 0 and 100")
+  .max(100, "GST must be between 0 and 100");
 
 export const tourAttendeeFormSchema = z.object({
   tourId: z.number().int().positive(),
   clientId: z.number().int().positive(),
-  adultCount: z.number().int().min(1, 'At least 1 adult is required'),
-  childCount: z.number().int().min(0, 'Children cannot be negative'),
-  adultCost: rupeeIntegerSchema,
-  childCost: rupeeIntegerSchema,
+  adultCount: z.number().int().min(1, "At least 1 adult is required"),
+  childCount: z.number().int().min(0, "Children cannot be negative"),
+  adultCost: rupeeAmountSchema,
+  childCost: rupeeAmountSchema,
   adultGstPercent: gstPercentSchema,
   childGstPercent: gstPercentSchema,
-  discountAmount: rupeeIntegerSchema,
+  discountAmount: rupeeAmountSchema,
 });
 
 export const createTourAttendeeInputSchema = tourAttendeeFormSchema;
@@ -25,7 +24,7 @@ export const updateTourAttendeeInputSchema = tourAttendeeFormSchema.extend({
   id: z.number().int().positive(),
 });
 
-export type PaymentStatus = 'unpaid' | 'partial' | 'paid' | 'overpaid';
+export type PaymentStatus = "unpaid" | "partial" | "paid" | "overpaid";
 
 export type TourAttendeeBilling = {
   adultBase: number;
